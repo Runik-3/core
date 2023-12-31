@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/runik-3/builder/pkg/builder"
+	"github.com/runik-3/builder/pkg/dict"
 )
 
 // App struct
@@ -23,6 +24,6 @@ func (a *App) startup(ctx context.Context) {
 }
 
 // Builds runik dictionary
-func (a *App) BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) {
-	builder.BuildDictionary(wikiUrl, name, output, entryLimit, depth, format)
+func (a *App) BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) dict.Dict {
+	return builder.BuildDictionary(wikiUrl, name, output, entryLimit, depth, format)
 }
