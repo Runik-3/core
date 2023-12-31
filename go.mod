@@ -2,7 +2,10 @@ module github.com/Runik-3/core
 
 go 1.21.0
 
-require github.com/wailsapp/wails/v2 v2.7.1
+require (
+	github.com/runik-3/builder v0.0.0-20231231003132-90f00f10f03b
+	github.com/wailsapp/wails/v2 v2.7.1
+)
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
