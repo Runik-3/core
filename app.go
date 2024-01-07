@@ -25,8 +25,8 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) SelectDirectory() string {
-	dirPath, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{})
+func (a *App) SelectDirectory(options runtime.OpenDialogOptions) string {
+	dirPath, err := runtime.OpenDirectoryDialog(a.ctx, options)
 	if err != nil {
 		log.Fatal(err)
 	}
