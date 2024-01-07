@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/runik-3/builder/pkg/builder"
 	"github.com/runik-3/builder/pkg/dict"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -21,6 +23,15 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (a *App) SelectDirectory() string {
+	dirPath, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return dirPath
 }
 
 // Builds runik dictionary
