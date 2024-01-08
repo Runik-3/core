@@ -18,6 +18,8 @@ type App struct {
 	runikDir string
 	// store raw dictionary files
 	dictionaryDir string
+	// path to the user selected reader device
+	devicePath string
 }
 
 // NewApp creates a new App application struct
@@ -43,7 +45,12 @@ func (a *App) checkAppDirExistsIfNotCreate() {
 	c.MkdirIfNotExists(a.dictionaryDir)
 }
 
-func (a *App) SelectDirectory(options runtime.OpenDialogOptions) string {
+func (a *App) SelectDevice() string {
+	a.devicePath = a.selectDirectory(runtime.OpenDialogOptions{})
+	return a.devicePath
+}
+
+func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 	dirPath, err := runtime.OpenDirectoryDialog(a.ctx, options)
 	if err != nil {
 		log.Fatal(err)

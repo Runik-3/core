@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { BuildDictionary, SelectDirectory } from "../wailsjs/go/main/App";
+  import { BuildDictionary, SelectDevice } from "../wailsjs/go/main/App";
 
   let loading = false;
   let url = "";
   let devicePath = "";
 
   const openDir = async () => {
-    devicePath = await SelectDirectory({});
+    devicePath = await SelectDevice();
   };
 
   const buildDict = async (wikiUrl: string) => {
