@@ -61,5 +61,6 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 
 // Builds runik dictionary
 func (a *App) BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) dict.Dict {
-	return builder.BuildDictionary(wikiUrl, name, output, entryLimit, depth, format)
+	// TODO: size of 5 for testing
+	return builder.BuildDictionary(wikiUrl, name, a.dictionaryDir, 5, depth, "json") // at least for now raw dicts should be json
 }
