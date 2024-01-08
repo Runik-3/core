@@ -1,4 +1,4 @@
-module github.com/Runik-3/core
+module github.com/runik-3/core
 
 go 1.21.0
 

@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	c "github.com/runik-3/core/core"
 	"log"
+	"path/filepath"
 
 	"github.com/runik-3/builder/pkg/builder"
 	"github.com/runik-3/builder/pkg/dict"
@@ -12,6 +14,10 @@ import (
 // App struct
 type App struct {
 	ctx context.Context
+	// store app config files
+	runikDir string
+	// store raw dictionary files
+	dictionaryDir string
 }
 
 // NewApp creates a new App application struct
@@ -23,6 +29,18 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	a.checkAppDirExistsIfNotCreate()
+}
+
+func (a *App) checkAppDirExistsIfNotCreate() {
+	configDir := c.GetUserConfigDir()
+
+	a.runikDir = filepath.Join(configDir, "runik")
+	a.dictionaryDir = filepath.Join(a.runikDir, "dictionaries")
+
+	// populate app config directories
+	c.MkdirIfNotExists(a.runikDir)
+	c.MkdirIfNotExists(a.dictionaryDir)
 }
 
 func (a *App) SelectDirectory(options runtime.OpenDialogOptions) string {

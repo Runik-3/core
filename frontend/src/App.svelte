@@ -1,23 +1,33 @@
 <script lang="ts">
-  import {BuildDictionary, SelectDirectory} from '../wailsjs/go/main/App'
-  
-  let url = ''
-  let devicePath = ''
+  import { BuildDictionary, SelectDirectory } from "../wailsjs/go/main/App";
+
+  let loading = false;
+  let url = "";
+  let devicePath = "";
 
   const openDir = async () => {
-    devicePath = await SelectDirectory({Title: "test"})
-  }
+    devicePath = await SelectDirectory({});
+  };
 
   const buildDict = async (wikiUrl: string) => {
-    const dict = await BuildDictionary(wikiUrl, "", "/Users/matteo/Desktop", 10000, 1, "json")    
-    console.log(dict)
-  }
+    loading = true;
+    const dict = await BuildDictionary(
+      wikiUrl,
+      "",
+      "/Users/matteo/Desktop",
+      10000,
+      1,
+      "json"
+    );
+    loading = false;
+    console.log(dict);
+  };
 </script>
 
 <main>
-  <button on:click={openDir}>Select Reader Device</button> <br>
+  <button on:click={openDir}>Select Reader Device</button> <br />
   <p>Device Selected: {devicePath}</p>
   <h3>Generate Dictionary</h3>
-  <input placeholder="Wiki Url" type="text" bind:value={url}>
-  <button on:click={() => buildDict(url)}>Build</button> <br>
+  <input placeholder="Wiki Url" type="text" bind:value={url} />
+  <button on:click={() => buildDict(url)}>Build</button> <br />
 </main>
