@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/labstack/gommon v0.4.0
-	github.com/runik-3/builder v0.0.0-20231231011515-1560fad4718c
+	github.com/runik-3/builder v0.0.0-20240113070929-31c5d76f0760
 	github.com/wailsapp/wails/v2 v2.7.1
 )
 
