@@ -44,10 +44,6 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.4 h1:8TfxU8dW6PdqD27gjM8MVNuicgxIjxpm4K7x4jp8sis=
 github.com/rivo/uniseg v0.4.4/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
-github.com/runik-3/builder v0.0.0-20231231011515-1560fad4718c h1:3TStxI1olhE02HEmx0Qk3KufBSkJEaUZWMcsQqmktI8=
-github.com/runik-3/builder v0.0.0-20231231011515-1560fad4718c/go.mod h1:bXJbHBGSDtfoppBy8w50MyNxYzAhVJ2yCwP7Y36aJOY=
-github.com/runik-3/builder v0.0.0-20240112104313-438b5c51a71b h1:h9VjFfbgetJnZbRKsDrvitj721ig6h541pOoeFmkBFk=
-github.com/runik-3/builder v0.0.0-20240112104313-438b5c51a71b/go.mod h1:bXJbHBGSDtfoppBy8w50MyNxYzAhVJ2yCwP7Y36aJOY=
 github.com/runik-3/builder v0.0.0-20240113070929-31c5d76f0760 h1:y9HsRAOk1QanhOj+I0Hz3DXXHvkVsXItXFgOEraLQHU=
 github.com/runik-3/builder v0.0.0-20240113070929-31c5d76f0760/go.mod h1:bXJbHBGSDtfoppBy8w50MyNxYzAhVJ2yCwP7Y36aJOY=
 github.com/samber/lo v1.38.1 h1:j2XEAqXKb09Am4ebOg31SpvzUTTs6EN3VfgeLUhPdXM=

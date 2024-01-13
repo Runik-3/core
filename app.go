@@ -8,6 +8,7 @@ import (
 	c "github.com/runik-3/core/core"
 
 	"github.com/runik-3/builder/dict"
+	wikibot "github.com/runik-3/builder/wikiBot"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -60,7 +61,11 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 }
 
 // Builds runik dictionary
-func (a *App) BuildDictionary(wikiUrl string, name string, output string, entryLimit int, depth int, format string) dict.Dict {
+func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) dict.Dict {
 	// TODO: size of 5 for testing
 	return dict.BuildDictionary(wikiUrl, name, a.dictionaryDir, 5, depth, "json") // at least for now raw dicts should be json
+}
+
+func (a *App) GetWikiDetails(wikiUrl string) wikibot.WikiDetails {
+	return wikibot.GetWikiDetails(wikiUrl)
 }
