@@ -18,14 +18,22 @@
   };
 
   const wikiDetails = async (wikiUrl: string) => {
-    wikiInfo = await GetWikiDetails(wikiUrl);
-    console.log(wikiInfo);
+    // generic response type not being inferred in models
+    const { Data, Error } = await GetWikiDetails(wikiUrl);
+    if (Error != null) {
+      alert("There was an error fetching wiki details.");
+      return;
+    }
+    wikiInfo = Data;
   };
 
   const buildDict = async (wikiUrl: string) => {
     loading = true;
-    const dict = await BuildDictionary(wikiUrl, "", 1, "json");
+    const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
     loading = false;
+    if (Error != null) {
+      alert("There was an error building the dictionary.");
+    }
   };
 </script>
 
