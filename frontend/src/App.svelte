@@ -38,38 +38,51 @@
 </script>
 
 <main>
-  <button on:click={openDir}>Select Reader Device</button> <br />
-  <p>Device Selected: {devicePath}</p>
-
-  <h3>Generate Dictionary</h3>
-  <input
-    class={wikiInfo?.SiteName ? "success" : ""}
-    placeholder="Wiki Url"
-    type="text"
-    bind:value={url}
-  />
-  <button disabled={loading} on:click={() => wikiDetails(url)}>Build</button>
-  <br />
-  {#if wikiInfo?.SiteName}
-    <p>
-      Generate dictionary from {wikiInfo?.SiteName} with {wikiInfo?.Articles} entries?
-    </p>
-
-    <button disabled={loading} on:click={() => buildDict(url)}>Generate</button>
+  <div class="left">
+    <h3>Generate New Dictionary</h3>
+    <input
+      class={wikiInfo?.SiteName ? "success" : ""}
+      placeholder="Wiki Url"
+      type="text"
+      bind:value={url}
+    />
+    <button disabled={loading} on:click={() => wikiDetails(url)}>Build</button>
     <br />
-  {/if}
+    {#if wikiInfo?.SiteName}
+      <p>
+        Generate dictionary from {wikiInfo?.SiteName} with {wikiInfo?.Articles} entries?
+      </p>
 
-  <br />
-  <br />
-  <h3>Library:</h3>
-  {#await getDicts then dicts}
-    {#each dicts as dict}
-      {dict.Name}<br />
-    {/each}
-  {/await}
+      <button disabled={loading} on:click={() => buildDict(url)}
+        >Generate</button
+      >
+      <br />
+    {/if}
+
+    <br />
+    <br />
+    <h3>Library:</h3>
+    {#await getDicts then dicts}
+      {#each dicts as dict}
+        {dict.Name}<br />
+      {/each}
+    {/await}
+  </div>
+  <div class="right">
+    <button on:click={openDir}>Select Reader Device</button> <br />
+    <p>
+      {devicePath
+        ? `Device Selected: ${devicePath}`
+        : "Please choose your e-reader device."}
+    </p>
+  </div>
 </main>
 
 <style>
+  main {
+    display: flex;
+    justify-content: space-around;
+  }
   .success {
     border: 2px green solid;
   }
