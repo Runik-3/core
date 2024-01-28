@@ -4,12 +4,14 @@ go 1.21.0
 
 require (
 	github.com/labstack/gommon v0.4.0
-	github.com/runik-3/builder v0.0.0-20240120055826-7df2b2e8671a
+	github.com/pgaskin/dictutil v0.3.2
+	github.com/runik-3/builder v0.0.0-20240128084841-c6323c04444a
 	github.com/wailsapp/wails/v2 v2.7.1
 )
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
@@ -24,7 +26,9 @@ require (
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
+	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/samber/lo v1.38.1 // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
@@ -32,6 +36,7 @@ require (
 	github.com/wailsapp/mimetype v1.4.1 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 // indirect
+	golang.org/x/image v0.12.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect

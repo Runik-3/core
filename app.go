@@ -77,3 +77,12 @@ func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 	}
 	return c.Response[wikibot.WikiDetails]{Data: details, Error: nil}
 }
+
+func (a *App) ConvertKoboDictionary(name string) c.Response[string] {
+	rawDictPath := filepath.Join(a.dictionaryDir, name+".json")
+	dictPath, err := c.ConvertForReader(rawDictPath, a.dictionaryDir)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err}
+	}
+	return c.Response[string]{Data: dictPath, Error: nil}
+}

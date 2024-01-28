@@ -6,6 +6,10 @@ export function BuildDictionary(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['BuildDictionary'](arg1, arg2, arg3, arg4);
 }
 
+export function ConvertKoboDictionary(arg1) {
+  return window['go']['main']['App']['ConvertKoboDictionary'](arg1);
+}
+
 export function GetRawDicts() {
   return window['go']['main']['App']['GetRawDicts']();
 }
