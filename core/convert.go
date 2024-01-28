@@ -24,6 +24,12 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 
 	dict := d.Dict{}
 	err = j.Unmarshal(rawDict, &dict)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	fmt.Println(len(dict.Lexicon))
+	dict.Lexicon.Print()
 
 	df, err := d.Format("df", dict)
 	if err != nil {

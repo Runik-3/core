@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 
 	"github.com/labstack/gommon/log"
 )
@@ -24,7 +25,11 @@ func (a *App) GetRawDicts() []File {
 			log.Fatal(infoErr)
 		}
 
-		files = append(files, File{Name: entry.Name(), Size: info.Size()})
+		isRawDict := strings.Contains(entry.Name(), ".json")
+		if isRawDict {
+			dictName := strings.Split(entry.Name(), ".")[0] // remove file extension
+			files = append(files, File{Name: dictName, Size: info.Size()})
+		}
 	}
 
 	return files

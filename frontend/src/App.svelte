@@ -4,6 +4,7 @@
     SelectDevice,
     GetRawDicts,
     GetWikiDetails,
+    ConvertKoboDictionary,
   } from "../wailsjs/go/main/App";
 
   let loading = false;
@@ -64,7 +65,10 @@
     <h3>Library:</h3>
     {#await getDicts then dicts}
       {#each dicts as dict}
-        {dict.Name}<br />
+        {dict.Name}
+        <button on:click={() => ConvertKoboDictionary(dict.Name)}
+          >convert</button
+        ><br />
       {/each}
     {/await}
   </div>
@@ -80,6 +84,7 @@
 
 <style>
   main {
+    color: white;
     display: flex;
     justify-content: space-around;
   }

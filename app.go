@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -81,6 +82,7 @@ func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 func (a *App) ConvertKoboDictionary(name string) c.Response[string] {
 	rawDictPath := filepath.Join(a.dictionaryDir, name+".json")
 	dictPath, err := c.ConvertForReader(rawDictPath, a.dictionaryDir)
+	fmt.Println(rawDictPath, dictPath)
 	if err != nil {
 		return c.Response[string]{Data: "", Error: err}
 	}
