@@ -28,9 +28,6 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 		fmt.Println(err.Error())
 	}
 
-	fmt.Println(len(dict.Lexicon))
-	dict.Lexicon.Print()
-
 	df, err := d.Format("df", dict)
 	if err != nil {
 		fmt.Println(err.Error())

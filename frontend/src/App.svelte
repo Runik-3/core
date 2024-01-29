@@ -1,15 +1,21 @@
 <script lang="ts">
+  import { nav } from "./stores/nav";
   import DevicePanel from "./components/DevicePanel.svelte";
   import Generate from "./components/Generate.svelte";
   import Library from "./components/Library.svelte";
+  import Navbar from "./components/Navbar.svelte";
 </script>
 
 <main>
-  <div id="gen">
-    <Generate />
+  <div id="nav">
+    <Navbar />
   </div>
-  <div id="lib">
-    <Library />
+  <div id="view">
+    {#if $nav === "lib"}
+      <Library />
+    {:else if $nav === "gen"}
+      <Generate />
+    {/if}
   </div>
   <div id="dev">
     <DevicePanel />
@@ -20,18 +26,18 @@
   main {
     height: 100%;
     display: grid;
-    grid-template-rows: 180px auto;
+    grid-template-rows: 48px auto;
     grid-template-columns: auto minmax(200px, 300px);
     grid-template-areas:
-      "gen gen"
-      "lib dev";
+      "nav nav"
+      "view dev";
   }
-  #gen {
-    grid-area: gen;
+  #nav {
+    grid-area: nav;
   }
 
-  #lib {
-    grid-area: lib;
+  #view {
+    grid-area: view;
   }
 
   #dev {

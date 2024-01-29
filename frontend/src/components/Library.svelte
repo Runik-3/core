@@ -8,7 +8,7 @@
 </script>
 
 <div>
-  <h3>Library:</h3>
+  <h3>Dictionaries</h3>
   {#await getDicts then dicts}
     {#each dicts as dict}
       {dict.Name}

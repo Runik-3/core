@@ -45,3 +45,11 @@
     <br />
   {/if}
 </div>
+
+<style>
+  div {
+    height: 100%;
+    background-color: white;
+    border-top-right-radius: 20px;
+  }
+</style>
