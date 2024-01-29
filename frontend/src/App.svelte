@@ -1,97 +1,40 @@
 <script lang="ts">
-  import {
-    BuildDictionary,
-    SelectDevice,
-    GetRawDicts,
-    GetWikiDetails,
-    ConvertKoboDictionary,
-  } from "../wailsjs/go/main/App";
-
-  let loading = false;
-  let url = "";
-  let devicePath = "";
-
-  let wikiInfo = undefined;
-  let getDicts = GetRawDicts();
-
-  const openDir = async () => {
-    devicePath = await SelectDevice();
-  };
-
-  const wikiDetails = async (wikiUrl: string) => {
-    // generic response type not being inferred in models
-    const { Data, Error } = await GetWikiDetails(wikiUrl);
-    if (Error != null) {
-      alert("There was an error fetching wiki details.");
-      return;
-    }
-    wikiInfo = Data;
-  };
-
-  const buildDict = async (wikiUrl: string) => {
-    loading = true;
-    const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
-    loading = false;
-    if (Error != null) {
-      alert("There was an error building the dictionary.");
-    }
-  };
+  import DevicePanel from "./components/DevicePanel.svelte";
+  import Generate from "./components/Generate.svelte";
+  import Library from "./components/Library.svelte";
 </script>
 
 <main>
-  <div class="left">
-    <h3>Generate New Dictionary</h3>
-    <input
-      class={wikiInfo?.SiteName ? "success" : ""}
-      placeholder="Wiki Url"
-      type="text"
-      bind:value={url}
-    />
-    <button disabled={loading} on:click={() => wikiDetails(url)}>Build</button>
-    <br />
-    {#if wikiInfo?.SiteName}
-      <p>
-        Generate dictionary from {wikiInfo?.SiteName} with {wikiInfo?.Articles} entries?
-      </p>
-
-      <button disabled={loading} on:click={() => buildDict(url)}
-        >Generate</button
-      >
-      <br />
-    {/if}
-
-    <br />
-    <br />
-    <h3>Library:</h3>
-    {#await getDicts then dicts}
-      {#each dicts as dict}
-        {dict.Name}
-        <button on:click={() => ConvertKoboDictionary(dict.Name)}
-          >convert</button
-        ><br />
-      {/each}
-    {/await}
+  <div id="gen">
+    <Generate />
   </div>
-  <div class="right">
-    <button on:click={openDir}>Select Reader Device</button> <br />
-    <p>
-      {devicePath
-        ? `Device Selected: ${devicePath}`
-        : "Please choose your e-reader device."}
-    </p>
+  <div id="lib">
+    <Library />
+  </div>
+  <div id="dev">
+    <DevicePanel />
   </div>
 </main>
 
 <style>
   main {
-    color: white;
-    display: flex;
-    justify-content: space-around;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 180px auto;
+    grid-template-columns: auto minmax(200px, 300px);
+    grid-template-areas:
+      "gen gen"
+      "lib dev";
   }
-  .success {
-    border: 2px green solid;
+  #gen {
+    grid-area: gen;
   }
-  .error {
-    border: 2px red solid;
+
+  #lib {
+    grid-area: lib;
+  }
+
+  #dev {
+    grid-area: dev;
   }
 </style>
