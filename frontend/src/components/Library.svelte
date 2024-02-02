@@ -1,19 +1,20 @@
 <script lang="ts">
   import {
     ConvertKoboDictionary,
-    GetRawDicts,
+    GetDictFiles,
   } from "../../wailsjs/go/main/App";
 
-  let getDicts = GetRawDicts();
+  let getDicts = GetDictFiles();
 </script>
 
 <div>
   <h3>Dictionaries</h3>
   {#await getDicts then dicts}
     {#each dicts as dict}
-      {dict.Name}
-      <button on:click={() => ConvertKoboDictionary(dict.Name)}>convert</button
-      ><br />
+      {#if dict.Extension=== "json"}
+        {dict.Display}
+        <button on:click={() => ConvertKoboDictionary(dict.Name)}>send to device</button>
+      {/if}
     {/each}
   {/await}
 </div>
@@ -22,6 +23,6 @@
   div {
     height: 100%;
     background-color: white;
-    border-top-right-radius: 20px;
+    border-top-right-radius: 16px;
   }
 </style>

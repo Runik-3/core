@@ -3,16 +3,20 @@ package main
 import (
 	"os"
 	"strings"
+	"time"
 
 	"github.com/labstack/gommon/log"
 )
 
 type File struct {
-	Name string
-	Size int64
+	Name      string
+	Display   string
+	Extension string
+	Size      int64
+	Modified  time.Time
 }
 
-func (a *App) GetRawDicts() []File {
+func (a *App) GetDictFiles() []File {
 	files := []File{}
 
 	dirEntries, err := os.ReadDir(a.dictionaryDir)
@@ -25,11 +29,14 @@ func (a *App) GetRawDicts() []File {
 			log.Fatal(infoErr)
 		}
 
-		isRawDict := strings.Contains(entry.Name(), ".json")
-		if isRawDict {
-			dictName := strings.Split(entry.Name(), ".")[0] // remove file extension
-			files = append(files, File{Name: dictName, Size: info.Size()})
-		}
+		fileParts := strings.Split(entry.Name(), ".")
+		files = append(files, File{
+			Name:      entry.Name(),
+			Display:   fileParts[0],
+			Extension: fileParts[1],
+			Size:      info.Size(),
+			Modified:  info.ModTime(),
+		})
 	}
 
 	return files

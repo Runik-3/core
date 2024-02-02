@@ -7,7 +7,7 @@ export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string)
 
 export function ConvertKoboDictionary(arg1:string):Promise<core.Response[string]>;
 
-export function GetRawDicts():Promise<Array<main.File>>;
+export function GetDictFiles():Promise<Array<main.File>>;
 
 export function GetWikiDetails(arg1:string):Promise<core.Response[github>;
 

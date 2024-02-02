@@ -10,8 +10,8 @@ export function ConvertKoboDictionary(arg1) {
   return window['go']['main']['App']['ConvertKoboDictionary'](arg1);
 }
 
-export function GetRawDicts() {
-  return window['go']['main']['App']['GetRawDicts']();
+export function GetDictFiles() {
+  return window['go']['main']['App']['GetDictFiles']();
 }
 
 export function GetWikiDetails(arg1) {
