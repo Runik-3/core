@@ -7,20 +7,24 @@
   let getDicts = GetDictFiles();
 </script>
 
-<div>
+<div id="container">
   <h3>Dictionaries</h3>
   {#await getDicts then dicts}
     {#each dicts as dict}
-      {#if dict.Extension=== "json"}
-        {dict.Display}
-        <button on:click={() => ConvertKoboDictionary(dict.Name)}>send to device</button>
+      {#if dict.Extension === "json"}
+        <div>
+          {dict.Display}
+          <button on:click={() => ConvertKoboDictionary(dict.Name)}
+            >convert</button
+          >
+        </div>
       {/if}
     {/each}
   {/await}
 </div>
 
 <style>
-  div {
+  #container {
     height: 100%;
     background-color: white;
     border-top-right-radius: 16px;

@@ -80,7 +80,7 @@ func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 }
 
 func (a *App) ConvertKoboDictionary(name string) c.Response[string] {
-	rawDictPath := filepath.Join(a.dictionaryDir, name+".json")
+	rawDictPath := filepath.Join(a.dictionaryDir, name)
 	dictPath, err := c.ConvertForReader(rawDictPath, a.dictionaryDir)
 	fmt.Println(rawDictPath, dictPath)
 	if err != nil {
