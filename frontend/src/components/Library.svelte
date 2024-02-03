@@ -5,6 +5,10 @@
   } from "../../wailsjs/go/main/App";
 
   let getDicts = GetDictFiles();
+  const convertKoboDict = async (name: string) => {
+    const result = await ConvertKoboDictionary(name)
+    console.log(result)
+  }
 </script>
 
 <div id="container">
@@ -14,7 +18,7 @@
       {#if dict.Extension === "json"}
         <div>
           {dict.Display}
-          <button on:click={() => ConvertKoboDictionary(dict.Name)}
+          <button on:click={() => convertKoboDict(dict.Name)}
             >convert</button
           >
         </div>

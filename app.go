@@ -33,10 +33,10 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	a.checkAppDirExistsIfNotCreate()
+	a.checkAppConfigDirExistsIfNotCreate()
 }
 
-func (a *App) checkAppDirExistsIfNotCreate() {
+func (a *App) checkAppConfigDirExistsIfNotCreate() {
 	configDir := c.GetUserConfigDir()
 
 	a.runikDir = filepath.Join(configDir, "runik")
@@ -66,25 +66,34 @@ func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format str
 	// TODO: size of 5 for testing
 	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 5, depth, "json") // at least for now raw dicts should be json
 	if err != nil {
-		return c.Response[d.Dict]{Data: d.Dict{}, Error: err}
+		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
 	}
-	return c.Response[d.Dict]{Data: dict, Error: nil}
+	return c.Response[d.Dict]{Data: dict, Error: ""}
 }
 
 func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 	details, err := wikibot.GetWikiDetails(wikiUrl)
 	if err != nil {
-		return c.Response[wikibot.WikiDetails]{Data: wikibot.WikiDetails{}, Error: err}
+		return c.Response[wikibot.WikiDetails]{Data: wikibot.WikiDetails{}, Error: err.Error()}
 	}
-	return c.Response[wikibot.WikiDetails]{Data: details, Error: nil}
+	return c.Response[wikibot.WikiDetails]{Data: details, Error: ""}
 }
 
-func (a *App) ConvertKoboDictionary(name string) c.Response[string] {
-	rawDictPath := filepath.Join(a.dictionaryDir, name)
-	dictPath, err := c.ConvertForReader(rawDictPath, a.dictionaryDir)
-	fmt.Println(rawDictPath, dictPath)
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err}
+func (a *App) ConvertKoboDictionary(fileName string) c.Response[string] {
+	if a.devicePath == "" {
+		return c.Response[string]{Data: "", Error: "Device not connected"}
 	}
-	return c.Response[string]{Data: dictPath, Error: nil}
+
+	rawDictPath := filepath.Join(a.dictionaryDir, fileName)
+	koboDictDir, err := c.FindKoboDictDir(a.devicePath)
+	if err != nil {
+		fmt.Println(err.Error())
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	dictPath, err := c.ConvertForReader(rawDictPath, koboDictDir)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+	return c.Response[string]{Data: dictPath, Error: ""}
 }
