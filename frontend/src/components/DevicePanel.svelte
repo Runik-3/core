@@ -8,10 +8,10 @@
 </script>
 
 <div>
-  <button on:click={openDir}>Select Reader Device</button> <br />
   <p>
     {devicePath
       ? `Device Selected: ${devicePath}`
       : "Please choose your e-reader device."}
   </p>
+  <button on:click={openDir}>Select Reader Device</button> <br />
 </div>

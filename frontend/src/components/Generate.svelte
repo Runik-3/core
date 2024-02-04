@@ -52,4 +52,8 @@
     background-color: white;
     border-top-right-radius: 20px;
   }
+
+  h3 {
+    padding-bottom: 24px;
+  }
 </style>
