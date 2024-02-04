@@ -1,9 +1,12 @@
 <script lang="ts">
   import type { DictFile } from '../types/dict'
+  import { notifications, Severity } from '../stores/notification' 
 
   export let dict: DictFile 
   export let selected = false
   export let select: (name: string) => void 
+
+  const notify = () => notifications.addNotificaton("Hi from the notification service!", Severity.success)
 </script>
 
 <li>
@@ -14,7 +17,7 @@
   <span class="list-btn-container">
     <span>{dict.Modified.split("T")[0]}</span>
     <span>{dict.Size/1000} kb</span>
-    <button type="button">delete</button>
+    <button type="button" on:click={notify} >delete</button>
   </span>
 </li>
 

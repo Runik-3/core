@@ -4,6 +4,7 @@
   import Generate from "./components/Generate.svelte";
   import Library from "./components/Library.svelte";
   import Navbar from "./components/Navbar.svelte";
+  import NotificationProvider from "./components/NotificationProvider.svelte";
 </script>
 
 <main>
@@ -20,6 +21,7 @@
   <div id="dev">
     <DevicePanel />
   </div>
+  <NotificationProvider />
 </main>
 
 <style>
