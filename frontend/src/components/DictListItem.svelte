@@ -1,23 +1,31 @@
 <script lang="ts">
-  import type { DictFile } from '../types/dict'
-  import { notifications, Severity } from '../stores/notification' 
+  import type { DictFile } from "../types/dict";
+  import { notifications, Severity } from "../stores/notification";
 
-  export let dict: DictFile 
-  export let selected = false
-  export let select: (name: string) => void 
+  export let dict: DictFile;
+  export let selected = false;
+  export let select: (name: string) => void;
 
-  const notify = () => notifications.addNotificaton("Hi from the notification service!", Severity.success)
+  const notify = () =>
+    notifications.addNotificaton(
+      "Hi from the notification service!",
+      Severity.info,
+    );
 </script>
 
 <li>
   <div>
-    <button class={`checkbox ${selected && "selected"}`} aria-label={`select ${dict.Name}`} on:click={() => select(dict.Name)}></button>
+    <button
+      class={`checkbox ${selected && "selected"}`}
+      aria-label={`select ${dict.Name}`}
+      on:click={() => select(dict.Name)}
+    ></button>
     {dict.Display}
   </div>
   <span class="list-btn-container">
     <span>{dict.Modified.split("T")[0]}</span>
-    <span>{dict.Size/1000} kb</span>
-    <button type="button" on:click={notify} >delete</button>
+    <span>{dict.Size / 1000} kb</span>
+    <button type="button" on:click={notify}>delete</button>
   </span>
 </li>
 
@@ -29,10 +37,10 @@
     padding: 24px 12px;
     list-style: none;
   }
-  span{
-    color: #5d5d5d
+  span {
+    color: #5d5d5d;
   }
-  .checkbox{
+  .checkbox {
     border: 1px solid black;
     background-color: white;
     height: 16px;
@@ -40,8 +48,8 @@
     border-radius: 2px;
     cursor: pointer;
   }
-  .selected{
-    background-color: #1F797E; 
+  .selected {
+    background-color: #1f797e;
   }
   .list-btn-container > * {
     margin-right: 16px;

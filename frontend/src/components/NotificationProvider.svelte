@@ -22,25 +22,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid;
-    border-color: black;
     border-radius: 8px;
     padding: 24px;
     width: 240px;
     color: white;
   }
   .success{
-    background-color: green;  
+    background-color: #6AB27E;  
   }
   .info {
-    background-color: blue;  
+    background-color: #1F797E;  
   }
   .warn{
-    background-color: yellow;  
+    background-color: #E6C164;  
     color: black;
   }
   .error{
-    background-color: red;  
+    background-color: #C76767;  
   }
   .notification-close-btn{
     border: none; 

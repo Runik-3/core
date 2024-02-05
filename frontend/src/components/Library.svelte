@@ -6,16 +6,16 @@
   import DictListItem from "./DictListItem.svelte";
 
   let getDicts = GetDictFiles();
-  let selected = new Set()
+  let selected = new Set();
 
   const select = (name: string) => {
     if (selected.has(name)) {
-      selected.delete(name) 
-      selected = new Set([...selected]) 
-      return 
+      selected.delete(name);
+      selected = new Set([...selected]);
+      return;
     }
-    selected = new Set([...selected, name]) 
-  }
+    selected = new Set([...selected, name]);
+  };
 
   const sendDictsToDevice = () => {
     if (selected.size === 0) {
@@ -23,9 +23,9 @@
     }
     selected.forEach(async (dict: string) => {
       // handle error and break out of loop
-      await ConvertKoboDictionary(dict)
-    })
-  }
+      await ConvertKoboDictionary(dict);
+    });
+  };
 </script>
 
 <div id="container">
@@ -34,7 +34,7 @@
   {#await getDicts then dicts}
     {#each dicts as dict}
       {#if dict.Extension === "json"}
-        <DictListItem dict={dict} select={select} selected={selected.has(dict.Name)} />
+        <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
       {/if}
     {/each}
   {/await}
