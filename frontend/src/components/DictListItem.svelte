@@ -8,9 +8,8 @@
 
   const notify = () =>
     notifications.addNotificaton({
-      message: "Hi from the notification service!",
-      severity: Severity.info,
-      timeout: 3000,
+      message: "Hello there this is an error message.",
+      severity: Severity.error,
     });
 </script>
 

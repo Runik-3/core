@@ -1,8 +1,31 @@
 <script lang="ts">
-  import { type Notification, notifications } from "../stores/notification";
+  import {
+    type Notification,
+    notifications,
+    Severity,
+  } from "../stores/notification";
+  import Close from "./icons/Close.svelte";
+  import Info from "./icons/Info.svelte";
+  import Warn from "./icons/Warn.svelte";
+  import Error from "./icons/Error.svelte";
+  import Success from "./icons/Success.svelte";
 
   export let notification: Notification;
   export let key: number;
+
+  const severityMap = (severity: Severity) => {
+    switch (severity) {
+      case Severity.warn:
+        return { color: "#e6c164", Component: Warn };
+      case Severity.info:
+        return { color: "#1f797e", Component: Info };
+      case Severity.error:
+        return { color: "#c76767", Component: Error };
+      case Severity.success:
+        return { color: "#6ab27e", Component: Success };
+    }
+  };
+  const { color, Component: Icon } = severityMap(notification.severity);
 
   if (notification.timeout) {
     setTimeout(
@@ -12,41 +35,65 @@
   }
 </script>
 
-<div class={`notification ${notification?.severity}`}>
-  {notification?.message}
-  <!-- Replace with close icon -->
+<div class={`notification ${notification.severity}`}>
+  <div class={`bar ${notification.severity}`}></div>
+  <div class="notification-content">
+    <div class="icon">
+      <Icon size="24px" {color} />
+    </div>
+    {notification?.message}
+  </div>
   <button
     on:click={() => notifications.dismissNotification(key)}
-    class="notification-close-btn">x</button
-  >
+    class="notification-close-btn"
+    ><Close size="14px" />
+  </button>
 </div>
 
 <style>
   .notification {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 1;
+    grid-template-columns: 8px auto 32px;
     border-radius: 8px;
-    padding: 24px;
-    width: 240px;
-    color: white;
+    margin-top: 4px;
+    width: 360px;
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
+  }
+  .notification-content {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 24px 12px;
+  }
+  .icon {
+    margin-right: 12px;
+  }
+  .bar {
+    border-radius: 8px 0 0 8px;
+    height: 100%;
+    border: 4px solid;
+    box-sizing: border-box;
   }
   .success {
-    background-color: #6ab27e;
+    border-color: #6ab27e;
   }
   .info {
-    background-color: #1f797e;
+    border-color: #1f797e;
   }
   .warn {
-    background-color: #e6c164;
-    color: black;
+    border-color: #e6c164;
   }
   .error {
-    background-color: #c76767;
+    border-color: #c76767;
   }
   .notification-close-btn {
+    padding-top: 8px;
+    align-self: start;
     border: none;
     background-color: transparent;
-    font-size: 1rem;
+    cursor: pointer;
   }
 </style>
