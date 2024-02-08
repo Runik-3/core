@@ -6,9 +6,13 @@ export enum Severity {
   warn = "warn",
   error = "error",
 }
-interface Notification {
+
+export interface Notification {
   message: string;
   severity: Severity;
+  /** Timeout in milliseconds. If not defined, notifications can only be
+  dismissed by user action. */
+  timeout?: number;
 }
 
 const { subscribe, update } = writable<Notification[]>([]);
@@ -16,9 +20,9 @@ const { subscribe, update } = writable<Notification[]>([]);
 function createNotificationStore() {
   return {
     subscribe,
-    addNotificaton: (message: string, severity: Severity) =>
+    addNotificaton: (notify: Notification) =>
       update((msgs) => {
-        return [...msgs, { message, severity }];
+        return [...msgs, notify];
       }),
     dismissNotification: (index: number) => {
       update((msgs) => {

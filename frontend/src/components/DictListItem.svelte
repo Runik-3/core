@@ -7,10 +7,11 @@
   export let select: (name: string) => void;
 
   const notify = () =>
-    notifications.addNotificaton(
-      "Hi from the notification service!",
-      Severity.info,
-    );
+    notifications.addNotificaton({
+      message: "Hi from the notification service!",
+      severity: Severity.info,
+      timeout: 3000,
+    });
 </script>
 
 <li>
