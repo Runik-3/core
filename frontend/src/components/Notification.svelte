@@ -61,6 +61,8 @@
     background-color: white;
     border-width: 1px;
     border-style: solid;
+    overflow: hidden;
+    transition: ease-in-out 2s all;
   }
   .notification-content {
     display: flex;
@@ -72,7 +74,6 @@
     margin-right: 12px;
   }
   .bar {
-    border-radius: 8px 0 0 8px;
     height: 100%;
     border: 4px solid;
     box-sizing: border-box;
