@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Severity, notifications } from "../stores/notification";
   import {
     ConvertKoboDictionary,
     GetDictFiles,
@@ -19,12 +20,24 @@
 
   const sendDictsToDevice = () => {
     if (selected.size === 0) {
-      // handle info feedback "No dictionaries selected"
+      notifications.addNotificaton({
+        message: "You must select a target device from the panel on the right.",
+        severity: Severity.info,
+        timeout: 5000,
+      });
     }
+    let error = false;
     selected.forEach(async (dict: string) => {
       // handle error and break out of loop
-      await ConvertKoboDictionary(dict);
+      const res = await ConvertKoboDictionary(dict);
+      error = !!res.Error;
     });
+    if (error) {
+      notifications.addNotificaton({
+        message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${Error}`,
+        severity: Severity.error,
+      });
+    }
   };
 </script>
 

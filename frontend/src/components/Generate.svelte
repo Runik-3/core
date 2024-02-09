@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Severity, notifications } from "../stores/notification";
   import { BuildDictionary, GetWikiDetails } from "../../wailsjs/go/main/App";
 
   let loading = false;
@@ -9,9 +10,13 @@
   const wikiDetails = async (wikiUrl: string) => {
     // generic response type not being inferred in models
     const { Data, Error } = await GetWikiDetails(wikiUrl);
-    if (Error != null) {
-      alert("There was an error fetching wiki details.");
-      return;
+    console.log(Data, Error);
+    if (Error) {
+      notifications.addNotificaton({
+        message: Error,
+        severity: Severity.info,
+        timeout: 5000,
+      });
     }
     wikiInfo = Data;
   };
@@ -20,8 +25,11 @@
     loading = true;
     const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
     loading = false;
-    if (Error != null) {
-      alert("There was an error building the dictionary.");
+    if (Error) {
+      notifications.addNotificaton({
+        message: Error,
+        severity: Severity.error,
+      });
     }
   };
 </script>
