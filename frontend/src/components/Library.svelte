@@ -21,14 +21,7 @@
   };
 
   const sendDictsToDevice = () => {
-    if (selected.size === 0) {
-      notifications.addNotificaton({
-        message: "You must select a target device from the panel on the right.",
-        severity: Severity.info,
-        timeout: 5000,
-      });
-    }
-    // TODO: if device is not selected
+    // TODO: if device is not selected notify
 
     let error = false;
     selected.forEach(async (dict: string) => {

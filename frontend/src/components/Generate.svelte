@@ -2,16 +2,18 @@
   import { Severity, notifications } from "../stores/notification";
   import { BuildDictionary, GetWikiDetails } from "../../wailsjs/go/main/App";
   import ContentLayout from "./ContentLayout.svelte";
+  import Button from "./Button.svelte";
+  import Loader from "./Loader.svelte";
 
   let loading = false;
   let url = "";
 
-  let wikiInfo = undefined;
+  let wikiInfo = null;
 
   const wikiDetails = async (wikiUrl: string) => {
     // generic response type not being inferred in models
+    loading = true;
     const { Data, Error } = await GetWikiDetails(wikiUrl);
-    console.log(Data, Error);
     if (Error) {
       notifications.addNotificaton({
         message: Error,
@@ -19,6 +21,7 @@
         timeout: 5000,
       });
     }
+    loading = false;
     wikiInfo = Data;
   };
 
@@ -31,32 +34,46 @@
         message: Error,
         severity: Severity.error,
       });
+      return;
     }
+    notifications.addNotificaton({
+      message: `Successfully generated ${wikiInfo.SiteName}`,
+      severity: Severity.success,
+      timeout: 5000,
+    });
   };
 </script>
 
 <ContentLayout>
   <h3>Generate New Dictionary</h3>
-  <input
-    class={wikiInfo?.SiteName ? "success" : ""}
-    placeholder="Wiki Url"
-    type="text"
-    bind:value={url}
-  />
-  <button disabled={loading} on:click={() => wikiDetails(url)}>Build</button>
-  <br />
-  {#if wikiInfo?.SiteName}
+  <input placeholder="Wiki URL" type="text" bind:value={url} />
+  <Button disabled={loading} onClick={() => wikiDetails(url)} small>Find</Button
+  >
+  {#if loading}
+    <div>
+      <Loader />
+    </div>
+  {:else if wikiInfo?.SiteName}
     <p>
-      Generate dictionary from {wikiInfo?.SiteName} with {wikiInfo?.Articles} entries?
+      Generate dictionary from {wikiInfo?.SiteName} using {wikiInfo?.Articles} article
+      entries?
     </p>
 
-    <button disabled={loading} on:click={() => buildDict(url)}>Generate</button>
+    <Button small disabled={loading} onClick={() => buildDict(url)}
+      >Generate</Button
+    >
     <br />
   {/if}
 </ContentLayout>
 
 <style>
   h3 {
-    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+  input {
+    padding: 9px;
+    border-radius: 8px;
+    border: 1px solid lightgrey;
+    min-width: 256px;
   }
 </style>
