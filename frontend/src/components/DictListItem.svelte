@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { DictFile } from "../types/dict";
   import { notifications, Severity } from "../stores/notification";
+  import Garbage from "./icons/Garbage.svelte";
 
   export let dict: DictFile;
   export let selected = false;
@@ -25,7 +26,9 @@
   <span class="list-btn-container">
     <span>{dict.Modified.split("T")[0]}</span>
     <span>{dict.Size / 1000} kb</span>
-    <button type="button" on:click={notify}>delete</button>
+    <button class="list-item-delete" type="button" on:click={notify}>
+      <Garbage size="16px" color="#c76767" />
+    </button>
   </span>
 </li>
 
@@ -34,7 +37,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 12px;
+    padding: 12px 12px;
     list-style: none;
   }
   span {
@@ -47,11 +50,16 @@
     width: 16px;
     border-radius: 2px;
     cursor: pointer;
+    margin-right: 12px;
   }
   .selected {
     background-color: #1f797e;
   }
   .list-btn-container > * {
     margin-right: 16px;
+  }
+  .list-item-delete {
+    border: none;
+    background-color: transparent;
   }
 </style>

@@ -5,6 +5,7 @@
     GetDictFiles,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
+  import Button from "./Button.svelte";
 
   let getDicts = GetDictFiles();
   let selected = new Set();
@@ -26,6 +27,8 @@
         timeout: 5000,
       });
     }
+    // TODO: if device is not selected
+
     let error = false;
     selected.forEach(async (dict: string) => {
       // handle error and break out of loop
@@ -42,22 +45,28 @@
 </script>
 
 <div id="container">
-  <h3>Dictionaries</h3>
-  {[...selected]}
-  {#await getDicts then dicts}
-    {#each dicts as dict}
-      {#if dict.Extension === "json"}
-        <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
-      {/if}
-    {/each}
-  {/await}
-  <button id="send-to-device" on:click={sendDictsToDevice}>
-    send to Device
-  </button>
+  <div>
+    <h3>Dictionaries</h3>
+    {#await getDicts then dicts}
+      {#each dicts as dict}
+        {#if dict.Extension === "json"}
+          <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
+        {/if}
+      {/each}
+    {/await}
+  </div>
+  <div id="button-container">
+    <Button disabled={!selected.size} onClick={sendDictsToDevice}>
+      Send to device
+    </Button>
+  </div>
 </div>
 
 <style>
   #container {
+    display: grid;
+    grid-template-rows: auto 36px;
+    grid-template-columns: 1;
     padding: 24px;
     height: 100%;
     background-color: white;
@@ -66,5 +75,9 @@
   }
   h3 {
     padding-bottom: 24px;
+  }
+  #button-container {
+    display: flex;
+    justify-content: center;
   }
 </style>
