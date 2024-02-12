@@ -37,7 +37,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 12px;
+    padding: 12px 0;
     list-style: none;
   }
   span {
@@ -55,11 +55,16 @@
   .selected {
     background-color: #1f797e;
   }
+  .list-btn-container {
+    display: flex;
+    align-items: center;
+  }
   .list-btn-container > * {
-    margin-right: 16px;
+    margin-left: 16px;
   }
   .list-item-delete {
     border: none;
     background-color: transparent;
+    cursor: pointer;
   }
 </style>

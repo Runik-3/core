@@ -18,6 +18,7 @@
     max-width: 256px;
     height: 48px;
     font-size: 1rem;
+    cursor: pointer;
   }
   .small {
     padding: 0 24px;
@@ -26,6 +27,8 @@
     font-size: 0.8rem;
   }
   button:disabled {
-    background-color: grey;
+    background-color: #5d5d5d;
+    color: #d3d3d3;
+    cursor: default;
   }
 </style>
