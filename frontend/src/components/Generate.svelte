@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Severity, notifications } from "../stores/notification";
   import { BuildDictionary, GetWikiDetails } from "../../wailsjs/go/main/App";
+  import ContentLayout from "./ContentLayout.svelte";
 
   let loading = false;
   let url = "";
@@ -34,7 +35,7 @@
   };
 </script>
 
-<div>
+<ContentLayout>
   <h3>Generate New Dictionary</h3>
   <input
     class={wikiInfo?.SiteName ? "success" : ""}
@@ -52,15 +53,9 @@
     <button disabled={loading} on:click={() => buildDict(url)}>Generate</button>
     <br />
   {/if}
-</div>
+</ContentLayout>
 
 <style>
-  div {
-    height: 100%;
-    background-color: white;
-    border-top-right-radius: 20px;
-  }
-
   h3 {
     padding-bottom: 24px;
   }

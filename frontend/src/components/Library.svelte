@@ -6,6 +6,7 @@
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
+  import ContentLayout from "./ContentLayout.svelte";
 
   let getDicts = GetDictFiles();
   let selected = new Set();
@@ -44,7 +45,7 @@
   };
 </script>
 
-<div id="container">
+<ContentLayout split>
   <div>
     <h3>Dictionaries</h3>
     {#await getDicts then dicts}
@@ -60,19 +61,9 @@
       Send to device
     </Button>
   </div>
-</div>
+</ContentLayout>
 
 <style>
-  #container {
-    display: grid;
-    grid-template-rows: auto 36px;
-    grid-template-columns: 1;
-    padding: 24px;
-    height: 100%;
-    background-color: white;
-    border-top-right-radius: 16px;
-    box-sizing: border-box;
-  }
   h3 {
     padding-bottom: 24px;
   }
