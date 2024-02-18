@@ -41,6 +41,7 @@
     height: 100%;
     background-color: transparent;
     border: none;
+    cursor: pointer;
   }
   .active {
     background-color: white;

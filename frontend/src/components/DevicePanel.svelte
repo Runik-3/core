@@ -7,31 +7,47 @@
   const openDir = async () => {
     devicePath = await SelectDevice();
   };
+
+  const getDeviceFromPath = (path: string) => {
+    const parts = path.split("/");
+    return parts[parts.length - 1];
+  };
 </script>
 
-<div>
-  <h3>Devices</h3>
+<div id="device-panel">
+  <h2>Device</h2>
   <div class="content">
-    <Device size="128px" color="#5D5D5D" />
-    <p>
-      {devicePath
-        ? `Device Selected: ${devicePath}`
-        : "Please choose your e-reader device."}
-    </p>
-    <Button onClick={openDir} small>Select Reader Device</Button>
+    {#if devicePath}
+      <Device size="128px" color="#5D5D5D" />
+      <div id="device-info">
+        <p>
+          <strong>Name:</strong>
+          {getDeviceFromPath(devicePath)}
+        </p>
+        <!-- List device dictionaries -->
+      </div>
+    {:else}
+      <p>Please select a reader device.</p>
+    {/if}
   </div>
+  <Button onClick={openDir} maxWidth small>Select Device</Button>
 </div>
 
 <style>
-  div {
+  #device-panel {
     padding: 24px;
-  }
-  .content {
+    height: calc(100% - 48px); /* minus top nav */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
   }
-  h3 {
+  .content {
+    text-align: center;
+  }
+  #device-info {
+    text-align: left;
+  }
+  h2 {
     margin-bottom: 24px;
   }
   p {

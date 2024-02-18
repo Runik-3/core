@@ -2,9 +2,14 @@
   export let onClick: (...args: any[]) => void;
   export let disabled = false;
   export let small = false;
+  export let maxWidth = false;
 </script>
 
-<button class={`${small && "small"}`} on:click={onClick} {disabled}>
+<button
+  class={`${small && "small"} ${maxWidth && "max-width"}`}
+  on:click={onClick}
+  {disabled}
+>
   <slot />
 </button>
 
@@ -25,6 +30,10 @@
     max-width: 256px;
     height: 32px;
     font-size: 0.8rem;
+  }
+  .max-width {
+    max-width: unset;
+    width: 100%;
   }
   button:disabled {
     background-color: #5d5d5d;
