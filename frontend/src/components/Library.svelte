@@ -9,7 +9,7 @@
 
   onMount(async () => {
     try {
-      library.fetchDicts();
+      await library.fetchDicts();
     } catch (e) {
       if (e instanceof Error) {
         notifications.addNotificaton({
@@ -33,7 +33,6 @@
 
   const sendDictsToDevice = () => {
     // TODO: if device is not selected notify
-
     let error = false;
     selected.forEach(async (dict: string) => {
       // handle error and break out of loop
@@ -51,7 +50,7 @@
 
 <ContentLayout split>
   <div>
-    <h3>Dictionaries</h3>
+    <h2>Dictionaries</h2>
     {#if $library.length > 0}
       {#each $library as dict}
         {#if dict.Extension === "json"}
@@ -71,7 +70,7 @@
 </ContentLayout>
 
 <style>
-  h3 {
+  h2 {
     padding-bottom: 24px;
   }
   #button-container {

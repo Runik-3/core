@@ -44,10 +44,15 @@
     });
     await library.fetchDicts();
   };
+
+  // https://kingkiller.fandom.com/wiki/Kingkiller_Wiki
+  const getNameFromUrl = (url: string) => {
+    return new URL(url).hostname.split(".")[0];
+  };
 </script>
 
 <ContentLayout>
-  <h3>Generate New Dictionary</h3>
+  <h2>Dictionary Forge</h2>
   <input placeholder="Wiki URL" type="text" bind:value={url} />
   <Button disabled={loading} onClick={() => wikiDetails(url)} small>Find</Button
   >
@@ -56,20 +61,32 @@
       <Loader />
     </div>
   {:else if wikiInfo?.SiteName}
-    <p>
-      Generate dictionary from {wikiInfo?.SiteName} using {wikiInfo?.Articles} article
-      entries?
-    </p>
-
+    <h3>
+      The following will be generated from <span>{wikiInfo?.SiteName}</span>
+    </h3>
+    <p><strong>Name:</strong> {getNameFromUrl(url)}</p>
+    <p><strong>Entries:</strong> {wikiInfo?.Articles}</p>
+    <p><strong>Language:</strong> {wikiInfo?.Lang}</p>
     <Button small disabled={loading} onClick={() => buildDict(url)}
       >Generate</Button
     >
-    <br />
   {/if}
 </ContentLayout>
 
 <style>
+  h2 {
+    margin-bottom: 24px;
+  }
   h3 {
+    margin: 32px 0 12px 0;
+  }
+  h3 > span {
+    color: #1f797e;
+  }
+  p {
+    margin: 8px 0 0 8px;
+  }
+  p:last-of-type {
     margin-bottom: 24px;
   }
   input {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"path/filepath"
 
@@ -64,7 +63,7 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 // Builds runik dictionary
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
 	// TODO: size of 5 for testing
-	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 5, depth, "json") // at least for now raw dicts should be json
+	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 10000, depth, "json") // at least for now raw dicts should be json
 	if err != nil {
 		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
 	}
@@ -87,7 +86,6 @@ func (a *App) ConvertKoboDictionary(fileName string) c.Response[string] {
 	rawDictPath := filepath.Join(a.dictionaryDir, fileName)
 	koboDictDir, err := c.FindKoboDictDir(a.devicePath)
 	if err != nil {
-		fmt.Println(err.Error())
 		return c.Response[string]{Data: "", Error: err.Error()}
 	}
 
