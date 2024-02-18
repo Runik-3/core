@@ -2,10 +2,12 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/labstack/gommon/log"
+	"github.com/runik-3/core/core"
 )
 
 type File struct {
@@ -40,4 +42,13 @@ func (a *App) GetDictFiles() []File {
 	}
 
 	return files
+}
+
+func (a *App) DeleteDictFile(name string) core.Response[string] {
+	dictFilePath := filepath.Join(a.dictionaryDir, name)
+	err := os.Remove(dictFilePath)
+	if err != nil {
+		return core.Response[string]{Data: "", Error: err.Error()}
+	}
+	return core.Response[string]{Data: "", Error: ""}
 }

@@ -10,6 +10,10 @@ export function ConvertKoboDictionary(arg1) {
   return window['go']['main']['App']['ConvertKoboDictionary'](arg1);
 }
 
+export function DeleteDictFile(arg1) {
+  return window['go']['main']['App']['DeleteDictFile'](arg1);
+}
+
 export function GetDictFiles() {
   return window['go']['main']['App']['GetDictFiles']();
 }

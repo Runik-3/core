@@ -2,16 +2,26 @@
   import type { DictFile } from "../types/dict";
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
+  import { DeleteDictFile } from "../../wailsjs/go/main/App";
 
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
 
-  const notify = () =>
+  const deleteDict = async (name: string) => {
+    const { Error } = await DeleteDictFile(name);
+    if (Error) {
+      notifications.addNotificaton({
+        message: `Issue deleting file ${name}\n${Error}`,
+        severity: Severity.error,
+      });
+      return;
+    }
     notifications.addNotificaton({
-      message: "Hello there this is an error message.",
-      severity: Severity.error,
+      message: `Successfully deleted ${name}`,
+      severity: Severity.success,
     });
+  };
 </script>
 
 <li>
@@ -26,7 +36,12 @@
   <span class="list-btn-container">
     <span>{dict.Modified.split("T")[0]}</span>
     <span>{dict.Size / 1000} kb</span>
-    <button class="list-item-delete" type="button" on:click={notify}>
+    <button
+      class="list-item-delete"
+      aria-label={`delete ${dict.Name}`}
+      type="button"
+      on:click={() => deleteDict(dict.Name)}
+    >
       <Garbage size="16px" color="#c76767" />
     </button>
   </span>
