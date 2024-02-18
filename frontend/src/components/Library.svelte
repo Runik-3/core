@@ -1,14 +1,25 @@
 <script lang="ts">
   import { Severity, notifications } from "../stores/notification";
-  import {
-    ConvertKoboDictionary,
-    GetDictFiles,
-  } from "../../wailsjs/go/main/App";
+  import { library } from "../stores/library";
+  import { ConvertKoboDictionary } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
+  import { onMount } from "svelte";
 
-  let getDicts = GetDictFiles();
+  onMount(async () => {
+    try {
+      library.fetchDicts();
+    } catch (e) {
+      if (e instanceof Error) {
+        notifications.addNotificaton({
+          message: `Failed to find existing dictionaries. \n${e.message}`,
+          severity: Severity.error,
+        });
+      }
+    }
+  });
+
   let selected = new Set();
 
   const select = (name: string) => {
@@ -41,13 +52,11 @@
 <ContentLayout split>
   <div>
     <h3>Dictionaries</h3>
-    {#await getDicts then dicts}
-      {#each dicts as dict}
-        {#if dict.Extension === "json"}
-          <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
-        {/if}
-      {/each}
-    {/await}
+    {#each $library as dict}
+      {#if dict.Extension === "json"}
+        <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
+      {/if}
+    {/each}
   </div>
   <div id="button-container">
     <Button disabled={!selected.size} onClick={sendDictsToDevice}>

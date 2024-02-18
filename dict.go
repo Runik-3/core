@@ -1,13 +1,11 @@
 package main
 
 import (
+	c "github.com/runik-3/core/core"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
-
-	"github.com/labstack/gommon/log"
-	"github.com/runik-3/core/core"
 )
 
 type File struct {
@@ -18,17 +16,17 @@ type File struct {
 	Modified  time.Time
 }
 
-func (a *App) GetDictFiles() []File {
+func (a *App) GetDictFiles() c.Response[[]File] {
 	files := []File{}
 
-	dirEntries, err := os.ReadDir(a.dictionaryDir)
+	fileEntries, err := os.ReadDir(a.dictionaryDir)
 	if err != nil {
-		log.Fatal(err)
+		return c.Response[[]File]{Data: []File{}, Error: err.Error()}
 	}
-	for _, entry := range dirEntries {
-		info, infoErr := entry.Info()
-		if infoErr != nil {
-			log.Fatal(infoErr)
+	for _, entry := range fileEntries {
+		info, err := entry.Info()
+		if err != nil {
+			return c.Response[[]File]{Data: []File{}, Error: err.Error()}
 		}
 
 		fileParts := strings.Split(entry.Name(), ".")
@@ -41,14 +39,14 @@ func (a *App) GetDictFiles() []File {
 		})
 	}
 
-	return files
+	return c.Response[[]File]{Data: files, Error: ""}
 }
 
-func (a *App) DeleteDictFile(name string) core.Response[string] {
+func (a *App) DeleteDictFile(name string) c.Response[string] {
 	dictFilePath := filepath.Join(a.dictionaryDir, name)
 	err := os.Remove(dictFilePath)
 	if err != nil {
-		return core.Response[string]{Data: "", Error: err.Error()}
+		return c.Response[string]{Data: "", Error: err.Error()}
 	}
-	return core.Response[string]{Data: "", Error: ""}
+	return c.Response[string]{Data: "", Error: ""}
 }
