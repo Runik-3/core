@@ -30,6 +30,11 @@
     return new URL(url).hostname.split(".")[0];
   };
 
+  const resetPageState = () => {
+    url = "";
+    wikiInfo = null;
+  };
+
   const buildDict = async (wikiUrl: string) => {
     loading = true;
     const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
@@ -46,7 +51,9 @@
       severity: Severity.success,
       timeout: 5000,
     });
+    // update library
     await library.fetchDicts();
+    resetPageState();
   };
 </script>
 

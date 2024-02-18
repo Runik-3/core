@@ -19,8 +19,8 @@
       return;
     }
     notifications.addNotificaton({
-      message: `Successfully deleted ${name}`,
-      severity: Severity.success,
+      message: `Deleted ${name}`,
+      severity: Severity.info,
       timeout: 5000,
     });
     await library.fetchDicts();
