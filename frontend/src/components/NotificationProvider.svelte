@@ -4,8 +4,8 @@
 </script>
 
 <div id="notification-container">
-  {#each $notifications as notification, i}
-    <Notification {notification} key={i} />
+  {#each $notifications as notification (notification.key)}
+    <Notification {notification} />
   {/each}
 </div>
 

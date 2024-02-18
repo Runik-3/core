@@ -11,7 +11,6 @@
   import Success from "./icons/Success.svelte";
 
   export let notification: Notification;
-  export let key: number;
 
   const severityMap = (severity: Severity) => {
     switch (severity) {
@@ -29,7 +28,7 @@
 
   if (notification.timeout) {
     setTimeout(
-      () => notifications.dismissNotification(key),
+      () => notifications.dismissNotification(notification.key),
       notification.timeout,
     );
   }
@@ -44,7 +43,7 @@
     {notification?.message}
   </div>
   <button
-    on:click={() => notifications.dismissNotification(key)}
+    on:click={() => notifications.dismissNotification(notification.key)}
     class="notification-close-btn"
     ><Close size="14px" />
   </button>

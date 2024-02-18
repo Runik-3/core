@@ -13,6 +13,8 @@ export interface Notification {
   /** Timeout in milliseconds. If not defined, notifications can only be
   dismissed by user action. */
   timeout?: number;
+  /** Get's set automatically as a random key. */
+  key?: string
 }
 
 const { subscribe, update } = writable<Notification[]>([]);
@@ -22,11 +24,14 @@ function createNotificationStore() {
     subscribe,
     addNotificaton: (notify: Notification) =>
       update((msgs) => {
+        // TODO: replace this eventually with a uuid
+        const key = Math.floor(Math.random() * 100000)
+        notify.key = key.toString()
         return [...msgs, notify];
       }),
-    dismissNotification: (index: number) => {
+    dismissNotification: (key: string) => {
       update((msgs) => {
-        return msgs.filter((_, idx) => idx !== index);
+        return msgs.filter((notify) => notify.key !== key);
       });
     },
   };
