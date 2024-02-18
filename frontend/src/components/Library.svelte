@@ -52,11 +52,16 @@
 <ContentLayout split>
   <div>
     <h3>Dictionaries</h3>
-    {#each $library as dict}
-      {#if dict.Extension === "json"}
-        <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
-      {/if}
-    {/each}
+    {#if $library.length > 0}
+      {#each $library as dict}
+        {#if dict.Extension === "json"}
+          <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
+        {/if}
+      {/each}
+      <!-- Empty library -->
+    {:else}
+      <p>Nothing here yet. Generate dictionaries in the forge.</p>
+    {/if}
   </div>
   <div id="button-container">
     <Button disabled={!selected.size} onClick={sendDictsToDevice}>

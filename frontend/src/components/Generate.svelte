@@ -4,6 +4,7 @@
   import ContentLayout from "./ContentLayout.svelte";
   import Button from "./Button.svelte";
   import Loader from "./Loader.svelte";
+  import { library } from "../stores/library";
 
   let loading = false;
   let url = "";
@@ -41,6 +42,7 @@
       severity: Severity.success,
       timeout: 5000,
     });
+    await library.fetchDicts();
   };
 </script>
 

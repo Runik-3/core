@@ -3,6 +3,7 @@
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
   import { DeleteDictFile } from "../../wailsjs/go/main/App";
+  import { library } from "../stores/library";
 
   export let dict: DictFile;
   export let selected = false;
@@ -20,7 +21,13 @@
     notifications.addNotificaton({
       message: `Successfully deleted ${name}`,
       severity: Severity.success,
+      timeout: 5000,
     });
+    await library.fetchDicts();
+  };
+  const formatDictSize = (size: number) => {
+    const sizeKb = size / 1000;
+    return Math.round(sizeKb * 10) / 10; // round to a single decimal place
   };
 </script>
 
@@ -35,7 +42,7 @@
   </div>
   <span class="list-btn-container">
     <span>{dict.Modified.split("T")[0]}</span>
-    <span>{dict.Size / 1000} kb</span>
+    <span>{formatDictSize(dict.Size)} KB</span>
     <button
       class="list-item-delete"
       aria-label={`delete ${dict.Name}`}
@@ -75,7 +82,7 @@
     align-items: center;
   }
   .list-btn-container > * {
-    margin-left: 16px;
+    margin-left: 24px;
   }
   .list-item-delete {
     border: none;

@@ -14,7 +14,8 @@ function createLibraryStore() {
         throw new Error(res.Error)
       }
 
-      set(res.Data)
+      const dictFiles = res.Data.filter((dict) => dict.Extension === "json")
+      set(dictFiles)
     }
   }
 }
