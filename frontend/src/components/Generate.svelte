@@ -26,6 +26,10 @@
     wikiInfo = Data;
   };
 
+  const getNameFromUrl = (url: string) => {
+    return new URL(url).hostname.split(".")[0];
+  };
+
   const buildDict = async (wikiUrl: string) => {
     loading = true;
     const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
@@ -38,16 +42,11 @@
       return;
     }
     notifications.addNotificaton({
-      message: `Successfully generated ${wikiInfo.SiteName}`,
+      message: `Successfully generated ${getNameFromUrl(url)}`,
       severity: Severity.success,
       timeout: 5000,
     });
     await library.fetchDicts();
-  };
-
-  // https://kingkiller.fandom.com/wiki/Kingkiller_Wiki
-  const getNameFromUrl = (url: string) => {
-    return new URL(url).hostname.split(".")[0];
   };
 </script>
 

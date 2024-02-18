@@ -44,7 +44,13 @@
         message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${Error}`,
         severity: Severity.error,
       });
+      return;
     }
+    notifications.addNotificaton({
+      message: "Added to device",
+      severity: Severity.success,
+      timeout: 5000,
+    });
   };
 </script>
 
