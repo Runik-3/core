@@ -1,7 +1,7 @@
 import type { DictFile } from "src/types/dict";
 import type { Response } from "src/types/response";
 import { writable } from "svelte/store";
-import { GetDictFiles } from "../../wailsjs/go/main/App"
+import { GetLocalDictionaries } from "../../wailsjs/go/main/App"
 
 const { subscribe, set } = writable<DictFile[]>([])
 
@@ -9,7 +9,7 @@ function createLibraryStore() {
   return {
     subscribe,
     fetchDicts: async () => {
-      const res: Response<DictFile[]> = await GetDictFiles()
+      const res: Response<DictFile[]> = await GetLocalDictionaries()
       if (res.Error) {
         throw new Error(res.Error)
       }

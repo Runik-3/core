@@ -8,6 +8,7 @@
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
+  export let compact = false;
 
   const deleteDict = async (dict: DictFile) => {
     const { Error } = await DeleteDictFile(dict.Name);
@@ -31,18 +32,22 @@
   };
 </script>
 
-<li>
+<li class={`${compact && "compact"}`}>
   <div>
-    <button
-      class={`checkbox ${selected && "selected"}`}
-      aria-label={`select ${dict.Name}`}
-      on:click={() => select(dict.Name)}
-    ></button>
+    {#if !compact}
+      <button
+        class={`checkbox ${selected && "selected"}`}
+        aria-label={`select ${dict.Name}`}
+        on:click={() => select(dict.Name)}
+      ></button>
+    {/if}
     {dict.Display}
   </div>
   <span class="list-btn-container">
-    <span>{dict.Modified.split("T")[0]}</span>
-    <span>{formatDictSize(dict.Size)} KB</span>
+    {#if !compact}
+      <span>{dict.Modified.split("T")[0]}</span>
+      <span>{formatDictSize(dict.Size)} KB</span>
+    {/if}
     <button
       class="list-item-delete"
       aria-label={`delete ${dict.Name}`}
@@ -61,6 +66,10 @@
     align-items: center;
     padding: 12px 0;
     list-style: none;
+    white-space: nowrap;
+  }
+  .compact {
+    padding: 12px 0 0 0;
   }
   span {
     color: #5d5d5d;

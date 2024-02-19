@@ -62,7 +62,6 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 
 // Builds runik dictionary
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
-	// TODO: size of 5 for testing
 	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 10000, depth, "json") // at least for now raw dicts should be json
 	if err != nil {
 		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
@@ -80,7 +79,7 @@ func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 
 func (a *App) ConvertKoboDictionary(fileName string) c.Response[string] {
 	if a.devicePath == "" {
-		return c.Response[string]{Data: "", Error: "Device not connected"}
+		return c.Response[string]{Data: "", Error: "No device connected"}
 	}
 
 	rawDictPath := filepath.Join(a.dictionaryDir, fileName)

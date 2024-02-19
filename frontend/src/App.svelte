@@ -29,7 +29,7 @@
     height: 100%;
     display: grid;
     grid-template-rows: 48px auto;
-    grid-template-columns: auto minmax(200px, 300px);
+    grid-template-columns: auto minmax(300px, 350px);
     grid-template-areas:
       "nav nav"
       "view dev";

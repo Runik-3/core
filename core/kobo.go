@@ -12,6 +12,7 @@ func FindKoboDictDir(path string) (string, error) {
 	}
 	pathCustomDict := filepath.Join(path, ".kobo", "custom-dict")
 	pathDict := filepath.Join(path, ".kobo", "dict")
+
 	_, err := os.Stat(pathCustomDict)
 	if err == nil {
 		return pathCustomDict, nil

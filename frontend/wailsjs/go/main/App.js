@@ -14,8 +14,12 @@ export function DeleteDictFile(arg1) {
   return window['go']['main']['App']['DeleteDictFile'](arg1);
 }
 
-export function GetDictFiles() {
-  return window['go']['main']['App']['GetDictFiles']();
+export function GetDeviceDictionaries() {
+  return window['go']['main']['App']['GetDeviceDictionaries']();
+}
+
+export function GetLocalDictionaries() {
+  return window['go']['main']['App']['GetLocalDictionaries']();
 }
 
 export function GetWikiDetails(arg1) {

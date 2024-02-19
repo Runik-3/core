@@ -8,7 +8,9 @@ export function ConvertKoboDictionary(arg1:string):Promise<core.Response[string]
 
 export function DeleteDictFile(arg1:string):Promise<core.Response[string]>;
 
-export function GetDictFiles():Promise<core.Response[[]main>;
+export function GetDeviceDictionaries():Promise<core.Response[[]main>;
+
+export function GetLocalDictionaries():Promise<core.Response[[]main>;
 
 export function GetWikiDetails(arg1:string):Promise<core.Response[github>;
 
