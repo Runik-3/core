@@ -1,7 +1,10 @@
 <script lang="ts">
   import { Severity, notifications } from "../stores/notification";
   import { library } from "../stores/library";
-  import { ConvertKoboDictionary } from "../../wailsjs/go/main/App";
+  import {
+    ConvertKoboDictionary,
+    DeleteLocalDictFile,
+  } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
@@ -60,7 +63,12 @@
     {#if $library.length > 0}
       {#each $library as dict}
         {#if dict.Extension === "json"}
-          <DictListItem {dict} {select} selected={selected.has(dict.Name)} />
+          <DictListItem
+            {dict}
+            {select}
+            selected={selected.has(dict.Name)}
+            deleteDict={DeleteLocalDictFile}
+          />
         {/if}
       {/each}
       <!-- Empty library -->

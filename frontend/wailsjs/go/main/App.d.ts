@@ -6,7 +6,9 @@ export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string)
 
 export function ConvertKoboDictionary(arg1:string):Promise<core.Response[string]>;
 
-export function DeleteDictFile(arg1:string):Promise<core.Response[string]>;
+export function DeleteDeviceDictFile(arg1:string):Promise<core.Response[string]>;
+
+export function DeleteLocalDictFile(arg1:string):Promise<core.Response[string]>;
 
 export function GetDeviceDictionaries():Promise<core.Response[[]main>;
 

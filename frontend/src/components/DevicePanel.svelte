@@ -3,6 +3,7 @@
   import {
     SelectDevice,
     GetDeviceDictionaries,
+    DeleteDeviceDictFile,
   } from "../../wailsjs/go/main/App";
   import Button from "./Button.svelte";
   import Device from "./icons/Device.svelte";
@@ -34,7 +35,6 @@
     }
     dicts = res.Data.filter((file) => file.Extension === "zip");
   };
-  $: console.log(dicts);
 </script>
 
 <div id="device-panel">
@@ -51,7 +51,12 @@
         <strong>Dictionaries:</strong>
         {#if dicts.length}
           {#each dicts as dict}
-            <DictListItem compact {dict} select={() => {}} />
+            <DictListItem
+              compact
+              {dict}
+              select={() => {}}
+              deleteDict={DeleteDeviceDictFile}
+            />
           {/each}
         {:else}
           No dictionaries found on this device.

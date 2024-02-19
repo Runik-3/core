@@ -42,8 +42,24 @@ func (a *App) GetDeviceDictionaries() c.Response[[]File] {
 	return c.Response[[]File]{Data: files, Error: ""}
 }
 
-func (a *App) DeleteDictFile(name string) c.Response[string] {
+func (a *App) DeleteLocalDictFile(name string) c.Response[string] {
 	dictFilePath := filepath.Join(a.dictionaryDir, name)
+	err := os.Remove(dictFilePath)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+	return c.Response[string]{Data: "", Error: ""}
+}
+
+func (a *App) DeleteDeviceDictFile(name string) c.Response[string] {
+	if a.devicePath == "" {
+		return c.Response[string]{Data: "", Error: "No device connected"}
+	}
+
+  // TODO: This is a kobo specific solution. Generalize when we have
+  // support for other readers.
+  koboDictDir, _ := c.FindKoboDictDir(a.devicePath)
+	dictFilePath := filepath.Join(koboDictDir, name)
 	err := os.Remove(dictFilePath)
 	if err != nil {
 		return c.Response[string]{Data: "", Error: err.Error()}

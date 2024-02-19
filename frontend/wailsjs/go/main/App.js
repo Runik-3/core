@@ -10,8 +10,12 @@ export function ConvertKoboDictionary(arg1) {
   return window['go']['main']['App']['ConvertKoboDictionary'](arg1);
 }
 
-export function DeleteDictFile(arg1) {
-  return window['go']['main']['App']['DeleteDictFile'](arg1);
+export function DeleteDeviceDictFile(arg1) {
+  return window['go']['main']['App']['DeleteDeviceDictFile'](arg1);
+}
+
+export function DeleteLocalDictFile(arg1) {
+  return window['go']['main']['App']['DeleteLocalDictFile'](arg1);
 }
 
 export function GetDeviceDictionaries() {

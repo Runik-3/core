@@ -2,16 +2,16 @@
   import type { DictFile } from "../types/dict";
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
-  import { DeleteDictFile } from "../../wailsjs/go/main/App";
   import { library } from "../stores/library";
 
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
+  export let deleteDict: (name: string) => Promise<any>;
   export let compact = false;
 
-  const deleteDict = async (dict: DictFile) => {
-    const { Error } = await DeleteDictFile(dict.Name);
+  const deleteDictionary = async (dict: DictFile) => {
+    const { Error } = await deleteDict(dict.Name);
     if (Error) {
       notifications.addNotificaton({
         message: `Issue deleting file ${dict.Name}\n${Error}`,
@@ -52,7 +52,7 @@
       class="list-item-delete"
       aria-label={`delete ${dict.Name}`}
       type="button"
-      on:click={() => deleteDict(dict)}
+      on:click={() => deleteDictionary(dict)}
     >
       <Garbage size="16px" color="#c76767" />
     </button>
