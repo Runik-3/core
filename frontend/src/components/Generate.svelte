@@ -68,7 +68,7 @@
     </div>
   {:else if wikiInfo?.SiteName}
     <h3>
-      The following will be generated from <span>{wikiInfo?.SiteName}</span>
+      Generate dictionary from <span>{wikiInfo?.SiteName}</span>?
     </h3>
     <p><strong>Name:</strong> {getNameFromUrl(url)}</p>
     <p><strong>Entries:</strong> {wikiInfo?.Articles}</p>

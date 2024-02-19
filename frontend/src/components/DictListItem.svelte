@@ -9,17 +9,17 @@
   export let selected = false;
   export let select: (name: string) => void;
 
-  const deleteDict = async (name: string) => {
-    const { Error } = await DeleteDictFile(name);
+  const deleteDict = async (dict: DictFile) => {
+    const { Error } = await DeleteDictFile(dict.Name);
     if (Error) {
       notifications.addNotificaton({
-        message: `Issue deleting file ${name}\n${Error}`,
+        message: `Issue deleting file ${dict.Name}\n${Error}`,
         severity: Severity.error,
       });
       return;
     }
     notifications.addNotificaton({
-      message: `Deleted ${name}`,
+      message: `Deleted ${dict.Display}`,
       severity: Severity.info,
       timeout: 5000,
     });
@@ -47,7 +47,7 @@
       class="list-item-delete"
       aria-label={`delete ${dict.Name}`}
       type="button"
-      on:click={() => deleteDict(dict.Name)}
+      on:click={() => deleteDict(dict)}
     >
       <Garbage size="16px" color="#c76767" />
     </button>
