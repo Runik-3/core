@@ -3,11 +3,12 @@
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
   import { library } from "../stores/library";
+  import type { Response } from "../types/response";
 
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
-  export let deleteDict: (name: string) => Promise<any>;
+  export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
 
   const deleteDictionary = async (dict: DictFile) => {
