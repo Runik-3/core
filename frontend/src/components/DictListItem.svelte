@@ -4,6 +4,7 @@
   import Garbage from "./icons/Garbage.svelte";
   import { library } from "../stores/library";
   import type { Response } from "../types/response";
+  import { device } from "../stores/device";
 
   export let dict: DictFile;
   export let selected = false;
@@ -25,7 +26,9 @@
       severity: Severity.info,
       timeout: 5000,
     });
+    // TODO: clean this up with some dependency injection -- pass in the right store.
     await library.fetchDicts();
+    await device.fetchDicts();
   };
   const formatDictSize = (size: number) => {
     const sizeKb = size / 1000;

@@ -27,8 +27,9 @@ func (a *App) GetLocalDictionaries() c.Response[[]File] {
 }
 
 func (a *App) GetDeviceDictionaries() c.Response[[]File] {
+  // if no device connected, do no work and return empty with no error
 	if a.devicePath == "" {
-		return c.Response[[]File]{Data: []File{}, Error: "No device connected"}
+		return c.Response[[]File]{Data: []File{}, Error: ""}
 	}
 
   // TODO: This is a kobo specific solution. Generalize when we have

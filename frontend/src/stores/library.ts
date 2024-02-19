@@ -1,5 +1,5 @@
-import type { DictFile } from "src/types/dict";
-import type { Response } from "src/types/response";
+import type { DictFile } from "../types/dict";
+import type { Response } from "../types/response";
 import { writable } from "svelte/store";
 import { GetLocalDictionaries } from "../../wailsjs/go/main/App"
 

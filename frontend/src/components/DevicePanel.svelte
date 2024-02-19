@@ -1,56 +1,33 @@
 <script lang="ts">
-  import type { DictFile } from "../types/dict";
   import {
     SelectDevice,
-    GetDeviceDictionaries,
     DeleteDeviceDictFile,
   } from "../../wailsjs/go/main/App";
   import Button from "./Button.svelte";
   import Device from "./icons/Device.svelte";
-  import { Severity, notifications } from "../stores/notification";
-  import type { Response } from "../types/response";
+  import { device } from "../stores/device";
   import DictListItem from "./DictListItem.svelte";
 
-  let devicePath = "";
-  let dicts: DictFile[] = [];
-
-  $: if (devicePath) getDeviceDicts();
-
   const openDir = async () => {
-    devicePath = await SelectDevice();
-  };
-
-  const getDeviceNameFromPath = (path: string) => {
-    const parts = path.split("/");
-    return parts[parts.length - 1];
-  };
-
-  const getDeviceDicts = async () => {
-    const res: Response<DictFile[]> = await GetDeviceDictionaries();
-    if (res.Error) {
-      notifications.addNotificaton({
-        message: `Error fetching device dictionaries.\n${res.Error}`,
-        severity: Severity.error,
-      });
-    }
-    dicts = res.Data.filter((file) => file.Extension === "zip");
+    const devicePath = await SelectDevice();
+    await device.selectDevice(devicePath);
   };
 </script>
 
 <div id="device-panel">
   <h2>Device</h2>
   <div class="content">
-    {#if devicePath}
+    {#if $device.path}
       <Device size="128px" color="#5D5D5D" />
       <div id="device-info">
         <p>
           <strong>Name:</strong>
-          {getDeviceNameFromPath(devicePath)}
+          {$device.name}
         </p>
         <!-- List device dictionaries -->
         <strong>Dictionaries:</strong>
-        {#if dicts.length}
-          {#each dicts as dict}
+        {#if $device?.dicts?.length}
+          {#each $device.dicts as dict}
             <DictListItem
               compact
               {dict}

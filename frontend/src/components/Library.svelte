@@ -9,6 +9,7 @@
   import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
   import { onMount } from "svelte";
+  import { device } from "../stores/device";
 
   onMount(async () => {
     try {
@@ -34,13 +35,15 @@
     selected = new Set([...selected, name]);
   };
 
-  const sendDictsToDevice = () => {
+  const sendDictsToDevice = async () => {
     // TODO: if device is not selected notify
     let error = false;
+    // TODO: promise.all these to avoid device refetching bug
     selected.forEach(async (dict: string) => {
       // handle error and break out of loop
       const res = await ConvertKoboDictionary(dict);
       error = !!res.Error;
+      await device.fetchDicts();
     });
     if (error) {
       notifications.addNotificaton({
