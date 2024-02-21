@@ -10,6 +10,7 @@
   import ContentLayout from "./ContentLayout.svelte";
   import { onMount } from "svelte";
   import { device } from "../stores/device";
+  import type { Response } from "../types/response";
 
   onMount(async () => {
     try {
@@ -35,28 +36,35 @@
     selected = new Set([...selected, name]);
   };
 
-  const sendDictsToDevice = async () => {
-    // TODO: if device is not selected notify
-    let error = false;
-    // TODO: promise.all these to avoid device refetching bug
-    selected.forEach(async (dict: string) => {
-      // handle error and break out of loop
-      const res = await ConvertKoboDictionary(dict);
-      error = !!res.Error;
-      await device.fetchDicts();
+  const convertDictionary = async (dictName: string) => {
+    const res: Response<string> = await ConvertKoboDictionary(dictName);
+    return new Promise((resolve, reject) => {
+      if (res.Error) {
+        return reject(res.Error);
+      }
+      return resolve(res.Data);
     });
-    if (error) {
+  };
+
+  const sendDictsToDevice = async () => {
+    try {
+      await Promise.all(
+        [...selected].map(async (dictName: string) => {
+          return convertDictionary(dictName);
+        }),
+      );
       notifications.addNotificaton({
-        message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${Error}`,
+        message: "Added to device",
+        severity: Severity.success,
+        timeout: 5000,
+      });
+      await device.fetchDicts();
+    } catch (e) {
+      notifications.addNotificaton({
+        message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${e}`,
         severity: Severity.error,
       });
-      return;
     }
-    notifications.addNotificaton({
-      message: "Added to device",
-      severity: Severity.success,
-      timeout: 5000,
-    });
   };
 </script>
 
