@@ -47,6 +47,14 @@
   };
 
   const sendDictsToDevice = async () => {
+    if (!$device?.path) {
+      notifications.addNotificaton({
+        message: "No device selected.",
+        severity: Severity.info,
+        timeout: 5000,
+      });
+      return;
+    }
     try {
       await Promise.all(
         [...selected].map(async (dictName: string) => {
