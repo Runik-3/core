@@ -12,6 +12,8 @@
   import { device } from "../stores/device";
   import type { Response } from "../types/response";
 
+  export let hide = false;
+
   onMount(async () => {
     try {
       await library.fetchDicts();
@@ -66,7 +68,9 @@
         severity: Severity.success,
         timeout: 5000,
       });
+      // refetch dicts and selections
       await device.fetchDicts();
+      selected = new Set();
     } catch (e) {
       notifications.addNotificaton({
         message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${e}`,
@@ -76,7 +80,7 @@
   };
 </script>
 
-<ContentLayout split>
+<ContentLayout split {hide}>
   <div>
     <h2>Dictionaries</h2>
     {#if $library.length > 0}

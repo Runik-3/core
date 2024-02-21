@@ -1,8 +1,9 @@
 <script lang="ts">
+  export let hide = false;
   export let split = false;
 </script>
 
-<div class={`${split && "split"}`}>
+<div class={`${split && "split"} ${hide && "hide"}`}>
   <slot />
 </div>
 
@@ -18,5 +19,8 @@
     display: grid;
     grid-template-rows: auto 36px;
     grid-template-columns: 1;
+  }
+  .hide {
+    display: none;
   }
 </style>

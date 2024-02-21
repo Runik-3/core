@@ -12,11 +12,8 @@
     <Navbar />
   </div>
   <div id="view">
-    {#if $nav === "lib"}
-      <Library />
-    {:else if $nav === "gen"}
-      <Generate />
-    {/if}
+    <Library hide={$nav !== "lib"} />
+    <Generate hide={$nav !== "gen"} />
   </div>
   <div id="dev">
     <DevicePanel />

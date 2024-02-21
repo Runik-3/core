@@ -6,6 +6,8 @@
   import Loader from "./Loader.svelte";
   import { library } from "../stores/library";
 
+  export let hide = false;
+
   let loading = false;
   let url = "";
 
@@ -57,7 +59,7 @@
   };
 </script>
 
-<ContentLayout>
+<ContentLayout {hide}>
   <h2>Dictionary Forge</h2>
   <input placeholder="Wiki URL" type="text" bind:value={url} />
   <Button disabled={loading} onClick={() => wikiDetails(url)} small>Find</Button
