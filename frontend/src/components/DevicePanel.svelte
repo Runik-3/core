@@ -27,14 +27,16 @@
         <!-- List device dictionaries -->
         <strong>Dictionaries:</strong>
         {#if $device?.dicts?.length}
-          {#each $device.dicts as dict}
-            <DictListItem
-              compact
-              {dict}
-              select={() => {}}
-              deleteDict={DeleteDeviceDictFile}
-            />
-          {/each}
+          <ul id="device-dict-list">
+            {#each $device.dicts as dict}
+              <DictListItem
+                compact
+                {dict}
+                select={() => {}}
+                deleteDict={DeleteDeviceDictFile}
+              />
+            {/each}
+          </ul>
         {:else}
           No dictionaries found on this device.
         {/if}
@@ -51,11 +53,11 @@
   #device-panel {
     padding: 24px;
     height: calc(100% - 48px); /* minus top nav */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: grid;
+    grid-template-rows: 48px auto 32px;
   }
   .content {
+    margin-top: 48px;
     text-align: center;
   }
   #device-info {
@@ -63,6 +65,15 @@
   }
   #device-info > p {
     margin: 12px 0;
+  }
+  #device-dict-list {
+    margin-top: 16px;
+    border: 1px black solid;
+    border-radius: 8px;
+    padding: 8px 16px;
+    min-height: 100px;
+    height: calc(100vh - 524px); /* overflow needs a set number for height */
+    overflow-y: auto;
   }
   p {
     margin: 24px 0;
