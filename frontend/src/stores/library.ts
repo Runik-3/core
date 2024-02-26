@@ -14,7 +14,9 @@ function createLibraryStore() {
         throw new Error(res.Error)
       }
 
-      const dictFiles = res.Data.filter((dict) => dict.Extension === "json")
+      const dictFiles = res.Data
+        .filter((dict) => dict.Extension === "json")
+        .sort((a, b) => b.Modified.localeCompare(a.Modified))
       set(dictFiles)
     }
   }

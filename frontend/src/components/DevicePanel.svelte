@@ -67,8 +67,9 @@
     margin: 12px 0;
   }
   #device-dict-list {
+    background-color: white;
     margin-top: 16px;
-    border: 1px black solid;
+    border: 1px #a5a5a5 solid;
     border-radius: 8px;
     padding: 8px 16px;
     min-height: 100px;
