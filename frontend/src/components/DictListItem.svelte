@@ -91,15 +91,18 @@
     background-color: #1f797e;
   }
   .list-btn-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr min-content;
+    grid-gap: 24px;
+    text-align: right;
     align-items: center;
-  }
-  .list-btn-container > * {
-    margin-left: 24px;
   }
   .list-item-delete {
     border: none;
     background-color: transparent;
     cursor: pointer;
+  }
+  button {
+    grid-column: 3/3;
   }
 </style>
