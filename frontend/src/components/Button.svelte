@@ -1,8 +1,8 @@
 <script lang="ts">
-  type ButtonType = "primary" | "secondary" | "error"
+  type ButtonType = "primary" | "secondary" | "error";
 
   export let onClick: (...args: any[]) => void;
-  export let type: ButtonType = "primary"
+  export let type: ButtonType = "primary";
   export let disabled = false;
   export let small = false;
   export let maxWidth = false;
@@ -30,12 +30,12 @@
     cursor: pointer;
   }
   .secondary {
-    background-color: transparent; 
+    background-color: transparent;
     border: 2px black solid;
     color: black;
   }
   .error {
-    background-color: #c76767; 
+    background-color: #c76767;
     border: 2px #c76767 solid;
     color: white;
   }
@@ -50,6 +50,7 @@
     width: 100%;
   }
   button:disabled {
+    border-color: #5d5d5d;
     background-color: #5d5d5d;
     color: #d3d3d3;
     cursor: default;

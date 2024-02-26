@@ -5,6 +5,8 @@
   import Library from "./components/Library.svelte";
   import Navbar from "./components/Navbar.svelte";
   import NotificationProvider from "./components/NotificationProvider.svelte";
+  import ModalProvider from "./components/ModalProvider.svelte";
+  import { modalStore } from "./stores/modal";
 </script>
 
 <main>
@@ -19,6 +21,9 @@
     <DevicePanel />
   </div>
   <NotificationProvider />
+  {#if $modalStore}
+    <ModalProvider />
+  {/if}
 </main>
 
 <style>

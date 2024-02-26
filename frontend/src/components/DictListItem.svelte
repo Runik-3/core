@@ -5,6 +5,7 @@
   import { library } from "../stores/library";
   import type { Response } from "../types/response";
   import { device } from "../stores/device";
+  import { modalStore } from "..//stores/modal";
 
   export let dict: DictFile;
   export let selected = false;
@@ -12,7 +13,15 @@
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
 
-  const deleteDictionary = async (dict: DictFile) => {
+  const deleteDictionary = (dict: DictFile) => {
+    modalStore.set({
+      title: "Confirm delete",
+      description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
+      confirmFn: () => confirmedDelete(dict),
+    });
+  };
+
+  const confirmedDelete = async (dict: DictFile) => {
     const { Error } = await deleteDict(dict.Name);
     if (Error) {
       notifications.addNotificaton({
