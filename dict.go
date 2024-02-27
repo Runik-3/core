@@ -23,24 +23,38 @@ func (a *App) GetLocalDictionaries() c.Response[[]File] {
 		return c.Response[[]File]{Data: []File{}, Error: err.Error()}
 	}
 
-	return c.Response[[]File]{Data: files, Error: ""}
+	localDicts := []File{}
+	for _, file := range files {
+		if file.Extension == "json" {
+			localDicts = append(localDicts, file)
+		}
+	}
+
+	return c.Response[[]File]{Data: localDicts, Error: ""}
 }
 
 func (a *App) GetDeviceDictionaries() c.Response[[]File] {
-  // if no device connected, do no work and return empty with no error
+	// if no device connected, do no work and return empty with no error
 	if a.devicePath == "" {
 		return c.Response[[]File]{Data: []File{}, Error: ""}
 	}
 
-  // TODO: This is a kobo specific solution. Generalize when we have
-  // support for other readers.
-  koboDictDir, _ := c.FindKoboDictDir(a.devicePath)
+	// TODO: This is a kobo specific solution. Generalize when we have
+	// support for other readers.
+	koboDictDir, _ := c.FindKoboDictDir(a.devicePath)
 	files, err := getDictFilesFromPath(koboDictDir)
 	if err != nil {
 		return c.Response[[]File]{Data: []File{}, Error: err.Error()}
 	}
 
-	return c.Response[[]File]{Data: files, Error: ""}
+	deviceDicts := []File{}
+	for _, file := range files {
+		if file.Extension == "zip" {
+			deviceDicts = append(deviceDicts, file)
+		}
+	}
+
+	return c.Response[[]File]{Data: deviceDicts, Error: ""}
 }
 
 func (a *App) DeleteLocalDictFile(name string) c.Response[string] {
@@ -57,9 +71,9 @@ func (a *App) DeleteDeviceDictFile(name string) c.Response[string] {
 		return c.Response[string]{Data: "", Error: "No device connected"}
 	}
 
-  // TODO: This is a kobo specific solution. Generalize when we have
-  // support for other readers.
-  koboDictDir, _ := c.FindKoboDictDir(a.devicePath)
+	// TODO: This is a kobo specific solution. Generalize when we have
+	// support for other readers.
+	koboDictDir, _ := c.FindKoboDictDir(a.devicePath)
 	dictFilePath := filepath.Join(koboDictDir, name)
 	err := os.Remove(dictFilePath)
 	if err != nil {

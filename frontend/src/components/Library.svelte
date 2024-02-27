@@ -85,14 +85,12 @@
     <h2>Dictionaries</h2>
     {#if $library.length > 0}
       {#each $library as dict}
-        {#if dict.Extension === "json"}
-          <DictListItem
-            {dict}
-            {select}
-            selected={selected.has(dict.Name)}
-            deleteDict={DeleteLocalDictFile}
-          />
-        {/if}
+        <DictListItem
+          {dict}
+          {select}
+          selected={selected.has(dict.Name)}
+          deleteDict={DeleteLocalDictFile}
+        />
       {/each}
       <!-- Empty library -->
     {:else}

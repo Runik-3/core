@@ -31,9 +31,7 @@ async function fetchDicts() {
     throw new Error(res.Error)
   }
 
-  // TODO: Kobo specific, make general
-  const dictFiles = res.Data.filter((dict) => dict.Extension === "zip")
-  update(device => ({ ...device, dicts: dictFiles }))
+  update(device => ({ ...device, dicts: res.Data }))
 }
 
 const getDeviceNameFromPath = (path: string) => {
