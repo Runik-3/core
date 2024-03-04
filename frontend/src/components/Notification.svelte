@@ -56,7 +56,7 @@
     grid-template-columns: 8px auto 32px;
     border-radius: 8px;
     margin-top: 4px;
-    width: 360px;
+    width: 420px;
     background-color: white;
     border-width: 1px;
     border-style: solid;
@@ -68,6 +68,7 @@
     justify-content: start;
     align-items: center;
     padding: 24px 12px;
+    word-break: break-word;
   }
   .icon {
     margin-right: 12px;
