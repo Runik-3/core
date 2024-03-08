@@ -10,7 +10,7 @@
 </script>
 
 <nav>
-  <button on:click={() => navigate("lib")}><Runik size="24px" /></button>
+  <button on:click={() => {}}><Runik color="white" size="24px" /></button>
   <button
     class={`${$nav === "lib" && "active"}`}
     on:click={() => navigate("lib")}
@@ -42,6 +42,9 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+  }
+  button:first-of-type {
+    background-color: #202020;
   }
   .active {
     background-color: white;
