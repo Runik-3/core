@@ -3,6 +3,7 @@
   import Anvil from "./icons/Anvil.svelte";
   import Book from "./icons/Book.svelte";
   import Runik from "./icons/Runik.svelte";
+  import Cog from "./icons/Cog.svelte";
 
   const navigate = (location: Nav) => {
     nav.set(location);
@@ -25,6 +26,14 @@
     ><Anvil
       size="32px"
       color={`${$nav === "gen" ? "black" : "#5D5D5D"}`}
+    /></button
+  >
+  <button
+    class={`${$nav === "conf" && "active"}`}
+    on:click={() => navigate("conf")}
+    ><Cog
+      size="24px"
+      color={`${$nav === "conf" ? "black" : "#5D5D5D"}`}
     /></button
   >
 </nav>

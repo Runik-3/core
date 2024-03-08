@@ -3,6 +3,7 @@
   import DevicePanel from "./components/DevicePanel.svelte";
   import Generate from "./components/Generate.svelte";
   import Library from "./components/Library.svelte";
+  import Configuration from "./components/Configuration.svelte";
   import Navbar from "./components/Navbar.svelte";
   import NotificationProvider from "./components/NotificationProvider.svelte";
   import ModalProvider from "./components/ModalProvider.svelte";
@@ -16,6 +17,7 @@
   <div id="view">
     <Library hide={$nav !== "lib"} />
     <Generate hide={$nav !== "gen"} />
+    <Configuration hide={$nav !== "conf"} />
   </div>
   <div id="dev">
     <DevicePanel />
