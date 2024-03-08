@@ -18,7 +18,7 @@
 
 <style>
   button {
-    background-color: black;
+    background-color: #202020;
     box-sizing: border-box;
     color: white;
     border: 2px black solid;
@@ -28,16 +28,28 @@
     height: 48px;
     font-size: 1rem;
     cursor: pointer;
+    transition: 200ms all ease-in-out;
+  }
+  button:hover {
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
   }
   .secondary {
     background-color: transparent;
     border: 2px black solid;
     color: black;
   }
+  .secondary:hover {
+    background-color: #20202018;
+  }
   .error {
     background-color: #c76767;
     border: 2px #c76767 solid;
     color: white;
+  }
+  .error:hover {
+    background-color: #b35c5c;
+    border-color: #b35c5c;
   }
   .small {
     padding: 0 24px;
