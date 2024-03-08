@@ -1,0 +1,59 @@
+/* Ubuntu fonts */
+@font-face {
+  font-family: "ubuntu";
+  src: url("./assets/Ubuntu-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ubuntu";
+  src: url("./assets/Ubuntu-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "ubuntu";
+  src: url("./assets/Ubuntu-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ubuntu";
+  src: url("./assets/Ubuntu-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Source serif fonts */
+@font-face {
+  font-family: "source serif";
+  src: url("./assets/SourceSerif4-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-style: normal;
+}
+@font-face {
+  font-family: "source serif";
+  src: url("./assets/SourceSerif4-Italic-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-style: italic;
+}
+
+html,
+* {
+  font-family: "ubuntu";
+  margin: 0px;
+}
+h1,
+h2,
+h3 {
+  font-family: "source serif";
+  font-weight: 600;
+}
+#app {
+  height: 100vh;
+}
+body {
+  background-color: #ddd;
+  height: 100%;
+}
