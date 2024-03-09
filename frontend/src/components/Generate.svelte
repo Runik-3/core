@@ -18,7 +18,7 @@
     loading = true;
     const { Data, Error } = await GetWikiDetails(wikiUrl);
     if (Error) {
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: Error,
         severity: Severity.info,
         timeout: 5000,
@@ -42,13 +42,13 @@
     const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
     loading = false;
     if (Error) {
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: Error,
         severity: Severity.error,
       });
       return;
     }
-    notifications.addNotificaton({
+    notifications.addNotification({
       message: `Successfully generated ${getNameFromUrl(url)}`,
       severity: Severity.success,
       timeout: 5000,

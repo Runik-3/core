@@ -24,13 +24,13 @@
   const confirmedDelete = async (dict: DictFile) => {
     const { Error } = await deleteDict(dict.Name);
     if (Error) {
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: `Issue deleting file ${dict.Name}\n${Error}`,
         severity: Severity.error,
       });
       return;
     }
-    notifications.addNotificaton({
+    notifications.addNotification({
       message: `Deleted ${dict.Display}`,
       severity: Severity.info,
       timeout: 5000,

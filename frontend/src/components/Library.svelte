@@ -19,7 +19,7 @@
       await library.fetchDicts();
     } catch (e) {
       if (e instanceof Error) {
-        notifications.addNotificaton({
+        notifications.addNotification({
           message: `Failed to find existing dictionaries. \n${e.message}`,
           severity: Severity.error,
         });
@@ -50,7 +50,7 @@
 
   const sendDictsToDevice = async () => {
     if (!$device?.path) {
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: "No device selected.",
         severity: Severity.info,
         timeout: 5000,
@@ -63,7 +63,7 @@
           return convertDictionary(dictName);
         }),
       );
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: "Added to device",
         severity: Severity.success,
         timeout: 5000,
@@ -72,7 +72,7 @@
       await device.fetchDicts();
       selected = new Set();
     } catch (e) {
-      notifications.addNotificaton({
+      notifications.addNotification({
         message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${e}`,
         severity: Severity.error,
       });

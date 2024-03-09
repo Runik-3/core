@@ -22,7 +22,7 @@ const { subscribe, update } = writable<Notification[]>([]);
 function createNotificationStore() {
   return {
     subscribe,
-    addNotificaton: (notify: Notification) =>
+    addNotification: (notify: Notification) =>
       update((msgs) => {
         // TODO: replace this eventually with a uuid
         const key = Math.floor(Math.random() * 100000)
