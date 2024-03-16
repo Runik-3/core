@@ -5,6 +5,8 @@
   import Button from "./Button.svelte";
   import Loader from "./Loader.svelte";
   import { library } from "../stores/library";
+  import type { Response } from "../types/response";
+  import type { WikiInfo } from "../types/wikiInfo";
 
   export let hide = false;
 
@@ -16,16 +18,16 @@
   const wikiDetails = async (wikiUrl: string) => {
     // generic response type not being inferred in models
     loading = true;
-    const { Data, Error } = await GetWikiDetails(wikiUrl);
+    const res: Response<WikiInfo> = await GetWikiDetails(wikiUrl);
     if (Error) {
       notifications.addNotification({
-        message: Error,
+        message: res.Error,
         severity: Severity.info,
         timeout: 5000,
       });
     }
     loading = false;
-    wikiInfo = Data;
+    wikiInfo = res.Data;
   };
 
   const getNameFromUrl = (url: string) => {
