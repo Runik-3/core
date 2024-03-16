@@ -35,6 +35,7 @@
     return new URL(url).hostname.split(".")[0];
   };
 
+  // TODO: This is hacky and probably should be built into builder
   const buildLanguageUrl = (url: string, languageCode: string) => {
     return `${new URL(url).origin}/${languageCode}/api.php`;
   };
@@ -92,17 +93,16 @@
         <details>
           <summary>Other Available Languages:</summary>
           {#each wikiInfo.Languages as lang}
-            <p>
-              {lang.autonym || lang.lang}
-              <span
-                ><Button
-                  small
-                  onClick={() =>
-                    buildDict(buildLanguageUrl(lang.url, lang.lang))}
-                  >Generate</Button
-                ></span
+            <div class="supported-lang">
+              <p>
+                {lang.autonym || lang.lang}
+              </p>
+              <Button
+                small
+                onClick={() => buildDict(buildLanguageUrl(lang.url, lang.lang))}
+                >Generate</Button
               >
-            </p>
+            </div>
           {/each}
         </details>
       {/if}
@@ -127,10 +127,32 @@
   .info-block {
     margin: 24px 0;
   }
+  .supported-lang {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    margin: 0 8px;
+  }
   input {
     padding: 9px;
     border-radius: 8px;
     border: 1px solid lightgrey;
     min-width: 256px;
+  }
+  details {
+    width: 256px;
+    overflow-y: auto;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid lightgrey;
+  }
+  details[open] {
+    max-height: 270px;
+  }
+  summary {
+    cursor: pointer;
+  }
+  details[open] summary {
+    margin-bottom: 16px;
   }
 </style>

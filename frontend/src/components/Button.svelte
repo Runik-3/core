@@ -21,7 +21,7 @@
     background-color: #202020;
     box-sizing: border-box;
     color: white;
-    border: 2px black solid;
+    border: 2px #202020 solid;
     border-radius: 8px;
     padding: 0 32px;
     max-width: 256px;
