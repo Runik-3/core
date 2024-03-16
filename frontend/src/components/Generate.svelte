@@ -13,13 +13,13 @@
   let loading = false;
   let url = "";
 
-  let wikiInfo = null;
+  let wikiInfo: WikiInfo | null = null;
 
   const wikiDetails = async (wikiUrl: string) => {
     // generic response type not being inferred in models
     loading = true;
     const res: Response<WikiInfo> = await GetWikiDetails(wikiUrl);
-    if (Error) {
+    if (res.Error) {
       notifications.addNotification({
         message: res.Error,
         severity: Severity.info,
@@ -28,10 +28,15 @@
     }
     loading = false;
     wikiInfo = res.Data;
+    console.log("ooga booga", wikiInfo);
   };
 
   const getNameFromUrl = (url: string) => {
     return new URL(url).hostname.split(".")[0];
+  };
+
+  const buildLanguageUrl = (url: string, languageCode: string) => {
+    return `${new URL(url).origin}/${languageCode}/api.php`;
   };
 
   const resetPageState = () => {
@@ -74,12 +79,34 @@
     <h3>
       Generate dictionary from <span>{wikiInfo?.SiteName}</span>?
     </h3>
-    <p><strong>Name:</strong> {getNameFromUrl(url)}</p>
-    <p><strong>Entries:</strong> {wikiInfo?.Articles}</p>
-    <p><strong>Language:</strong> {wikiInfo?.Lang}</p>
+    <div class="info-block">
+      <p><strong>Name:</strong> {getNameFromUrl(url)}</p>
+      <p><strong>Entries:</strong> {wikiInfo?.Articles}</p>
+      <p><strong>Language:</strong> {wikiInfo?.Lang}</p>
+    </div>
     <Button small disabled={loading} onClick={() => buildDict(url)}
       >Generate</Button
     >
+    <div class="info-block">
+      {#if wikiInfo.Languages.length > 0}
+        <details>
+          <summary>Other Available Languages:</summary>
+          {#each wikiInfo.Languages as lang}
+            <p>
+              {lang.autonym || lang.lang}
+              <span
+                ><Button
+                  small
+                  onClick={() =>
+                    buildDict(buildLanguageUrl(lang.url, lang.lang))}
+                  >Generate</Button
+                ></span
+              >
+            </p>
+          {/each}
+        </details>
+      {/if}
+    </div>
   {/if}
 </ContentLayout>
 
@@ -92,12 +119,13 @@
   }
   h3 > span {
     color: #1f797e;
+    font-family: "source serif";
   }
   p {
     margin: 8px 0 0 8px;
   }
-  p:last-of-type {
-    margin-bottom: 24px;
+  .info-block {
+    margin: 24px 0;
   }
   input {
     padding: 9px;
