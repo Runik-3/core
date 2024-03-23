@@ -1,6 +1,6 @@
 import type { DictFile } from "../types/dict";
 import type { Response } from "../types/response";
-import { writable, type Updater } from "svelte/store";
+import { writable } from "svelte/store";
 import { GetDeviceDictionaries } from "../../wailsjs/go/main/App"
 
 export interface Device {
