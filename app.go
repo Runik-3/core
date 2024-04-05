@@ -28,10 +28,16 @@ func NewApp() *App {
 	return &App{}
 }
 
+// Based on GNOME design standard https://developer.gnome.org/hig/guidelines/adaptive.html
+const MIN_WIDTH = 1024
+const MIN_HEIGHT = 600
+
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	runtime.WindowSetMinSize(ctx, MIN_WIDTH, MIN_HEIGHT)
+
 	a.checkAppConfigDirExistsIfNotCreate()
 }
 
@@ -41,7 +47,6 @@ func (a *App) checkAppConfigDirExistsIfNotCreate() {
 	a.runikDir = filepath.Join(configDir, "runik")
 	a.dictionaryDir = filepath.Join(a.runikDir, "dictionaries")
 
-	// populate app config directories
 	c.MkdirIfNotExists(a.runikDir)
 	c.MkdirIfNotExists(a.dictionaryDir)
 }
