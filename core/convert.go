@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -19,47 +18,47 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 	// read raw dictionary and unmarshal as Dict
 	rawDict, err := os.ReadFile(pathToRawDict)
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	dict := d.Dict{}
 	err = j.Unmarshal(rawDict, &dict)
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	df, err := d.Format("df", dict)
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	dictFile, err := dictgen.ParseDictFile(strings.NewReader(df))
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	err = dictFile.Validate()
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	outFileName := path.Join(outputDir, getDeviceReadableName(dict.Name))
 	file, err := os.Create(outFileName)
 	defer file.Close()
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	kw := kobodict.NewWriter(file)
 
 	err = dictFile.WriteDictzip(kw, new(dictgen.ImageHandlerRemove), dictgen.ImageFuncFilesystem)
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	defer kw.Close()
 
-	return "", nil
+	return outFileName, nil
 }
 
 // TODO - Dictionary naming needs more investigation.
