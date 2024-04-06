@@ -43,7 +43,7 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 		fmt.Println(err.Error())
 	}
 
-	outFileName := path.Join(outputDir, "dicthtml-"+dict.Name+".zip")
+	outFileName := path.Join(outputDir, getDeviceReadableName(dict.Name))
 	file, err := os.Create(outFileName)
 	defer file.Close()
 	if err != nil {
@@ -60,4 +60,17 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 	defer kw.Close()
 
 	return "", nil
+}
+
+// TODO - Dictionary naming needs more investigation.
+//
+// Due to differences in firmware, this seems like the best way to handle
+// custom dictionary names. Newer Kobos don't appear to have a dictionary
+// table in the sqlite database to inject custom dict names so we're
+// falling back on a prefix.
+//
+// This isn't ideal because the `dicthtml` prefix is not very user friendly.
+// Long term,
+func getDeviceReadableName(dictName string) string {
+	return "dicthtml-[r]" + dictName + ".zip"
 }
