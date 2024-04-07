@@ -28,14 +28,15 @@
       color={`${$nav === "gen" ? "black" : "#5D5D5D"}`}
     /></button
   >
-  <button
+  <!-- Disabled until we need global config -->
+  <!-- <button
     class={`${$nav === "conf" && "active"}`}
     on:click={() => navigate("conf")}
     ><Cog
       size="24px"
       color={`${$nav === "conf" ? "black" : "#5D5D5D"}`}
     /></button
-  >
+  > -->
 </nav>
 
 <style>

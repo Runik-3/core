@@ -5,8 +5,6 @@ import (
 	"os"
 )
 
-// common filesystem methods
-
 func GetUserConfigDir() string {
 	configDir, err := os.UserConfigDir()
 	if err != nil {

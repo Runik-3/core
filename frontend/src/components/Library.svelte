@@ -73,7 +73,9 @@
       selected = new Set();
     } catch (e) {
       notifications.addNotification({
-        message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} failed to send to device:\n ${e}`,
+        message: `${
+          selected.size === 1 ? "Dictionary" : "Dictionaries"
+        } failed to send to device:\n ${e}`,
         severity: Severity.error,
       });
     }
@@ -92,8 +94,8 @@
           deleteDict={DeleteLocalDictFile}
         />
       {/each}
-      <!-- Empty library -->
     {:else}
+      <!-- Empty library -->
       <p>Nothing here yet. Generate dictionaries in the forge.</p>
     {/if}
   </div>

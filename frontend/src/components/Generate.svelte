@@ -11,6 +11,9 @@
   export let hide = false;
 
   let loading = false;
+
+  let dictName = "";
+  let depth = 2;
   let url = "";
 
   let wikiInfo: WikiInfo | null = null;
@@ -28,11 +31,11 @@
     }
     loading = false;
     wikiInfo = res.Data;
-    console.log("ooga booga", wikiInfo);
+    getNameFromUrl(url);
   };
 
   const getNameFromUrl = (url: string) => {
-    return new URL(url).hostname.split(".")[0];
+    dictName = new URL(url).hostname.split(".")[0];
   };
 
   // TODO: This is hacky and probably should be built into builder
@@ -45,9 +48,27 @@
     wikiInfo = null;
   };
 
+  const validDepth = () => {
+    const MAX_DEPTH = 5;
+    const MIN_DEPTH = 1;
+
+    if (depth > MAX_DEPTH) {
+      return MAX_DEPTH;
+    }
+    if (depth < MIN_DEPTH) {
+      return MIN_DEPTH;
+    }
+    return depth;
+  };
+
   const buildDict = async (wikiUrl: string) => {
     loading = true;
-    const { Error } = await BuildDictionary(wikiUrl, "", 1, "json");
+    const { Error } = await BuildDictionary(
+      wikiUrl,
+      dictName,
+      validDepth(),
+      "json",
+    );
     loading = false;
     if (Error) {
       notifications.addNotification({
@@ -57,10 +78,11 @@
       return;
     }
     notifications.addNotification({
-      message: `Successfully generated ${getNameFromUrl(url)}`,
+      message: `Successfully generated ${dictName}`,
       severity: Severity.success,
       timeout: 5000,
     });
+
     // update library
     await library.fetchDicts();
     resetPageState();
@@ -69,9 +91,26 @@
 
 <ContentLayout {hide}>
   <h2>Dictionary Forge</h2>
-  <input placeholder="Wiki URL" type="text" bind:value={url} />
-  <Button disabled={loading} onClick={() => wikiDetails(url)} small>Find</Button
-  >
+  <div class="input-container">
+    <label for="wiki-input"><strong>Wiki Url</strong></label>
+    <div>
+      <input
+        id="wiki-input"
+        placeholder="https://kingkiller.fandom.com/wiki/Kingkiller_Wiki"
+        type="text"
+        bind:value={url}
+      />
+      <Button disabled={loading} onClick={() => wikiDetails(url)} small
+        >Find</Button
+      >
+    </div>
+  </div>
+
+  <div class="input-container depth-container">
+    <label for="depth-input"><strong>Depth</strong></label>
+    <input id="depth-input" type="number" bind:value={depth} />
+  </div>
+
   {#if loading}
     <div>
       <Loader />
@@ -81,9 +120,12 @@
       Generate dictionary from <span>{wikiInfo?.SiteName}</span>?
     </h3>
     <div class="info-block">
-      <p><strong>Name:</strong> {getNameFromUrl(url)}</p>
-      <p><strong>Entries:</strong> {wikiInfo?.Articles}</p>
-      <p><strong>Language:</strong> {wikiInfo?.Lang}</p>
+      <p class="info-line">
+        <strong>Name:</strong>
+        <input id="name-input" type="text" bind:value={dictName} />
+      </p>
+      <p class="info-line"><strong>Entries:</strong> {wikiInfo?.Articles}</p>
+      <p class="info-line"><strong>Language:</strong> {wikiInfo?.Lang}</p>
     </div>
     <Button small disabled={loading} onClick={() => buildDict(url)}
       >Generate</Button
@@ -115,17 +157,22 @@
     margin-bottom: 24px;
   }
   h3 {
-    margin: 32px 0 12px 0;
+    margin-top: 32px;
   }
   h3 > span {
     color: #1f797e;
     font-family: "source serif";
   }
-  p {
-    margin: 8px 0 0 8px;
-  }
   .info-block {
     margin: 24px 0;
+  }
+  .info-line {
+    display: flex;
+    align-items: center;
+    height: 36px;
+  }
+  .info-line strong {
+    margin-right: 4px;
   }
   .supported-lang {
     display: flex;
@@ -134,10 +181,30 @@
     margin: 0 8px;
   }
   input {
-    padding: 9px;
+    padding: 8px;
     border-radius: 8px;
     border: 1px solid lightgrey;
-    min-width: 256px;
+    font-size: 0.9rem;
+  }
+  #wiki-input {
+    min-width: 80%;
+  }
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .input-container input {
+    margin-top: 8px;
+  }
+  .depth-container {
+    margin-top: 16px;
+  }
+  #depth-input {
+    width: 36px;
+  }
+  #name-input {
+    width: 112px;
   }
   details {
     width: 256px;

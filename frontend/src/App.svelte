@@ -17,7 +17,8 @@
   <div id="view">
     <Library hide={$nav !== "lib"} />
     <Generate hide={$nav !== "gen"} />
-    <Configuration hide={$nav !== "conf"} />
+    <!-- Disabled until we have global config to add. -->
+    <!-- <Configuration hide={$nav !== "conf"} /> -->
   </div>
   <div id="dev">
     <DevicePanel />

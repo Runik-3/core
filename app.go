@@ -41,6 +41,7 @@ func (a *App) startup(ctx context.Context) {
 	a.checkAppConfigDirExistsIfNotCreate()
 }
 
+// pull out into config.go
 func (a *App) checkAppConfigDirExistsIfNotCreate() {
 	configDir := c.GetUserConfigDir()
 
@@ -65,7 +66,7 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 	return dirPath
 }
 
-// Builds runik dictionary
+// move to dict
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
 	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 10000, depth, "json") // at least for now raw dicts should be json
 	if err != nil {
@@ -82,6 +83,7 @@ func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 	return c.Response[wikibot.WikiDetails]{Data: details, Error: ""}
 }
 
+// move to dict
 func (a *App) ConvertKoboDictionary(fileName string) c.Response[string] {
 	if a.devicePath == "" {
 		return c.Response[string]{Data: "", Error: "No device connected"}
