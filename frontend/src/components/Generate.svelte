@@ -7,6 +7,7 @@
   import { library } from "../stores/library";
   import type { Response } from "../types/response";
   import type { WikiInfo } from "../types/wikiInfo";
+  import InfoPopover from "./InfoPopover.svelte";
 
   export let hide = false;
 
@@ -107,7 +108,15 @@
   </div>
 
   <div class="input-container depth-container">
-    <label for="depth-input"><strong>Depth</strong></label>
+    <label for="depth-input"
+      ><strong>Depth</strong><InfoPopover
+        >The number of sentences that make up each definition, starting from the
+        first line in the wiki page. Because definitions are drawn from wiki
+        page content, spoiler free definitions cannot be guaranteed. For that
+        reason, the recommended default depth is 2, which tends to provide
+        adequate context while also reducing the risk of spoilers.</InfoPopover
+      ></label
+    >
     <input id="depth-input" type="number" bind:value={depth} />
   </div>
 
