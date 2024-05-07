@@ -20,7 +20,9 @@
   let wikiInfo: WikiInfo | null = null;
 
   const wikiDetails = async (wikiUrl: string) => {
-    // generic response type not being inferred in models
+    if (!url) {
+      return;
+    }
     loading = true;
     const res: Response<WikiInfo> = await GetWikiDetails(wikiUrl);
     if (res.Error) {
@@ -40,6 +42,7 @@
   };
 
   // TODO: This is hacky and probably should be built into builder
+  // it's also not representative of all lang support
   const buildLanguageUrl = (url: string, languageCode: string) => {
     return `${new URL(url).origin}/${languageCode}/api.php`;
   };
