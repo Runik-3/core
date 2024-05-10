@@ -41,12 +41,6 @@
     dictName = new URL(url).hostname.split(".")[0];
   };
 
-  // TODO: This is hacky and probably should be built into builder
-  // it's also not representative of all lang support
-  const buildLanguageUrl = (url: string, languageCode: string) => {
-    return `${new URL(url).origin}/${languageCode}/api.php`;
-  };
-
   const resetPageState = () => {
     url = "";
     wikiInfo = null;
@@ -151,10 +145,7 @@
               <p>
                 {lang.autonym || lang.lang}
               </p>
-              <Button
-                small
-                onClick={() => buildDict(buildLanguageUrl(lang.url, lang.lang))}
-                >Generate</Button
+              <Button small onClick={() => buildDict(lang.url)}>Generate</Button
               >
             </div>
           {/each}
