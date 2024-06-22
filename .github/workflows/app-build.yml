@@ -1,0 +1,46 @@
+# Adapted from wails build example action
+# https://wails.io/docs/guides/crossplatform-build/
+name: Runik build
+
+on:
+  push:
+    tags:
+    # Match any new tag
+      - '*'
+
+env:
+  # Necessary for most environments as build failure can occur due to OOM issues
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+jobs:
+  build:
+    strategy:
+    # Failure in one platform build won't impact the others
+      fail-fast: false
+      matrix:
+        build:
+          - name: 'Runik'
+            platform:  'linux/amd64'
+            os: 'ubuntu-latest'
+          - name: 'Runik'
+            platform:  'windows/amd64'
+            os: 'windows-latest'
+          - name: 'Runik'
+            platform:  'darwin/universal'
+            os: 'macos-latest'
+
+    runs-on: ${{ matrix.build.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Build Runik  
+        uses: dAppServer/wails-build-action@v2.2
+        id: build
+        with:
+          build-name: ${{ matrix.build.name }}
+          build-platform: ${{ matrix.build.platform }}
+          package: false
+          go-version: '1.21'
