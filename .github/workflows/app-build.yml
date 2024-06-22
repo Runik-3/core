@@ -59,18 +59,33 @@ jobs:
       
       # Build runik
       - name: Build Runik
-        run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }} 
+        if: runner.os != 'Windows'
+        run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }}
+
+      - name: Build Runik for windows
+        if: runner.os == 'Windows'
+        run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }} -nsis
 
       # Assign perms
-      - name: Macos perms
-        if: inputs.build == 'true' && runner.os == 'macOS'
+      - name: Apply macos perms
+        if:  runner.os == 'macOS'
         run: chmod +x build/bin/*/Contents/MacOS/*
-      - name: Linux perms
-        if: inputs.build == 'true' && runner.os == 'Linux'
+      - name: Apply linux perms
+        if:  runner.os == 'Linux'
         run: chmod +x build/bin/*
+
+      # Zip macos App package
+      - name: Zip macos universal binary
+        if: runner.os == 'macOS'
+        run: |
+          cd build/bin
+          zip -r runik_mac_universal.zip "Runik Core.app"
+          
          
-      # TODO: Release and upload assets
-      # - name: Upload artefacts
-      #   uses: 
-      # - name: Make release
-      #   uses:  
+      # Publish release
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            build/bin/*
