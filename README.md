@@ -1,5 +1,9 @@
 # Runik
 
+<div style="text-align: center;">
+  <img src="./assets/runik_screenshot.png" />
+</div>
+
 Generate and manage custom e-reader dictionaries for your favourite fictional worlds.
 
 ## Motivation
