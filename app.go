@@ -68,7 +68,13 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 
 // move to dict
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
-	dict, err := d.BuildDictionary(wikiUrl, name, a.dictionaryDir, 10000, depth, "json") // at least for now raw dicts should be json
+	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
+		Name:       name,
+		Output:     a.dictionaryDir,
+		EntryLimit: 10000,
+		Depth:      depth,
+		Format:     "json",
+	})
 	if err != nil {
 		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
 	}

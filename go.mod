@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/pgaskin/dictutil v0.3.2
-	github.com/runik-3/builder v0.0.0-20240507071904-0ca4a7652a04
+	github.com/runik-3/builder v0.0.0-20240707080005-9e29cdc8d8f5
 	github.com/wailsapp/wails/v2 v2.9.1
 )
 
