@@ -60,7 +60,7 @@ jobs:
         run: brew install mitchellh/gon/gon
         shell: bash
       - name: Install Windows deps
-        if: runner.os == 'macOS'
+        if: runner.os == 'Windows'
         # install gcc so windows can compile dictutil
         run: choco install mingw
         shell: pwsh 
