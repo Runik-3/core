@@ -17,5 +17,5 @@ then
 
   echo "$GREEN
 $1 created. To finalize release, push the tag with$RESET
-  git push tag origin [tagname]"
+  git push origin tag [tagname]"
 fi
