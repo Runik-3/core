@@ -4,6 +4,8 @@ import {core} from '../models';
 
 export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string):Promise<core.Response[github>;
 
+export function CheckForUpdate():Promise<boolean>;
+
 export function ConvertKoboDictionary(arg1:string):Promise<core.Response[string]>;
 
 export function DeleteDeviceDictFile(arg1:string):Promise<core.Response[string]>;

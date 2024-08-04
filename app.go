@@ -52,6 +52,10 @@ func (a *App) checkAppConfigDirExistsIfNotCreate() {
 	c.MkdirIfNotExists(a.dictionaryDir)
 }
 
+func (a *App) CheckForUpdate() bool {
+	return c.UpdateAvailable()
+}
+
 func (a *App) SelectDevice() string {
 	a.devicePath = a.selectDirectory(runtime.OpenDialogOptions{})
 	return a.devicePath

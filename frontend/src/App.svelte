@@ -3,11 +3,26 @@
   import DevicePanel from "./components/DevicePanel.svelte";
   import Generate from "./components/Generate.svelte";
   import Library from "./components/Library.svelte";
-  import Configuration from "./components/Configuration.svelte";
   import Navbar from "./components/Navbar.svelte";
   import NotificationProvider from "./components/NotificationProvider.svelte";
   import ModalProvider from "./components/ModalProvider.svelte";
   import { modalStore } from "./stores/modal";
+  import { Severity, notifications } from "./stores/notification";
+  import { onMount } from "svelte";
+  import { CheckForUpdate } from "../wailsjs/go/main/App";
+  import Warn from "./components/icons/Warn.svelte";
+
+  // on application start
+  onMount(async () => {
+    // check for updates
+    const updateAvailable = await CheckForUpdate();
+    if (updateAvailable) {
+      notifications.addNotification({
+        message: "An update is available.",
+        severity: Severity.info,
+      });
+    }
+  });
 </script>
 
 <main>
