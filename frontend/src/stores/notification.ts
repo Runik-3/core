@@ -13,6 +13,8 @@ export interface Notification {
   /** Timeout in milliseconds. If not defined, notifications can only be
   dismissed by user action. */
   timeout?: number;
+  /** The notificaton links to an exernal webpage. */
+  externalLink?: string;
   /** Get's set automatically as a random key. */
   key?: string
 }

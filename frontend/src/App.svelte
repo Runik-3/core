@@ -10,7 +10,6 @@
   import { Severity, notifications } from "./stores/notification";
   import { onMount } from "svelte";
   import { CheckForUpdate } from "../wailsjs/go/main/App";
-  import Warn from "./components/icons/Warn.svelte";
 
   // on application start
   onMount(async () => {
@@ -18,8 +17,9 @@
     const updateAvailable = await CheckForUpdate();
     if (updateAvailable) {
       notifications.addNotification({
-        message: "An update is available.",
+        message: `A new update is available. Visit runik.app to download the latest version.`,
         severity: Severity.info,
+        externalLink: "https://runik.app"
       });
     }
   });

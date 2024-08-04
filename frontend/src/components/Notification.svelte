@@ -9,6 +9,8 @@
   import Warn from "./icons/Warn.svelte";
   import Error from "./icons/Error.svelte";
   import Success from "./icons/Success.svelte";
+  import Link from "./icons/Link.svelte";
+  import { BrowserOpenURL } from "../../wailsjs/runtime/runtime"
 
   export let notification: Notification;
 
@@ -41,6 +43,9 @@
       <Icon size="24px" {color} />
     </div>
     {notification?.message}
+    {#if notification?.externalLink}
+      <a class="external-link-btn" href="#" on:click={() => BrowserOpenURL(notification.externalLink)}><Link color='#5D5D5D' /></a> 
+    {/if}
   </div>
   <button
     on:click={() => notifications.dismissNotification(notification.key)}
