@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 const RELEASES_ENDPOINT = "https://api.github.com/repos/Runik-3/core/releases"
@@ -14,18 +15,18 @@ func UpdateAvailable() bool {
 	latest := fetchLatestRelease()
 	current := getCurrentVersion()
 
-	if current != latest.Name {
+	if current != latest {
 		return true
 	}
 	return false
 }
 
 type GithubRelease struct {
-	// we only care about the name of this release for now
+	// we only care about the Name of this release for now
 	Name string `json:"name"`
 }
 
-func fetchLatestRelease() GithubRelease {
+func fetchLatestRelease() string {
 	// TODO: Mechanism for logging go process errors
 	res, err := http.Get(RELEASES_ENDPOINT)
 	if err != nil {
@@ -44,9 +45,9 @@ func fetchLatestRelease() GithubRelease {
 	}
 
 	if len(releases) == 0 {
-		return GithubRelease{}
+		return ""
 	}
-	return releases[0]
+	return strings.TrimSpace(releases[0].Name)
 }
 
 func getCurrentVersion() string {
@@ -55,5 +56,5 @@ func getCurrentVersion() string {
 		fmt.Println(err)
 	}
 
-	return string(version)
+	return strings.TrimSpace(string(version))
 }
