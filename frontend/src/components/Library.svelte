@@ -11,6 +11,8 @@
   import { onMount } from "svelte";
   import { device } from "../stores/device";
   import type { Response } from "../types/response";
+  import Anvil from "./icons/Anvil.svelte";
+  import { nav, type Nav } from "../stores/nav";
 
   export let hide = false;
 
@@ -96,7 +98,13 @@
       {/each}
     {:else}
       <!-- Empty library -->
-      <p>Nothing here yet. Generate dictionaries in the forge.</p>
+      <p>
+        Nothing here yet. Generate dictionaries in the <a
+          id="forge-link"
+          href="#"
+          on:click={() => nav.set("gen")}>forge</a
+        ><Anvil size="36" />
+      </p>
     {/if}
   </div>
   <div id="button-container">
@@ -113,5 +121,9 @@
   #button-container {
     display: flex;
     justify-content: center;
+  }
+  #forge-link {
+    color: #1f797e;
+    text-decoration: none;
   }
 </style>
