@@ -17,13 +17,13 @@ jobs:
       fail-fast: false
       matrix:
         build:
-          - name: 'Runik'
+          - name: 'runik'
             platform:  'linux/amd64'
             os: 'ubuntu-latest'
-          - name: 'Runik'
+          - name: 'runik'
             platform:  'windows/amd64'
             os: 'windows-latest'
-          - name: 'Runik'
+          - name: 'runik'
             platform:  'darwin/universal'
             os: 'macos-latest'
 
@@ -67,6 +67,7 @@ jobs:
       
       # Build runik
       - name: Build Runik
+        # macOS and Linux
         if: runner.os != 'Windows'
         run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }}
 
@@ -87,8 +88,14 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           cd build/bin
-          zip -r runik_mac_universal.zip "Runik Core.app"
+          zip -r runik_mac_universal.zip "runik.app"
           
+      # Zip Linux build and assets
+      - name: Zip linux build and assets
+        if: runner.os == 'Linux'
+        run: |
+          cd build/bin
+          zip -j -r runik_linux.zip runik ../linux ../appicon.png
          
       # Publish release
       - name: Release

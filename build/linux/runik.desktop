@@ -1,0 +1,22 @@
+[Desktop Entry]
+
+# The type as listed above
+Type=Application
+
+# The version of the desktop entry specification to which this file complies
+Version=1.0
+
+# The name of the application
+Name=runik
+
+# A comment which can/will be used as a tooltip
+Comment=Generate custom e-reader dictionaries
+
+# The executable of the application, possibly with arguments.
+Exec=runik
+
+# The name of the icon that will be used to display this entry
+Icon=/usr/share/icons/hicolor/256x256/apps/runik.png
+
+# Describes whether this application needs to be run in a terminal or not
+Terminal=false
