@@ -1,4 +1,4 @@
-app-id: org.flatpak.runik
+app-id: app.runik.runik
 runtime: org.gnome.Platform
 runtime-version: '46'
 sdk: org.gnome.Sdk
@@ -28,15 +28,18 @@ modules:
   - name: wails
     buildsystem: simple
     build-commands:
-      - go version
       - go install github.com/wailsapp/wails/v2/cmd/wails@latest
   - name: runik
     buildsystem: simple
     build-commands:
-      - go version
       - $GOBIN/wails build -tags webkit2_41 -o runik
+      # install binary
       - install -Dm755 build/bin/runik /app/bin/runik
+      # install app meta, desktop entry, icon
+      - install -Dm755 build/linux/app.runik.runik.metainfo.xml /app/share/metainfo/app.runik.runik.metainfo.xml
+      - install -Dm755 build/linux/runik.desktop /app/share/applications/runik.desktop
+      - install -Dm755 build/appicon.png /app/share/icons/hicolor/256x256/apps/app.runik.runik.png
     sources:
       - type: dir 
       # runik core root dir
-        path: ../../ 
+        path: ../../

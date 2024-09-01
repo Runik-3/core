@@ -51,8 +51,10 @@ jobs:
       # OS specific setup
       - name: Install Linux deps
         if: runner.os == 'Linux'
-        # Wails deps for linux
-        run: sudo apt-get update && sudo apt-get install libgtk-3-0 libwebkit2gtk-4.0-dev gcc-aarch64-linux-gnu
+        # Install flatpak and add flathub remote for linux bundling
+        run: |
+          sudo apt-get update && sudo apt-get install flatpak -y
+          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         shell: bash
       - name: Install macOS deps
         if: runner.os == 'macOS'
@@ -66,9 +68,17 @@ jobs:
         shell: pwsh 
       
       # Build runik
-      - name: Build Runik
-        # macOS and Linux
-        if: runner.os != 'Windows'
+      - name: Build Runik for Linux
+        if: runner.os == 'Linux'
+        run: |
+          flatpak-builder --force-clean --user --install-deps-from=flathub --repo=build/bin/repo build/bin/build-dir build/linux/app.runik.runik.yml && \
+          flatpak build-bundle build/bin/repo build/bin/runik.flatpak app.runik.runik && \
+          rm -r build/bin/repo && \
+          rm -r build/bin/build-dir && \
+          rm -r .flatpak-builder
+
+      - name: Build Runik for macOS
+        if: runner.os == 'macOS'
         run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }}
 
       - name: Build Runik for windows
@@ -79,23 +89,14 @@ jobs:
       - name: Apply macos perms
         if:  runner.os == 'macOS'
         run: chmod +x build/bin/*/Contents/MacOS/*
-      - name: Apply linux perms
-        if:  runner.os == 'Linux'
-        run: chmod +x build/bin/*
 
       # Zip macos App package
       - name: Zip macos universal binary
         if: runner.os == 'macOS'
         run: |
           cd build/bin
+          # TODO: Bundle .app into .dmg image
           zip -r runik_mac_universal.zip "runik.app"
-          
-      # Zip Linux build and assets
-      - name: Zip linux build and assets
-        if: runner.os == 'Linux'
-        run: |
-          cd build/bin
-          zip -j -r runik_linux.zip runik ../linux ../appicon.png
          
       # Publish release
       - name: Release

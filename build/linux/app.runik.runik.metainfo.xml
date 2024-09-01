@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.runik.runik</id>
+  
+  <name>runik</name>
+  <summary>Generate and manage custom e-reader dictionaries</summary>
+  <url type="homepage">https://runik.app</url>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  
+  <recommends>
+    <display_length compare="ge">600</display_length>
+  </recommends>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  
+  <description>
+    <p>
+      Runik leverages the crowd-sourced info of fan wikis to generate custom e-reader dictionaries, extending the vocabulary of your e-reader to include fictional references specific to the world of your book.
+    </p>
+    <p>
+      Stay immersed in your book with in-text definitions for items, characters, and locations unique to that wolrd. No wifi, no jailbreaking, no need to put down your device.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">runik.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/Runik-3/core/blob/main/assets/runik_screenshot.png</image>
+    </screenshot>
+  </screenshots>
+</component>
