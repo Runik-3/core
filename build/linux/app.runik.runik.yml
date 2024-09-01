@@ -1,0 +1,45 @@
+app-id: app.runik.runik
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+  - org.freedesktop.Sdk.Extension.node18
+build-options:
+  build-args:
+    - --share=network
+  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node18/bin
+  env:
+    GOBIN: /app/bin
+    GOROOT: /usr/lib/sdk/golang
+command: runik
+finish-args:
+  - --share=ipc 
+  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+  - --filesystem=home
+  - --filesystem=host
+  - --share=network
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: wails
+    buildsystem: simple
+    build-commands:
+      - go install github.com/wailsapp/wails/v2/cmd/wails@latest
+  - name: runik
+    buildsystem: simple
+    build-commands:
+      - $GOBIN/wails build -tags webkit2_41 -o runik
+      # install binary
+      - install -Dm755 build/bin/runik /app/bin/runik
+      # install app meta, desktop entry, icon
+      - install -Dm755 build/linux/app.runik.runik.metainfo.xml /app/share/metainfo/app.runik.runik.metainfo.xml
+      - install -Dm755 build/linux/runik.desktop /app/share/applications/runik.desktop
+      - install -Dm755 build/appicon.png /app/share/icons/hicolor/256x256/apps/app.runik.runik.png
+    sources:
+      - type: dir 
+      # runik core root dir
+        path: ../../
