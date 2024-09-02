@@ -5,15 +5,14 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"strings"
 )
 
 const RELEASES_ENDPOINT = "https://api.github.com/repos/Runik-3/core/releases"
 
-func UpdateAvailable() bool {
+func UpdateAvailable(version string) bool {
 	latest := fetchLatestRelease()
-	current := getCurrentVersion()
+	current := strings.TrimSpace(string(version))
 
 	if current != latest {
 		return true
@@ -48,13 +47,4 @@ func fetchLatestRelease() string {
 		return ""
 	}
 	return strings.TrimSpace(releases[0].Name)
-}
-
-func getCurrentVersion() string {
-	version, err := os.ReadFile("version")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return strings.TrimSpace(string(version))
 }

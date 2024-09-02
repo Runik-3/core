@@ -5,12 +5,17 @@ import (
 	"log"
 	"path/filepath"
 
+	_ "embed"
+
 	d "github.com/runik-3/builder/dict"
 	wikibot "github.com/runik-3/builder/wikiBot"
 	c "github.com/runik-3/core/core"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
+
+//go:embed version
+var version string
 
 // App struct
 type App struct {
@@ -53,7 +58,7 @@ func (a *App) checkAppConfigDirExistsIfNotCreate() {
 }
 
 func (a *App) CheckForUpdate() bool {
-	return c.UpdateAvailable()
+	return c.UpdateAvailable(version)
 }
 
 func (a *App) SelectDevice() string {
