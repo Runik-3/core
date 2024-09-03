@@ -14,7 +14,7 @@ Runik leverages the crowd-sourced info of fan wikis to generate custom e-reader 
 
 ## Limitations
 
-Runik is in early developmenet and currently **only supports Kobo e-readers**. Kindle support is in the works and coming in a future update. In the meantime, if you are a tinkerer, you can use the [Runik Builder](https://github.com/Runik-3/builder) tool to generate dictionaries and use one of the many other tools out there to convert it for use with Kindle devices.
+Runik is in early development and currently **only supports Kobo e-readers**. Kindle support is in the works and coming in a future update. In the meantime, if you are a tinkerer, you can use the [Runik Builder](https://github.com/Runik-3/builder) tool to generate dictionaries and use one of the many other tools out there to convert it for use with Kindle devices.
 
 Runik is designed to work on wikis built with [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki). There is a decent amount of variablility in the way wikis can be configured and runik is not guaranteed to work with all wikis. Runik was mostly tested against Fandom wikis which are generally pretty consistent and *should* work best.
 

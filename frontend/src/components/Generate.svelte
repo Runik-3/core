@@ -90,7 +90,12 @@
 <ContentLayout {hide}>
   <h2>Dictionary Forge</h2>
   <div class="input-container">
-    <label for="wiki-input"><strong>Wiki Url</strong></label>
+    <label for="wiki-input"
+      ><strong>Wiki Url</strong><InfoPopover
+        >The URL linking to the wiki you wish to use for dictionary generation.
+        It's best to provide a main page link or direct api endpoint.</InfoPopover
+      >
+    </label>
     <div>
       <input
         id="wiki-input"
@@ -107,11 +112,9 @@
   <div class="input-container depth-container">
     <label for="depth-input"
       ><strong>Depth</strong><InfoPopover
-        >The number of sentences that compose each definition, starting from the
-        first line of the wiki article content. Because definitions are drawn
-        from wiki page content, spoiler free definitions cannot be guaranteed.
-        For that reason, the recommended default depth is 2, which tends to
-        provide adequate context while also reducing the risk of spoilers.</InfoPopover
+        >The number of sentences that make up each definition. The recommended
+        value is 2 or 3 to provide enough context while avoiding unexpected
+        spoilers.</InfoPopover
       ></label
     >
     <input id="depth-input" type="number" bind:value={depth} />
