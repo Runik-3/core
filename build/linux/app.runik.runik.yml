@@ -4,11 +4,11 @@ runtime-version: '46'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node18
+  - org.freedesktop.Sdk.Extension.node20
 build-options:
   build-args:
     - --share=network
-  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node18/bin
+  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node20/bin
   env:
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang

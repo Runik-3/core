@@ -65,11 +65,14 @@ func ConvertForReader(pathToRawDict string, outputDir string) (string, error) {
 //
 // Due to differences in firmware, this seems like the best way to handle
 // custom dictionary names. Newer Kobos don't appear to have a dictionary
-// table in the sqlite database to inject custom dict names so we're
-// falling back on a prefix.
+// table in the sqlite database to inject custom dict names based on iso
+// language codes, so we're falling back on using the dicthtml prefixed
+// dictionary name. Because we don't want the first couple of letters of
+// dict title to be misread as a language code this also needs to be
+// prefixed with a character, hence the [r].
 //
-// This isn't ideal because the `dicthtml` prefix is not very user friendly.
-// Long term,
+// This isn't ideal because users will see `dicthtml` prefix is not very
+// friendly.
 func getDeviceReadableName(dictName string) string {
 	return "dicthtml-[r]" + dictName + ".zip"
 }
