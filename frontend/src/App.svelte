@@ -19,7 +19,7 @@
       notifications.addNotification({
         message: `A new update is available. Visit runik.app to download the latest version.`,
         severity: Severity.info,
-        externalLink: "https://runik.app"
+        externalLink: "https://runik.app",
       });
     }
   });
@@ -35,7 +35,7 @@
     <!-- Disabled until we have global config to add. -->
     <!-- <Configuration hide={$nav !== "conf"} /> -->
   </div>
-  <div id="dev">
+  <div id="device">
     <DevicePanel />
   </div>
   <NotificationProvider />
@@ -52,7 +52,7 @@
     grid-template-columns: auto minmax(300px, 350px);
     grid-template-areas:
       "nav nav"
-      "view dev";
+      "view device";
   }
   #nav {
     grid-area: nav;
@@ -60,9 +60,11 @@
 
   #view {
     grid-area: view;
+    height: 100%;
   }
 
-  #dev {
-    grid-area: dev;
+  #device {
+    grid-area: device;
+    height: 100%;
   }
 </style>

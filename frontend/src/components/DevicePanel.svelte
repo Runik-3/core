@@ -53,6 +53,7 @@
   #device-panel {
     padding: 24px;
     height: calc(100% - 48px); /* minus top nav */
+    overflow: auto;
     display: grid;
     grid-template-rows: 48px auto 32px;
   }
@@ -72,7 +73,6 @@
     border: 1px #a5a5a5 solid;
     border-radius: 8px;
     padding: 8px 16px;
-    min-height: 100px;
     height: calc(100vh - 524px); /* overflow needs a set number for height */
     overflow-y: auto;
   }

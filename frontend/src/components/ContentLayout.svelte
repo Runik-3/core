@@ -10,7 +10,8 @@
 <style>
   div {
     padding: 24px;
-    height: 100%;
+    height: calc(100vh - 48px);
+    overflow: auto;
     background-color: white;
     border-top-right-radius: 16px;
     box-sizing: border-box;

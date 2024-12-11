@@ -2,8 +2,6 @@
   import { nav, type Nav } from "../stores/nav";
   import Anvil from "./icons/Anvil.svelte";
   import Book from "./icons/Book.svelte";
-  import Runik from "./icons/Runik.svelte";
-  import Cog from "./icons/Cog.svelte";
 
   const navigate = (location: Nav) => {
     nav.set(location);
@@ -11,7 +9,6 @@
 </script>
 
 <nav>
-  <button on:click={() => {}}><Runik color="white" size="24px" /></button>
   <button
     class={`${$nav === "lib" && "active"}`}
     on:click={() => navigate("lib")}
@@ -52,9 +49,6 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-  }
-  button:first-of-type {
-    background-color: #202020;
   }
   .active {
     background-color: white;
