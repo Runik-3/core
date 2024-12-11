@@ -29,13 +29,13 @@
 
 /* Source serif fonts */
 @font-face {
-  font-family: "source serif";
-  src: url("./assets/SourceSerif4-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-family: "serif";
+  src: url("./assets/SourceSerif4-VariableFont_opsz\,wght.ttf");
   font-style: normal;
 }
 @font-face {
-  font-family: "source serif";
-  src: url("./assets/SourceSerif4-Italic-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-family: "serif";
+  src: url("./assets/SourceSerif4-Italic-VariableFont_opsz\,wght.ttf");
   font-style: italic;
 }
 
