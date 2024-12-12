@@ -72,18 +72,20 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           flatpak-builder --force-clean --user --install-deps-from=flathub --repo=build/bin/repo build/bin/build-dir build/linux/app.runik.runik.yml && \
-          flatpak build-bundle build/bin/repo build/bin/runik.flatpak app.runik.runik && \
+          flatpak build-bundle build/bin/repo build/bin/runik_linux.flatpak app.runik.runik && \
           rm -r build/bin/repo && \
           rm -r build/bin/build-dir && \
           rm -r .flatpak-builder
 
       - name: Build Runik for macOS
         if: runner.os == 'macOS'
-        run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }}
+        run: wails build --platform ${{ matrix.build.platform }}
 
       - name: Build Runik for windows
         if: runner.os == 'Windows'
-        run: wails build --platform ${{ matrix.build.platform }} -o ${{ matrix.build.name }}_${{ runner.os }} -nsis
+        run: |
+          wails build --platform ${{ matrix.build.platform }} -nsis
+          mv build\bin\runik-amd64-installer.exe build\bin\runik_windows.exe
 
       # Assign perms
       - name: Apply macos perms
@@ -104,4 +106,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            build/bin/*
+            build/bin/runik_*
