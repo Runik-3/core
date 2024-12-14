@@ -7,6 +7,7 @@
   import { device } from "../stores/device";
   import { modalStore } from "../stores/modal";
   import { ReadLocalDictionary } from "../../wailsjs/go/main/App";
+  import Show from "./icons/Show.svelte";
 
   export let dict: DictFile;
   export let selected = false;
@@ -68,21 +69,23 @@
     {/if}
     {dict.Display}
   </div>
-  <button
-    class="list-item-delete"
-    aria-label={`delete ${dict.Name}`}
-    type="button"
-    on:click={() => loadDict(dict)}
-  >
-    view
-  </button>
   <span class="list-btn-container">
     {#if !compact}
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
     {/if}
+    {#if !compact}
+      <button
+        class="list-item-button"
+        aria-label={`view ${dict.Name}`}
+        type="button"
+        on:click={() => loadDict(dict)}
+      >
+        <Show size="16px" color="#c76767" />
+      </button>
+    {/if}
     <button
-      class="list-item-delete"
+      class="list-item-button"
       aria-label={`delete ${dict.Name}`}
       type="button"
       on:click={() => deleteDictionary(dict)}
@@ -121,17 +124,20 @@
   }
   .list-btn-container {
     display: grid;
-    grid-template-columns: 1fr 1fr min-content;
+    grid-template-columns: 1fr 1fr 1fr min-content;
     grid-gap: 24px;
     text-align: right;
     align-items: center;
   }
-  .list-item-delete {
+  .list-item-button {
     border: none;
     background-color: transparent;
     cursor: pointer;
   }
-  button {
+  button:nth-last-child(2) {
     grid-column: 3/3;
+  }
+  button:last-child {
+    grid-column: 4/4;
   }
 </style>

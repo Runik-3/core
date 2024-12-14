@@ -12,6 +12,7 @@
     modalStore.set(null);
   };
 
+  // TODO - search should prioritize word matches
   $: filteredDefs = dict.filter((def) => {
     if (!search) {
       return true;
@@ -26,12 +27,33 @@
 <div id="modal-container">
   <div id="modal">
     <div id="modal-content">
-      <h2>{title}</h2>
-      <input type="text" bind:value={search} />
+      <div id="modal-header">
+        <h2>{title}</h2>
+        <input
+          type="text"
+          bind:value={search}
+          placeholder="Search definitions"
+        />
+      </div>
       <div id="modal-data">
-        {#each filteredDefs as def}
-          <p><strong>{def.Word}:</strong> {def.Definition}</p>
-        {/each}
+        {#if Object.keys(filteredDefs).length}
+          <table>
+            <thead>
+              <th>Word</th>
+              <th>Definition</th>
+            </thead>
+            {#each filteredDefs as def}
+              <tr>
+                <th>{def.Word}</th>
+                <td>{def.Definition}</td>
+              </tr>
+            {/each}
+          </table>
+        {:else if search && !Object.keys(filteredDefs).length}
+          <p>No matching definitions.</p>
+        {:else}
+          <p>This dictionary is empty.</p>
+        {/if}
       </div>
     </div>
     <div id="modal-buttons">
@@ -81,15 +103,34 @@
   #btn-divider {
     width: 16px;
   }
-  input {
+  #modal-header {
+    display: flex;
+  }
+  #modal-header input {
     border: black 1px solid;
+    width: 100%;
+    margin-left: 32px;
+    padding: 8px;
   }
   #modal-data {
     margin-top: 16px;
+    /* TODO - fix this hardcoding, it's not scalable. */
     height: 70vh;
     overflow-y: auto;
   }
-  p {
-    margin-bottom: 8px;
+  table * {
+    border: 1px black solid;
+    padding: 4px;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  thead th {
+    padding: 16px;
+    min-width: 144px;
+  }
+  tr th {
+    text-align: left;
+    vertical-align: top;
   }
 </style>
