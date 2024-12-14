@@ -4,7 +4,6 @@
 
   const { title, description, confirmFn, confirmLabel, cancelFn } = $modalStore;
   const dict = JSON.parse(description);
-
   let search = "";
 
   const confirm = () => {
@@ -12,16 +11,23 @@
     modalStore.set(null);
   };
 
-  // TODO - search should prioritize word matches
-  $: filteredDefs = dict.filter((def) => {
-    if (!search) {
-      return true;
-    }
-    return (
-      def.Word.toLowerCase().includes(search.toLowerCase()) ||
-      def.Definition.toLowerCase().includes(search.toLowerCase())
-    );
-  });
+  $: filteredDefs = [
+    ...new Set([
+      // We prioritize word matches over matches within the definition.
+      ...dict.filter((def: { Word: string; Definition: string }) => {
+        if (!search) {
+          return true;
+        }
+        return def.Word.toLowerCase().includes(search.toLowerCase());
+      }),
+      ...dict.filter((def: { Word: string; Definition: string }) => {
+        if (!search) {
+          return true;
+        }
+        return def.Definition.toLowerCase().includes(search.toLowerCase());
+      }),
+    ]),
+  ];
 </script>
 
 <div id="modal-container">
