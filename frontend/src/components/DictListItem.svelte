@@ -125,9 +125,10 @@
   .list-btn-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr min-content;
-    grid-gap: 24px;
+    grid-gap: 12px;
     text-align: right;
     align-items: center;
+    margin-left: 24px;
   }
   .list-item-button {
     border: none;

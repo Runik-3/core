@@ -41,16 +41,26 @@
     height: 100%;
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: end;
   }
   button {
     width: 72px;
-    height: 100%;
+    border-radius: 4px 4px 0 0;
+    height: 80%;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  button:hover {
+    background-color: #b5b5b5;
   }
   .active {
+    background-color: white;
+  }
+  .active:hover {
     background-color: white;
   }
 </style>
