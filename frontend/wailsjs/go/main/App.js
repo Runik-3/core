@@ -34,6 +34,10 @@ export function GetWikiDetails(arg1) {
   return window['go']['main']['App']['GetWikiDetails'](arg1);
 }
 
+export function ReadLocalDictionary(arg1) {
+  return window['go']['main']['App']['ReadLocalDictionary'](arg1);
+}
+
 export function SelectDevice() {
   return window['go']['main']['App']['SelectDevice']();
 }

@@ -4,6 +4,7 @@ export interface ModalProps {
   title: string
   description: string
   confirmFn: () => void
+  modalType?: string 
   cancelFn?: () => void
   confirmLabel?: string
 }

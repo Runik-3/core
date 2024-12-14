@@ -1,11 +1,12 @@
 <script lang="ts">
-  import type { DictFile } from "../types/dict";
+  import type { DictFile, Dict } from "../types/dict";
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
   import { library } from "../stores/library";
   import type { Response } from "../types/response";
   import { device } from "../stores/device";
-  import { modalStore } from "..//stores/modal";
+  import { modalStore } from "../stores/modal";
+  import { ReadLocalDictionary } from "../../wailsjs/go/main/App";
 
   export let dict: DictFile;
   export let selected = false;
@@ -18,6 +19,17 @@
       title: "Confirm delete",
       description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
       confirmFn: () => confirmedDelete(dict),
+    });
+  };
+
+  const loadDict = async (dict: DictFile) => {
+    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
+
+    modalStore.set({
+      title: res.Data.Name,
+      description: JSON.stringify(res.Data.Lexicon) || "",
+      confirmFn: () => {},
+      modalType: "dict",
     });
   };
 
@@ -56,6 +68,14 @@
     {/if}
     {dict.Display}
   </div>
+  <button
+    class="list-item-delete"
+    aria-label={`delete ${dict.Name}`}
+    type="button"
+    on:click={() => loadDict(dict)}
+  >
+    view
+  </button>
   <span class="list-btn-container">
     {#if !compact}
       <span>{dict.Modified.split("T")[0]}</span>

@@ -6,3 +6,11 @@ export interface DictFile {
   // ISO string
   Modified: string;
 }
+
+export interface Dict {
+  Name: string
+  Lexicon: {
+    Word: string
+    Definition: string
+  }
+}

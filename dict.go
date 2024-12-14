@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
 
+	d "github.com/runik-3/builder/dict"
 	c "github.com/runik-3/core/core"
 )
 
@@ -55,6 +57,20 @@ func (a *App) GetDeviceDictionaries() c.Response[[]File] {
 	}
 
 	return c.Response[[]File]{Data: deviceDicts, Error: ""}
+}
+
+func (a *App) ReadLocalDictionary(name string) c.Response[d.Dict] {
+	path := filepath.Join(a.dictionaryDir, name)
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
+	}
+
+	var dict d.Dict
+	err = json.Unmarshal(data, &dict)
+
+	return c.Response[d.Dict]{Data: dict, Error: ""}
 }
 
 func (a *App) DeleteLocalDictFile(name string) c.Response[string] {
