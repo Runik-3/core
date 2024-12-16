@@ -32,35 +32,27 @@
 
 <div id="modal-container">
   <div id="modal">
-    <div id="modal-content">
-      <div id="modal-header">
-        <h2>{title}</h2>
-        <input
-          type="text"
-          bind:value={search}
-          placeholder="Search definitions"
-        />
-      </div>
-      <div id="modal-data">
-        {#if Object.keys(filteredDefs).length}
-          <table>
-            <thead>
-              <th>Word</th>
-              <th>Definition</th>
-            </thead>
+    <div id="modal-header">
+      <h2>{title}</h2>
+      <input type="text" bind:value={search} placeholder="Search definitions" />
+    </div>
+    <div id="modal-data">
+      {#if Object.keys(filteredDefs).length}
+        <table>
+          <tbody>
             {#each filteredDefs as def}
               <tr>
                 <th>{def.Word}</th>
                 <td>{def.Definition}</td>
               </tr>
             {/each}
-          </table>
-        {:else if search && !Object.keys(filteredDefs).length}
-          <p>No matching definitions.</p>
-        {:else}
-          <p>This dictionary is empty.</p>
-        {/if}
-      </div>
+          </tbody>
+        </table>
+      {:else if search && !Object.keys(filteredDefs).length}
+        <p>No matching definitions.</p>
+      {:else}
+        <p>This dictionary is empty.</p>
+      {/if}
     </div>
     <div id="modal-buttons">
       <Button
@@ -89,18 +81,19 @@
     justify-content: center;
   }
   #modal {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
     box-sizing: border-box;
     padding: 24px;
     z-index: 9999;
     background-color: white;
     width: 90%;
     height: 90%;
-    min-width: 300px;
-    min-height: 200px;
     border-radius: 8px;
-    justify-content: space-between;
+  }
+  #modal-data {
+    overflow-y: auto;
+    margin-bottom: 32px;
   }
   #modal-buttons {
     width: 100%;
@@ -113,30 +106,26 @@
     display: flex;
   }
   #modal-header input {
-    border: black 1px solid;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid lightgrey;
+    font-size: 0.9rem;
     width: 100%;
     margin-left: 32px;
-    padding: 8px;
   }
   #modal-data {
     margin-top: 16px;
-    /* TODO - fix this hardcoding, it's not scalable. */
-    height: 70vh;
     overflow-y: auto;
   }
   table * {
-    border: 1px black solid;
-    padding: 4px;
+    padding: 12px 4px;
   }
   table {
     border-collapse: collapse;
   }
-  thead th {
-    padding: 16px;
-    min-width: 144px;
-  }
   tr th {
     text-align: left;
+    min-width: 144px;
     vertical-align: top;
   }
 </style>

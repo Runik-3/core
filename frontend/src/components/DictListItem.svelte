@@ -81,7 +81,7 @@
         type="button"
         on:click={() => loadDict(dict)}
       >
-        <Show size="16px" color="#c76767" />
+        <Show size="17px" color="#5d5d5d" />
       </button>
     {/if}
     <button
