@@ -41,3 +41,7 @@ export function ReadLocalDictionary(arg1) {
 export function SelectDevice() {
   return window['go']['main']['App']['SelectDevice']();
 }
+
+export function WriteLocalDictionary(arg1) {
+  return window['go']['main']['App']['WriteLocalDictionary'](arg1);
+}

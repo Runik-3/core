@@ -73,6 +73,14 @@ func (a *App) ReadLocalDictionary(name string) c.Response[d.Dict] {
 	return c.Response[d.Dict]{Data: dict, Error: ""}
 }
 
+func (a *App) WriteLocalDictionary(dict d.Dict) c.Response[string] {
+	path, err := dict.Write(a.dictionaryDir, "json")
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+	return c.Response[string]{Data: path, Error: ""}
+}
+
 func (a *App) DeleteLocalDictFile(name string) c.Response[string] {
 	dictFilePath := filepath.Join(a.dictionaryDir, name)
 	err := os.Remove(dictFilePath)

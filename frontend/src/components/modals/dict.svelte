@@ -1,30 +1,62 @@
 <script lang="ts">
-  import { modalStore } from "../..//stores/modal";
+  import type { Response } from "../../types/response";
+  import { WriteLocalDictionary } from "../../../wailsjs/go/main/App";
+  import { modalStore } from "../../stores/modal";
   import Button from "../Button.svelte";
+  import DictModalDefinition from "./dictModalDefinition.svelte";
+  import { notifications, Severity } from "../../stores/notification";
+  import type { Definition, EditableDefinition } from "../../types/dict";
 
-  const { title, description, confirmFn, confirmLabel, cancelFn } = $modalStore;
-  const dict = JSON.parse(description);
+  const { title, description, cancelFn } = $modalStore;
+  const lexicon: EditableDefinition[] = JSON.parse(description).map(
+    (def: Definition) => ({
+      initWord: def.Word,
+      initDefinition: def.Definition,
+      ...def,
+    }),
+  );
+
   let search = "";
+  let anyDefsChanged = false;
 
-  const confirm = () => {
-    confirmFn();
-    modalStore.set(null);
+  // this should write the new dict to disk
+  const saveEdits = async () => {
+    if (anyDefsChanged) {
+      const res: Response<string> = await WriteLocalDictionary({
+        Name: title,
+        Lexicon: lexicon,
+      });
+      if (res.Error) {
+        notifications.addNotification({
+          message: "Failed to save changes. Please try again.",
+          severity: Severity.error,
+        });
+      } else {
+        notifications.addNotification({
+          message: "Successfully saved changes.",
+          severity: Severity.info,
+          timeout: 5000,
+        });
+      }
+
+      modalStore.set(null);
+    }
   };
 
   $: filteredDefs = [
     ...new Set([
       // We prioritize word matches over matches within the definition.
-      ...dict.filter((def: { Word: string; Definition: string }) => {
+      ...lexicon.filter((def: EditableDefinition) => {
         if (!search) {
           return true;
         }
-        return def.Word.toLowerCase().includes(search.toLowerCase());
+        return def.initWord.toLowerCase().includes(search.toLowerCase());
       }),
-      ...dict.filter((def: { Word: string; Definition: string }) => {
+      ...lexicon.filter((def: EditableDefinition) => {
         if (!search) {
           return true;
         }
-        return def.Definition.toLowerCase().includes(search.toLowerCase());
+        return def.initDefinition.toLowerCase().includes(search.toLowerCase());
       }),
     ]),
   ];
@@ -41,10 +73,7 @@
         <table>
           <tbody>
             {#each filteredDefs as def}
-              <tr>
-                <th>{def.Word}</th>
-                <td>{def.Definition}</td>
-              </tr>
+              <DictModalDefinition {def} bind:anyDefsChanged />
             {/each}
           </tbody>
         </table>
@@ -59,11 +88,11 @@
         onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
         maxWidth
         small
-        type="secondary">Cancel</Button
+        type="secondary">Close</Button
       >
       <div id="btn-divider"></div>
-      <Button onClick={confirm} maxWidth small
-        >{confirmLabel || "Confirm"}</Button
+      <Button onClick={saveEdits} maxWidth disabled={!anyDefsChanged} small
+        >Save changes</Button
       >
     </div>
   </div>
@@ -116,16 +145,5 @@
   #modal-data {
     margin-top: 16px;
     overflow-y: auto;
-  }
-  table * {
-    padding: 12px 4px;
-  }
-  table {
-    border-collapse: collapse;
-  }
-  tr th {
-    text-align: left;
-    min-width: 144px;
-    vertical-align: top;
   }
 </style>
