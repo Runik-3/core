@@ -18,6 +18,7 @@
 
   let search = "";
   let anyDefsChanged = false;
+  let timeoutID = null;
 
   // this should write the new dict to disk
   const saveEdits = async () => {
@@ -43,19 +44,29 @@
     }
   };
 
+  // debounce search
+  const handleSearch = (
+    e: Event & {
+      currentTarget: EventTarget & HTMLInputElement;
+      target: HTMLInputElement;
+    },
+  ) => {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+      timeoutID = null;
+    }
+    timeoutID = setTimeout(() => {
+      search = e.target.value;
+    }, 400);
+  };
+
   $: filteredDefs = [
     ...new Set([
       // We prioritize word matches over matches within the definition.
       ...lexicon.filter((def: EditableDefinition) => {
-        if (!search) {
-          return true;
-        }
         return def.initWord.toLowerCase().includes(search.toLowerCase());
       }),
       ...lexicon.filter((def: EditableDefinition) => {
-        if (!search) {
-          return true;
-        }
         return def.initDefinition.toLowerCase().includes(search.toLowerCase());
       }),
     ]),
@@ -66,7 +77,11 @@
   <div id="modal">
     <div id="modal-header">
       <h2>{title}</h2>
-      <input type="text" bind:value={search} placeholder="Search definitions" />
+      <input
+        type="text"
+        on:input={handleSearch}
+        placeholder="Search definitions"
+      />
     </div>
     <div id="modal-data">
       {#if Object.keys(filteredDefs).length}
