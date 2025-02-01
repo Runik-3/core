@@ -1,10 +1,13 @@
 import { writable } from "svelte/store";
+import type { Response } from "../types/response";
+import type { Dict } from "../types/dict";
 
 export interface ModalProps {
   title: string
-  description: string
-  confirmFn: () => void
-  modalType?: string 
+  description?: string
+  dictData?: Dict
+  confirmFn?: () => void
+  modalType?: string
   cancelFn?: () => void
   confirmLabel?: string
 }

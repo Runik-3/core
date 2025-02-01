@@ -28,8 +28,7 @@
 
     modalStore.set({
       title: res.Data.Name,
-      description: JSON.stringify(res.Data.Lexicon) || "",
-      confirmFn: () => {},
+      dictData: res.Data,
       modalType: "dict",
     });
   };

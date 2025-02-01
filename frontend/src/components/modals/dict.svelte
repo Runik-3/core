@@ -7,8 +7,8 @@
   import { notifications, Severity } from "../../stores/notification";
   import type { Definition, EditableDefinition } from "../../types/dict";
 
-  const { title, description, cancelFn } = $modalStore;
-  const lexicon: EditableDefinition[] = JSON.parse(description).map(
+  const { title, dictData, cancelFn } = $modalStore;
+  const lexicon: EditableDefinition[] = dictData.Lexicon.map(
     (def: Definition) => ({
       initWord: def.Word,
       initDefinition: def.Definition,
