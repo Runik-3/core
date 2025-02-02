@@ -8,7 +8,7 @@
   import type { Definition, EditableDefinition } from "../../types/dict";
 
   const { title, dictData, cancelFn } = $modalStore;
-  const lexicon: EditableDefinition[] = dictData.Lexicon.map(
+  let lexicon: EditableDefinition[] = dictData.Lexicon.map(
     (def: Definition) => ({
       initWord: def.Word,
       initDefinition: def.Definition,
@@ -42,6 +42,11 @@
 
       modalStore.set(null);
     }
+  };
+
+  const deleteEntry = (word: string) => {
+    lexicon = lexicon.filter((entry) => entry.Word !== word);
+    anyDefsChanged = true;
   };
 
   // debounce search
@@ -79,9 +84,9 @@
 
   $: pageStart = (currPage - 1) * pageSize;
   $: pageEnd =
-    pageStart + pageSize < lexicon.length
+    pageStart + pageSize < filteredDefs.length
       ? pageStart + pageSize
-      : lexicon.length;
+      : filteredDefs.length;
   $: page = filteredDefs.slice(pageStart, pageEnd);
 </script>
 
@@ -125,7 +130,7 @@
         <table>
           <tbody>
             {#each page as def}
-              <DictModalDefinition {def} bind:anyDefsChanged />
+              <DictModalDefinition {def} bind:anyDefsChanged {deleteEntry} />
             {/each}
           </tbody>
         </table>

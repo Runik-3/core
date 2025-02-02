@@ -99,7 +99,7 @@
     <div>
       <input
         id="wiki-input"
-        placeholder="https://kingkiller.fandom.com/wiki/Kingkiller_Wiki"
+        placeholder="https://kingkiller.fandom.com"
         type="text"
         bind:value={url}
       />

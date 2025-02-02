@@ -2,9 +2,12 @@
   import Edit from "../icons/Edit.svelte";
   import Check from "../icons/Check.svelte";
   import type { EditableDefinition } from "../../types/dict";
+  import Garbage from "../icons/Garbage.svelte";
 
   export let def: EditableDefinition;
   export let anyDefsChanged: boolean;
+  export let deleteEntry: (w: string) => void;
+
   let editMode = false;
 
   $: defChanged =
@@ -41,19 +44,27 @@
       <button on:click={() => (editMode = true)} class="edit-btn"
         ><Edit color="#5d5d5d" /></button
       >
+      <button on:click={() => deleteEntry(def.Word)} class="edit-btn"
+        ><Garbage color="#c76767" size="14" /></button
+      >
     </td>
   {/if}
 </tr>
 
 <style>
-  tr * {
-    padding: 16px 8px;
-    text-align: left;
-    vertical-align: top;
+  tr {
   }
   td,
   th {
+    /* Because of how table cells stretch, this acts as min-height */
+    height: 92px;
+    padding: 16px 8px;
     border: 1px transparent solid;
+    text-align: left;
+    vertical-align: top;
+  }
+  td button {
+    padding: 8px;
   }
   tr [contenteditable] {
     outline: none;
