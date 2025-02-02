@@ -59,10 +59,7 @@
     outline: none;
     border-radius: 4px;
     border: 1px gray solid;
-    box-shadow:
-      0 2px 8px 0 rgba(0, 0, 0, 0.2),
-      0 2px 8px 0 rgba(0, 0, 0, 0.19);
-    color: dimgray;
+    background-color: whitesmoke;
   }
   tr th {
     min-width: 144px;

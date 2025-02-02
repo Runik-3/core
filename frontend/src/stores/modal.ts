@@ -1,5 +1,4 @@
 import { writable } from "svelte/store";
-import type { Response } from "../types/response";
 import type { Dict } from "../types/dict";
 
 export interface ModalProps {

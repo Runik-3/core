@@ -57,6 +57,7 @@
     }
     timeoutID = setTimeout(() => {
       search = e.target.value;
+      currPage = 1;
     }, 400);
   };
 
@@ -71,6 +72,17 @@
       }),
     ]),
   ];
+
+  let currPage = 1;
+  let pageSize = 200;
+  $: maxPages = Math.floor(filteredDefs.length / pageSize + 1);
+
+  $: pageStart = (currPage - 1) * pageSize;
+  $: pageEnd =
+    pageStart + pageSize < lexicon.length
+      ? pageStart + pageSize
+      : lexicon.length;
+  $: page = filteredDefs.slice(pageStart, pageEnd);
 </script>
 
 <div id="modal-container">
@@ -82,33 +94,63 @@
         on:input={handleSearch}
         placeholder="Search definitions"
       />
+      <div id="paging-container">
+        <button
+          on:click={() => {
+            if (currPage !== 1) {
+              currPage--;
+            }
+          }}>&lt</button
+        >
+        <div id="paging-select-container">
+          page:
+          <select bind:value={currPage}>
+            {#each { length: maxPages } as _, i}
+              <option value={i + 1}>{i + 1}</option>
+            {/each}
+          </select>
+          <span>/{maxPages}</span>
+        </div>
+        <button
+          on:click={() => {
+            if (currPage !== maxPages) {
+              currPage++;
+            }
+          }}>&gt</button
+        >
+      </div>
     </div>
     <div id="modal-data">
       {#if Object.keys(filteredDefs).length}
         <table>
           <tbody>
-            {#each filteredDefs as def}
+            {#each page as def}
               <DictModalDefinition {def} bind:anyDefsChanged />
             {/each}
           </tbody>
         </table>
-      {:else if search && !Object.keys(filteredDefs).length}
+      {:else if search && !Object.keys(page).length}
         <p>No matching definitions.</p>
       {:else}
         <p>This dictionary is empty.</p>
       {/if}
     </div>
-    <div id="modal-buttons">
-      <Button
-        onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
-        maxWidth
-        small
-        type="secondary">Close</Button
-      >
-      <div id="btn-divider"></div>
-      <Button onClick={saveEdits} maxWidth disabled={!anyDefsChanged} small
-        >Save changes</Button
-      >
+    <div id="footer">
+      <div id="count">
+        showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
+      </div>
+      <div id="modal-buttons">
+        <Button
+          onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
+          maxWidth
+          small
+          type="secondary">Close</Button
+        >
+        <div id="btn-divider"></div>
+        <Button onClick={saveEdits} maxWidth disabled={!anyDefsChanged} small
+          >Save changes</Button
+        >
+      </div>
     </div>
   </div>
 </div>
@@ -137,17 +179,15 @@
   }
   #modal-data {
     overflow-y: auto;
-    margin-bottom: 32px;
-  }
-  #modal-buttons {
-    width: 100%;
-    display: flex;
-  }
-  #btn-divider {
-    width: 16px;
+    margin-bottom: 1rem;
+    border: 1px lightgrey solid;
+    border-radius: 8px;
+    margin-top: 16px;
+    overflow-y: auto;
   }
   #modal-header {
     display: flex;
+    align-items: center;
   }
   #modal-header input {
     padding: 8px;
@@ -155,10 +195,47 @@
     border: 1px solid lightgrey;
     font-size: 0.9rem;
     width: 100%;
-    margin-left: 32px;
+    margin: 0 1rem;
   }
-  #modal-data {
-    margin-top: 16px;
-    overflow-y: auto;
+  #paging-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    font-size: 0.8rem;
+  }
+  #paging-select-container {
+    display: flex;
+    font-size: 1rem;
+    margin: 0 0.5rem;
+    height: 100%;
+  }
+  #paging-select-container select {
+    margin: 0 0.2rem;
+    font-size: 1rem;
+  }
+  #paging-container button {
+    height: 2rem;
+    width: 2rem;
+    border: none;
+    background: transparent;
+    border: 1px lightgrey solid;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #footer {
+    width: 100%;
+  }
+  #modal-buttons {
+    display: flex;
+  }
+  #count {
+    text-align: right;
+    width: 100%;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  #btn-divider {
+    width: 16px;
   }
 </style>
