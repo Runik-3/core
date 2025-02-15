@@ -121,10 +121,14 @@ func getDictFilesFromPath(path string) ([]File, error) {
 		}
 
 		fileParts := strings.Split(entry.Name(), ".")
+		ext := ""
+		if len(fileParts) > 1 {
+			ext = fileParts[1]
+		}
 		files = append(files, File{
 			Name:      entry.Name(),
 			Display:   fileParts[0],
-			Extension: fileParts[1],
+			Extension: ext,
 			Size:      info.Size(),
 			Modified:  info.ModTime(),
 		})
