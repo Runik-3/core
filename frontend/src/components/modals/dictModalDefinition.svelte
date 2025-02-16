@@ -52,8 +52,6 @@
 </tr>
 
 <style>
-  tr {
-  }
   td,
   th {
     /* Because of how table cells stretch, this acts as min-height */
@@ -74,6 +72,9 @@
   }
   tr th {
     min-width: 144px;
+  }
+  tr td:first-of-type {
+    width: 100%;
   }
   .edit-btn {
     background-color: transparent;

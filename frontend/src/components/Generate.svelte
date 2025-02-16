@@ -96,7 +96,7 @@
         It's best to provide a main page link or direct api endpoint.</InfoPopover
       >
     </label>
-    <div>
+    <div id="search">
       <input
         id="wiki-input"
         placeholder="https://kingkiller.fandom.com"
@@ -187,24 +187,27 @@
     margin: 0 8px;
   }
   input {
-    padding: 8px;
+    /* to match search button height */
+    height: 28px;
+    padding: 1px 8px;
     border-radius: 8px;
     border: 1px solid lightgrey;
     font-size: 0.9rem;
   }
   #wiki-input {
-    min-width: 80%;
+    min-width: 60%;
+    margin-right: 8px;
   }
   .input-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 3rem 0;
   }
-  .input-container input {
+  #search {
     margin-top: 8px;
-  }
-  .depth-container {
-    margin-top: 16px;
+    display: flex;
+    align-items: center;
   }
   #depth-input {
     width: 36px;

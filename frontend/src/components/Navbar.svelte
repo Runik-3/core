@@ -41,11 +41,12 @@
     height: 100%;
     display: flex;
     justify-content: start;
-    align-items: end;
+    align-items: center;
   }
   button {
     width: 72px;
-    border-radius: 4px 4px 0 0;
+    margin-left: 0.5rem;
+    border-radius: 4px;
     height: 80%;
     background-color: transparent;
     border: none;

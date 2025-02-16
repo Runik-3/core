@@ -168,9 +168,9 @@
           </tbody>
         </table>
       {:else if search && !Object.keys(page).length}
-        <p>No matching definitions.</p>
+        <p>No matches for <span>{search}</span></p>
       {:else}
-        <p>This dictionary isempty.</p>
+        <p>This dictionary is empty.</p>
       {/if}
     </div>
     <div id="footer">
@@ -252,6 +252,12 @@
     border-radius: 8px;
     margin-top: 16px;
     overflow-y: auto;
+  }
+  #modal-data p {
+    padding: 8px;
+  }
+  #modal-data span {
+    text-decoration: underline;
   }
   #modal-header {
     display: flex;

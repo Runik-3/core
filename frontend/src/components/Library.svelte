@@ -12,7 +12,7 @@
   import { device } from "../stores/device";
   import type { Response } from "../types/response";
   import Anvil from "./icons/Anvil.svelte";
-  import { nav, type Nav } from "../stores/nav";
+  import { nav } from "../stores/nav";
 
   export let hide = false;
 
