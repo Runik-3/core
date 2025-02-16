@@ -29,6 +29,9 @@
     font-size: 1rem;
     cursor: pointer;
     transition: 200ms all ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   button:hover {
     background-color: #2c2c2c;

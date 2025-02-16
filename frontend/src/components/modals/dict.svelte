@@ -6,6 +6,7 @@
   import DictModalDefinition from "./dictModalDefinition.svelte";
   import { notifications, Severity } from "../../stores/notification";
   import type { Definition, EditableDefinition } from "../../types/dict";
+  import Plus from "../icons/Plus.svelte";
 
   const { title, dictData, cancelFn } = $modalStore;
   let lexicon: EditableDefinition[] = dictData.Lexicon.map(
@@ -18,7 +19,6 @@
 
   let search = "";
   let anyDefsChanged = false;
-  let timeoutID = null;
 
   // this should write the new dict to disk
   const saveEdits = async () => {
@@ -49,6 +49,39 @@
     anyDefsChanged = true;
   };
 
+  let addMode = false;
+  let newWord = "";
+  let newDefinition = "";
+  const addEntry = () => {
+    if (newWord && newDefinition) {
+      lexicon.push({
+        Word: newWord,
+        Definition: newDefinition,
+        initWord: newWord,
+        initDefinition: newDefinition,
+      });
+
+      anyDefsChanged = true;
+      notifications.addNotification({
+        message: `${newWord} successfully added to dictionary!`,
+        severity: Severity.success,
+        timeout: 5000,
+      });
+
+      // Reset add state
+      addMode = false;
+      newWord = "";
+      newDefinition = "";
+    } else {
+      notifications.addNotification({
+        message: "Cannot add blank word or definition.",
+        severity: Severity.warn,
+        timeout: 5000,
+      });
+    }
+  };
+
+  let timeoutID = null;
   // debounce search
   const handleSearch = (
     e: Event & {
@@ -137,19 +170,48 @@
       {:else if search && !Object.keys(page).length}
         <p>No matching definitions.</p>
       {:else}
-        <p>This dictionary is empty.</p>
+        <p>This dictionary isempty.</p>
       {/if}
     </div>
     <div id="footer">
-      <div id="count">
-        showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
+      <div id="sub-footer">
+        <div id="add-definition-container">
+          <Button
+            onClick={() => (addMode = !addMode)}
+            small
+            type={addMode ? "error" : "secondary"}
+            ><span>{addMode ? "cancel" : "add definition"}</span></Button
+          >
+          <div id="new-definition" class={addMode ? "" : "hide"}>
+            <input
+              bind:value={newWord}
+              placeholder="word"
+              class="new-definition-input"
+              type="text"
+            />
+            <input
+              bind:value={newDefinition}
+              placeholder="definition"
+              class="new-definition-input"
+              type="text"
+            />
+            <Button onClick={addEntry} small type="secondary"
+              ><span style="margin-right: 8px;">Add</span><Plus
+                color="#6AB27E"
+              /></Button
+            >
+          </div>
+        </div>
+        <div id="count">
+          showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
+        </div>
       </div>
       <div id="modal-buttons">
         <Button
           onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
           maxWidth
           small
-          type="secondary">Close</Button
+          type="secondary">{anyDefsChanged ? "Cancel" : "Close"}</Button
         >
         <div id="btn-divider"></div>
         <Button onClick={saveEdits} maxWidth disabled={!anyDefsChanged} small
@@ -224,21 +286,48 @@
     border: none;
     background: transparent;
     border: 1px lightgrey solid;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
   }
   #footer {
     width: 100%;
   }
-  #modal-buttons {
+  #sub-footer {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  .hide {
+    display: none !important;
+  }
+  #add-definition-container {
+    width: 100%;
+  }
+  #new-definition {
+    margin-top: 1rem;
     display: flex;
   }
+  #new-definition * {
+    margin-right: 8px;
+  }
+  .new-definition-input {
+    border: 1px solid lightgrey;
+    padding: 8px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    width: 100%;
+  }
+  .new-definition-input:first-of-type {
+    width: 25%;
+  }
+
   #count {
     text-align: right;
-    width: 100%;
+    width: 50%;
     font-size: 0.8rem;
     font-style: italic;
-    margin-bottom: 1rem;
+  }
+  #modal-buttons {
+    display: flex;
   }
   #btn-divider {
     width: 16px;
