@@ -11,6 +11,8 @@
 
 <style>
   #notification-container {
+    /* A layer higher than modals. */
+    z-index: 101;
     position: absolute;
     bottom: 24px;
     right: 24px;

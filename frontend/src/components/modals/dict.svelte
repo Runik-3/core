@@ -34,7 +34,7 @@
         });
       } else {
         notifications.addNotification({
-          message: "Successfully saved changes.",
+          message: `Saved changes to ${title}.`,
           severity: Severity.info,
           timeout: 5000,
         });
@@ -180,7 +180,7 @@
             onClick={() => (addMode = !addMode)}
             small
             type={addMode ? "error" : "secondary"}
-            ><span>{addMode ? "cancel" : "add definition"}</span></Button
+            ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
           >
           <div id="new-definition" class={addMode ? "" : "hide"}>
             <input
@@ -238,7 +238,8 @@
     grid-template-rows: min-content 1fr min-content;
     box-sizing: border-box;
     padding: 24px;
-    z-index: 9999;
+    /* A layer lower than notifications. */
+    z-index: 100;
     background-color: white;
     width: 90%;
     height: 90%;
