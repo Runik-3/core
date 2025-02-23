@@ -75,14 +75,24 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 	return dirPath
 }
 
-// move to dict
+type GeneratorProgress struct {
+	Processed int
+	Total     int
+}
+
+// Sends generator progress to frontend
+func (a *App) emitProgress(processed int, total int) {
+	runtime.EventsEmit(a.ctx, "progressUpdate", GeneratorProgress{Processed: processed, Total: total})
+}
+
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
 	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
-		Name:       name,
-		Output:     a.dictionaryDir,
-		EntryLimit: 10000,
-		Depth:      depth,
-		Format:     "json",
+		Name:         name,
+		Output:       a.dictionaryDir,
+		EntryLimit:   10000,
+		Depth:        depth,
+		Format:       "json",
+		ProgressHook: a.emitProgress,
 	})
 	if err != nil {
 		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}

@@ -1,11 +1,23 @@
+<script lang="ts">
+  export let loadString = "";
+</script>
+
 <div class="lds-ellipsis">
   <div></div>
   <div></div>
   <div></div>
   <div></div>
 </div>
+<p>{loadString}</p>
 
 <style>
+  p {
+    color: #5d5d5d;
+    padding: 0 8px;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
   /* loader from https://loading.io/css */
   .lds-ellipsis {
     display: inline-block;

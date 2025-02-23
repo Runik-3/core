@@ -8,10 +8,12 @@
   import type { Response } from "../types/response";
   import type { WikiInfo } from "../types/wikiInfo";
   import InfoPopover from "./InfoPopover.svelte";
+  import { EventsOn } from "../../wailsjs/runtime/runtime";
 
   export let hide = false;
 
   let loading = false;
+  let loadString = "";
 
   let dictName = "";
   let depth = 2;
@@ -68,6 +70,7 @@
       "json",
     );
     loading = false;
+    loadString = "";
     if (Error) {
       notifications.addNotification({
         message: Error,
@@ -85,6 +88,11 @@
     await library.fetchDicts();
     resetPageState();
   };
+
+  // Handle update load string based on progress
+  EventsOn("progressUpdate", ({ Processed, Total }) => {
+    loadString = `${Processed} definitions processed out of ${Total}...`;
+  });
 </script>
 
 <ContentLayout {hide}>
@@ -122,7 +130,7 @@
 
   {#if loading}
     <div>
-      <Loader />
+      <Loader {loadString} />
     </div>
   {:else if wikiInfo?.SiteName}
     <h3>
