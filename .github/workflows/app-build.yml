@@ -84,7 +84,7 @@ jobs:
       - name: Build Runik for windows
         if: runner.os == 'Windows'
         run: |
-          wails build --platform ${{ matrix.build.platform }} -nsis
+          wails build --platform ${{ matrix.build.platform }} -nsis -ldflags="-extldflags '-static'"
           mv build\bin\runik-amd64-installer.exe build\bin\runik_windows.exe
 
       # Assign perms
