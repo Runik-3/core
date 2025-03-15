@@ -1,14 +1,14 @@
 app-id: app.runik.runik
 runtime: org.gnome.Platform
-runtime-version: '46'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.node22
 build-options:
   build-args:
     - --share=network
-  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node20/bin
+  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node22/bin
   env:
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang
@@ -24,6 +24,10 @@ finish-args:
   - --filesystem=host
   - --share=network
   - --talk-name=org.kde.StatusNotifierWatcher
+  # FIXME: Handle Wayland/Nvidia bug in webkit (remove this when the bug is 
+  # properly addressed).
+  # https://github.com/tauri-apps/tauri/issues/10702#issuecomment-2327642878
+  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1
 modules:
   - name: wails
     buildsystem: simple
