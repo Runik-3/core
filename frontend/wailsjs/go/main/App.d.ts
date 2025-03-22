@@ -7,15 +7,15 @@ export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string)
 
 export function CheckForUpdate():Promise<boolean>;
 
-export function ConvertKoboDictionary(arg1:string):Promise<core.Response[string]>;
+export function ConvertDictionary(arg1:string):Promise<core.Response[string]>;
 
 export function DeleteDeviceDictFile(arg1:string):Promise<core.Response[string]>;
 
 export function DeleteLocalDictFile(arg1:string):Promise<core.Response[string]>;
 
-export function GetDeviceDictionaries():Promise<core.Response[[]main>;
+export function GetDeviceDictionaries():Promise<core.Response[[]github>;
 
-export function GetLocalDictionaries():Promise<core.Response[[]main>;
+export function GetLocalDictionaries():Promise<core.Response[[]github>;
 
 export function GetWikiDetails(arg1:string):Promise<core.Response[github>;
 
