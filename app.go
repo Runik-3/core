@@ -7,9 +7,9 @@ import (
 
 	_ "embed"
 
-	d "github.com/runik-3/builder/dict"
 	wikibot "github.com/runik-3/builder/wikiBot"
 	c "github.com/runik-3/core/core"
+	dev "github.com/runik-3/core/device"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -24,8 +24,8 @@ type App struct {
 	runikDir string
 	// store raw dictionary files
 	dictionaryDir string
-	// path to the user selected reader device
-	devicePath string
+	// the selected reader device
+	device dev.Device
 }
 
 // NewApp creates a new App application struct
@@ -62,8 +62,9 @@ func (a *App) CheckForUpdate() bool {
 }
 
 func (a *App) SelectDevice() string {
-	a.devicePath = a.selectDirectory(runtime.OpenDialogOptions{})
-	return a.devicePath
+	selectedDir := a.selectDirectory(runtime.OpenDialogOptions{})
+	a.device = dev.NewDevice(selectedDir)
+	return a.device.GetPath()
 }
 
 func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
@@ -85,44 +86,10 @@ func (a *App) emitProgress(processed int, total int) {
 	runtime.EventsEmit(a.ctx, "progressUpdate", GeneratorProgress{Processed: processed, Total: total})
 }
 
-func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
-	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
-		Name:         name,
-		Output:       a.dictionaryDir,
-		EntryLimit:   10000,
-		Depth:        depth,
-		Format:       "json",
-		ProgressHook: a.emitProgress,
-	})
-	if err != nil {
-		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
-	}
-	return c.Response[d.Dict]{Data: dict, Error: ""}
-}
-
 func (a *App) GetWikiDetails(wikiUrl string) c.Response[wikibot.WikiDetails] {
 	details, err := wikibot.GetWikiDetails(wikiUrl)
 	if err != nil {
 		return c.Response[wikibot.WikiDetails]{Data: wikibot.WikiDetails{}, Error: err.Error()}
 	}
 	return c.Response[wikibot.WikiDetails]{Data: details, Error: ""}
-}
-
-// move to dict
-func (a *App) ConvertKoboDictionary(fileName string) c.Response[string] {
-	if a.devicePath == "" {
-		return c.Response[string]{Data: "", Error: "No device connected"}
-	}
-
-	rawDictPath := filepath.Join(a.dictionaryDir, fileName)
-	koboDictDir, err := c.FindKoboDictDir(a.devicePath)
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err.Error()}
-	}
-
-	dictPath, err := c.ConvertForReader(rawDictPath, koboDictDir)
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err.Error()}
-	}
-	return c.Response[string]{Data: dictPath, Error: ""}
 }

@@ -1,10 +1,10 @@
 export namespace core {
 	
-	export class Response[[]main.File] {
+	export class Response[[]github.com/runik-3/core/core.File] {
 	
 	
 	    static createFrom(source: any = {}) {
-	        return new Response[[]main.File](source);
+	        return new Response[[]github.com/runik-3/core/core.File](source);
 	    }
 	
 	    constructor(source: any = {}) {
