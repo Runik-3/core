@@ -2,7 +2,7 @@
   import { Severity, notifications } from "../stores/notification";
   import { library } from "../stores/library";
   import {
-    ConvertKoboDictionary,
+    ConvertDictionary,
     DeleteLocalDictFile,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
@@ -41,7 +41,7 @@
   };
 
   const convertDictionary = async (dictName: string) => {
-    const res: Response<string> = await ConvertKoboDictionary(dictName);
+    const res: Response<string> = await ConvertDictionary(dictName);
     return new Promise((resolve, reject) => {
       if (res.Error) {
         return reject(res.Error);

@@ -10,8 +10,8 @@ export function CheckForUpdate() {
   return window['go']['main']['App']['CheckForUpdate']();
 }
 
-export function ConvertKoboDictionary(arg1) {
-  return window['go']['main']['App']['ConvertKoboDictionary'](arg1);
+export function ConvertDictionary(arg1) {
+  return window['go']['main']['App']['ConvertDictionary'](arg1);
 }
 
 export function DeleteDeviceDictFile(arg1) {
