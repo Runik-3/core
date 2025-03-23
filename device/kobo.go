@@ -1,7 +1,6 @@
 package device
 
 import (
-	j "encoding/json"
 	"errors"
 	"os"
 	"path"
@@ -19,6 +18,7 @@ import (
 type Kobo struct {
 	Path string
 	Type string
+  AppDir string
 }
 
 func (k Kobo) GetPath() string {
@@ -88,14 +88,7 @@ func (k Kobo) ConvertDictionary(rawDictPath string) (string, error) {
 }
 
 func convertForKobo(pathToRawDict string, outputDir string) (string, error) {
-	// read raw dictionary and unmarshal as Dict
-	rawDict, err := os.ReadFile(pathToRawDict)
-	if err != nil {
-		return "", err
-	}
-
-	dict := d.Dict{}
-	err = j.Unmarshal(rawDict, &dict)
+	dict, err := c.DictFromFile(pathToRawDict)
 	if err != nil {
 		return "", err
 	}
