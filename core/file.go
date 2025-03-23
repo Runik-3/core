@@ -5,6 +5,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	j "encoding/json"
+	d "github.com/runik-3/builder/dict"
 )
 
 type File struct {
@@ -29,6 +32,22 @@ func MkdirIfNotExists(path string) {
 	if appDirErr != nil {
 		log.Fatal(appDirErr)
 	}
+}
+
+// Read raw dictionary and unmarshal as Dict
+func DictFromFile(path string) (d.Dict, error) {
+	rawDict, err := os.ReadFile(path)
+	if err != nil {
+		return d.Dict{}, err
+	}
+
+	dict := d.Dict{}
+	err = j.Unmarshal(rawDict, &dict)
+	if err != nil {
+		return d.Dict{}, err
+	}
+
+	return dict, nil
 }
 
 func GetFilesFromPath(path string) ([]File, error) {

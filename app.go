@@ -62,8 +62,8 @@ func (a *App) CheckForUpdate() bool {
 }
 
 func (a *App) SelectDevice() string {
-	selectedDir := a.selectDirectory(runtime.OpenDialogOptions{})
-	a.device = dev.NewDevice(selectedDir)
+	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
+	a.device = dev.NewDevice(deviceDir, a.runikDir)
 	return a.device.GetPath()
 }
 
