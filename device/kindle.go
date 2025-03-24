@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"path"
 	"text/template"
 
@@ -26,7 +27,17 @@ func (k Kindle) ReaderType() string {
 }
 
 func (k Kindle) DictionaryDir() (string, error) {
-	return "", nil
+	if k.Path == "" {
+		return "", errors.New("No device selected.")
+	}
+	pathDict := path.Join(k.Path, "documents", "dictionaries")
+
+	_, err := os.Stat(pathDict)
+	if err != nil {
+		return "", errors.New("No dictionary location detected on device.")
+	}
+
+	return pathDict, nil
 }
 
 func (k Kindle) GetDictionaries() ([]c.File, error) {
@@ -47,11 +58,22 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 		return "", err
 	}
 
-	epubPath, err := writeEpub(dict, k.AppDir)
+	epubOpfPath, err := writeEpub(dict, k.AppDir)
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(epubPath)
+
+	// Generate dictionary mobi from epub
+	cmd := exec.Command(k.KindleGenPath, epubOpfPath, "-o", fmt.Sprintf("%s.mobi", dict.Name))
+	err = cmd.Run()
+
+	if err != nil {
+		return "", err
+	}
+
+	// TODO: cleanup temp dir after sending to device
+
+	fmt.Println(epubOpfPath)
 
 	return "", nil
 }
@@ -62,10 +84,11 @@ const OPF_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?> <package xml
    <dc:title>{{.Name}}</dc:title>
    <dc:language>en</dc:language>
    <dc:publisher>runik</dc:publisher>
+  </metadata>
+  <x-metadata>
    <DictionaryInLanguage>en</DictionaryInLanguage>
    <DictionaryOutLanguage>en</DictionaryOutLanguage>
-   <DefaultLookupIndex>word</DefaultLookupIndex> 
-   </metadata>
+  </x-metadata>
   <manifest>
    <item id="cover" href="html/cover.xhtml" media-type="application/xhtml+xml"/>
    <item id="words" href="html/words.xhtml" media-type="application/xhtml+xml"/>
@@ -84,7 +107,7 @@ xmlns:mbp="https://kindlegen.s3.amazonaws.com/AmazonKindlePublishingGuidelines.p
 <body>
 <mbp:frameset>
   {{range .Lexicon}}
-    <idx:entry name="word" scriptable="yes" spell="yes">
+    <idx:entry scriptable="yes" spell="yes">
       <idx:orth>{{.Word}}</idx:orth>
       <p>{{.Definition}}</p>
     </idx:entry>
@@ -133,7 +156,8 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 		return "", err
 	}
 
-	opfFile, err := os.Create(path.Join(tempEpub, "OEBPS", "content.opf"))
+	opfPath := path.Join(tempEpub, "OEBPS", "content.opf")
+	opfFile, err := os.Create(opfPath)
 	if err != nil {
 		return "", err
 	}
@@ -175,5 +199,5 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 		return "", err
 	}
 
-	return "", nil
+	return opfPath, nil
 }
