@@ -7,10 +7,20 @@
   import Device from "./icons/Device.svelte";
   import { device } from "../stores/device";
   import DictListItem from "./DictListItem.svelte";
+  import type { Device as DeviceType } from "../types/device";
+  import type { Response } from "../types/response";
+  import { notifications, Severity } from "../stores/notification";
 
   const openDir = async () => {
-    const devicePath = await SelectDevice();
-    await device.selectDevice(devicePath);
+    const deviceRes: Response<DeviceType> = await SelectDevice();
+    if (deviceRes.Error) {
+      notifications.addNotification({
+        message: deviceRes.Error,
+        severity: Severity.warn,
+        timeout: 5000,
+      });
+    }
+    await device.selectDevice(deviceRes.Data.Path);
   };
 </script>
 

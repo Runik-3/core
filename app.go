@@ -61,10 +61,17 @@ func (a *App) CheckForUpdate() bool {
 	return c.UpdateAvailable(version)
 }
 
-func (a *App) SelectDevice() string {
+// Let's update this on the frontend
+func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
-	a.device = dev.NewDevice(deviceDir, a.runikDir)
-	return a.device.GetPath()
+
+	device, err := dev.NewDevice(deviceDir, a.runikDir)
+	if err != nil {
+		return c.Response[dev.Device]{Data: dev.Kobo{}, Error: err.Error()}
+	}
+	a.device = device
+
+	return c.Response[dev.Device]{Data: a.device, Error: ""}
 }
 
 func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
