@@ -63,24 +63,47 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 		return "", err
 	}
 
-	// Generate dictionary mobi from epub
-	cmd := exec.Command(k.KindleGenPath, epubOpfPath, "-o", fmt.Sprintf("%s.mobi", dict.Name))
-	err = cmd.Run()
-
+	// Generate dictionary with kindlegen
+	cmd := exec.Command(k.KindleGenPath, epubOpfPath, "-o", fmt.Sprintf("%s.mobi", dict.Name), "-gen_ff_mobi7")
+	// This will likely return an error code because we're not specifying a
+	// cover image (EmbeddedCover tag) and kindlegen doesn't like that.
+	// So let's confirm that the file actually generated. If not, we throw.
+	cmd.Run()
+	convertedDictionary := path.Join(k.AppDir, "temp", "epub", "OEBPS", fmt.Sprintf("%s.mobi", dict.Name))
+	_, err = os.Stat(convertedDictionary)
 	if err != nil {
 		return "", err
 	}
 
-	// TODO: cleanup temp dir after sending to device
+	// send to device
+	convertedDictContents, err := os.ReadFile(convertedDictionary)
+	if err != nil {
+		return "", err
+	}
 
-	fmt.Println(epubOpfPath)
+	deviceDictDir, err := k.DictionaryDir()
+	if err != nil {
+		return "", err
+	}
+
+	err = os.WriteFile(path.Join(deviceDictDir, fmt.Sprintf("%s.mobi", dict.Name)), convertedDictContents, os.ModePerm)
+	if err != nil {
+		return "", err
+	}
+
+	// cleanup temp dir after sending to device
+	err = os.RemoveAll(path.Join(k.AppDir, "temp", "epub"))
+	if err != nil {
+		return "", err
+	}
 
 	return "", nil
 }
 
 // TODO: Need language on the dictionary object to handle dict lang
-const OPF_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?> <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookID"> <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <metadata>
+const OPF_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookID"> 
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
    <dc:title>{{.Name}}</dc:title>
    <dc:language>en</dc:language>
    <dc:publisher>runik</dc:publisher>
@@ -140,7 +163,8 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 	}
 
 	// Write container.xml
-	const CONTAINER_XML string = `<?xml version="1.0" encoding="UTF-8"?><container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
+	const CONTAINER_XML string = `<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
 	<rootfiles>
 		<rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
 	</rootfiles>
