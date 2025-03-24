@@ -14,6 +14,7 @@ import (
 
 type Kindle struct {
 	Path          string
+	Name          string
 	Type          string
 	AppDir        string
 	KindleGenPath string
@@ -22,6 +23,11 @@ type Kindle struct {
 func (k Kindle) GetPath() string {
 	return k.Path
 }
+
+func (k Kindle) ReaderName() string {
+	return k.Name
+}
+
 func (k Kindle) ReaderType() string {
 	return k.Type
 }
