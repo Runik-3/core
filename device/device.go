@@ -1,7 +1,6 @@
 package device
 
 import (
-	"fmt"
 	"path/filepath"
 
 	c "github.com/runik-3/core/core"
@@ -26,6 +25,5 @@ func NewDevice(dir string, appDir string) Device {
 	// FIXME: pull this from config -- also introduce config
 	// /Applications/Kindle\ Previewer\ 3.app/Contents/lib/fc/bin/kindlegen
 	kindlegenPath := filepath.FromSlash(`/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen`)
-	fmt.Println(kindlegenPath)
 	return Kindle{Path: dir, Type: "kobo", AppDir: appDir, KindleGenPath: kindlegenPath}
 }
