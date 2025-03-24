@@ -16,14 +16,20 @@ import (
 )
 
 type Kobo struct {
-	Path string
-	Type string
-  AppDir string
+	Path   string
+	Name   string
+	Type   string
+	AppDir string
 }
 
 func (k Kobo) GetPath() string {
 	return k.Path
 }
+
+func (k Kobo) ReaderName() string {
+	return k.Name
+}
+
 func (k Kobo) ReaderType() string {
 	return k.Type
 }
