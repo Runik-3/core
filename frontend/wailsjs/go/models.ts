@@ -36,6 +36,18 @@ export namespace core {
 	
 	    }
 	}
+	export class Response[github.com/runik-3/core/device.Device] {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new Response[github.com/runik-3/core/device.Device](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
 	export class Response[string] {
 	
 	
