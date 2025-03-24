@@ -41,10 +41,29 @@ func (k Kindle) DictionaryDir() (string, error) {
 }
 
 func (k Kindle) GetDictionaries() ([]c.File, error) {
-	return []c.File{}, nil
+	kindleDictDir, _ := k.DictionaryDir()
+	files, err := c.GetFilesFromPath(kindleDictDir)
+	if err != nil {
+		return []c.File{}, err
+	}
+
+	deviceDicts := []c.File{}
+	for _, file := range files {
+		if file.Extension == "mobi" {
+			deviceDicts = append(deviceDicts, file)
+		}
+	}
+
+	return deviceDicts, nil
 }
 
 func (k Kindle) DeleteDictionary(name string) error {
+	kindleDictDir, _ := k.DictionaryDir()
+	dictFilePath := path.Join(kindleDictDir, name)
+	err := os.Remove(dictFilePath)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -86,7 +105,8 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 		return "", err
 	}
 
-	err = os.WriteFile(path.Join(deviceDictDir, fmt.Sprintf("%s.mobi", dict.Name)), convertedDictContents, os.ModePerm)
+	convertedDictPath := path.Join(deviceDictDir, fmt.Sprintf("%s.mobi", dict.Name))
+	err = os.WriteFile(convertedDictPath, convertedDictContents, os.ModePerm)
 	if err != nil {
 		return "", err
 	}
@@ -97,7 +117,7 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 		return "", err
 	}
 
-	return "", nil
+	return convertedDictPath, nil
 }
 
 // TODO: Need language on the dictionary object to handle dict lang
