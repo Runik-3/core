@@ -17,6 +17,7 @@ type Device interface {
 	ConvertDictionary(string) (string, error)
 }
 
+// TODO: This func needs to take config
 func NewDevice(dir string, appDir string) (Device, error) {
 	name := filepath.Base(dir)
 
@@ -27,7 +28,9 @@ func NewDevice(dir string, appDir string) (Device, error) {
 			Type:   "kobo",
 			AppDir: appDir,
 		}, nil
-	} else if isKindle(dir) {
+	}
+
+	if isKindle(dir) {
 		kindlegenPath := filepath.FromSlash(`/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen`)
 		return Kindle{
 			Path:          dir,

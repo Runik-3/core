@@ -1,5 +1,17 @@
 export namespace core {
 	
+	export class Config {
+	    kindlegenPath: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Config(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.kindlegenPath = source["kindlegenPath"];
+	    }
+	}
 	export class Response[[]github.com/runik-3/core/core.File] {
 	
 	
