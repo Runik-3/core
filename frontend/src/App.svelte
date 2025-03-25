@@ -10,6 +10,7 @@
   import { Severity, notifications } from "./stores/notification";
   import { onMount } from "svelte";
   import { CheckForUpdate } from "../wailsjs/go/main/App";
+  import Configuration from "./components/Configuration.svelte";
 
   // on application start
   onMount(async () => {
@@ -32,8 +33,7 @@
   <div id="view">
     <Library hide={$nav !== "lib"} />
     <Generate hide={$nav !== "gen"} />
-    <!-- Disabled until we have global config to add. -->
-    <!-- <Configuration hide={$nav !== "conf"} /> -->
+    <Configuration hide={$nav !== "conf"} />
   </div>
   <div id="device">
     <DevicePanel />

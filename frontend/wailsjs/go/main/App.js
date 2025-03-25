@@ -22,6 +22,10 @@ export function DeleteLocalDictFile(arg1) {
   return window['go']['main']['App']['DeleteLocalDictFile'](arg1);
 }
 
+export function GetConfig() {
+  return window['go']['main']['App']['GetConfig']();
+}
+
 export function GetDeviceDictionaries() {
   return window['go']['main']['App']['GetDeviceDictionaries']();
 }

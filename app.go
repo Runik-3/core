@@ -26,6 +26,7 @@ type App struct {
 	dictionaryDir string
 	// the selected reader device
 	device dev.Device
+	config c.Config
 }
 
 // NewApp creates a new App application struct
@@ -55,13 +56,22 @@ func (a *App) checkAppConfigDirExistsIfNotCreate() {
 
 	c.MkdirIfNotExists(a.runikDir)
 	c.MkdirIfNotExists(a.dictionaryDir)
+
+	config, err := c.GetOrCreateConfig(a.runikDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	a.config = config
+}
+
+func (a *App) GetConfig() c.Config {
+	return a.config
 }
 
 func (a *App) CheckForUpdate() bool {
 	return c.UpdateAvailable(version)
 }
 
-// Let's update this on the frontend
 func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
 
