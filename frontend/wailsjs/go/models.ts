@@ -48,6 +48,18 @@ export namespace core {
 	
 	    }
 	}
+	export class Response[github.com/runik-3/core/core.Config] {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new Response[github.com/runik-3/core/core.Config](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
 	export class Response[github.com/runik-3/core/device.Device] {
 	
 	
@@ -82,6 +94,23 @@ export namespace dict {
 	
 	    static createFrom(source: any = {}) {
 	        return new Dict(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+
+}
+
+export namespace frontend {
+	
+	export class OpenDialogOptions {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new OpenDialogOptions(source);
 	    }
 	
 	    constructor(source: any = {}) {

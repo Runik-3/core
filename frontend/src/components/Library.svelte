@@ -86,7 +86,7 @@
 
 <ContentLayout split {hide}>
   <div>
-    <h2>Dictionaries</h2>
+    <h2>My Dictionaries</h2>
     {#if $library.length > 0}
       {#each $library as dict}
         <DictListItem

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -64,8 +65,23 @@ func (a *App) checkAppConfigDirExistsIfNotCreate() {
 	a.config = config
 }
 
-func (a *App) GetConfig() c.Config {
-	return a.config
+func (a *App) GetConfig() c.Response[c.Config] {
+	config, err := c.GetOrCreateConfig(a.runikDir)
+	if err != nil {
+		return c.Response[c.Config]{Data: c.Config{}, Error: fmt.Sprintf("There was an error fetching configuration: %s", err.Error())}
+	}
+	a.config = config
+	return c.Response[c.Config]{Data: config, Error: ""}
+}
+
+func (a *App) SetConfig(config c.Config) c.Response[string] {
+	err := c.UpdateConfig(a.runikDir, config)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: fmt.Sprintf("There was an issue saving configuration: %s", err.Error())}
+	}
+
+	// This res has no return value
+	return c.Response[string]{Data: "", Error: ""}
 }
 
 func (a *App) CheckForUpdate() bool {
@@ -75,7 +91,7 @@ func (a *App) CheckForUpdate() bool {
 func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
 
-	device, err := dev.NewDevice(deviceDir, a.runikDir)
+	device, err := dev.NewDevice(deviceDir, a.runikDir, dev.DeviceOptions{KindlegenPath: a.config.KindlegenPath})
 	if err != nil {
 		return c.Response[dev.Device]{Data: dev.Kobo{}, Error: err.Error()}
 	}
@@ -91,6 +107,14 @@ func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 	}
 
 	return dirPath
+}
+
+func (a *App) SelectFile(options runtime.OpenDialogOptions) c.Response[string] {
+	filePath, err := runtime.OpenFileDialog(a.ctx, options)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: "There was an issue selecting the file"}
+	}
+	return c.Response[string]{Data: filePath, Error: ""}
 }
 
 type GeneratorProgress struct {
