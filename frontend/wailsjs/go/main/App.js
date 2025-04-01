@@ -46,6 +46,14 @@ export function SelectDevice() {
   return window['go']['main']['App']['SelectDevice']();
 }
 
+export function SelectFile(arg1) {
+  return window['go']['main']['App']['SelectFile'](arg1);
+}
+
+export function SetConfig(arg1) {
+  return window['go']['main']['App']['SetConfig'](arg1);
+}
+
 export function WriteLocalDictionary(arg1) {
   return window['go']['main']['App']['WriteLocalDictionary'](arg1);
 }

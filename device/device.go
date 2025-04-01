@@ -17,8 +17,11 @@ type Device interface {
 	ConvertDictionary(string) (string, error)
 }
 
-// TODO: This func needs to take config
-func NewDevice(dir string, appDir string) (Device, error) {
+type DeviceOptions struct {
+	KindlegenPath string
+}
+
+func NewDevice(dir string, appDir string, options DeviceOptions) (Device, error) {
 	name := filepath.Base(dir)
 
 	if isKobo(dir) {
@@ -31,13 +34,12 @@ func NewDevice(dir string, appDir string) (Device, error) {
 	}
 
 	if isKindle(dir) {
-		kindlegenPath := filepath.FromSlash(`/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen`)
 		return Kindle{
 			Path:          dir,
 			Name:          name,
 			Type:          "kindle",
 			AppDir:        appDir,
-			KindleGenPath: kindlegenPath,
+			KindleGenPath: options.KindlegenPath,
 		}, nil
 	}
 

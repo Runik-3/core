@@ -1,15 +1,106 @@
 <script lang="ts">
+  import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
+  import InfoPopover from "./InfoPopover.svelte";
+  import { GetConfig, SelectFile, SetConfig } from "../../wailsjs/go/main/App";
+  import type { Response } from "../types/response";
+  import type { Config } from "../types/config";
+  import { notifications, Severity } from "../stores/notification";
+  import { onMount } from "svelte";
+  Error;
+
   export let hide = false;
+  let config: Config | undefined = undefined;
+
+  onMount(async () => {
+    const res: Response<Config> = await GetConfig();
+    if (res.Error) {
+      notifications.addNotification({
+        message: res.Error,
+        severity: Severity.error,
+        timeout: 5000,
+      });
+    }
+    config = res.Data 
+  });
+
+  const handleSelectFile = async () => {
+    const res: Response<string> = await SelectFile();
+    if (res.Error) {
+      notifications.addNotification({
+        message: res.Error,
+        severity: Severity.warn,
+        timeout: 5000,
+      });
+      return;
+    }
+    // Return file path
+    return res.Data;
+  };
+
+  const handleUpdateKindlegenPath = async () => {
+    const newPath = await handleSelectFile();
+    config["kindlegenPath"] = newPath;
+
+    // TODO: loading state while config saves
+    // This func has no return value
+    const setRes: Response<string> = await SetConfig(config);
+    if (setRes.Error) {
+      notifications.addNotification({
+        message: setRes.Error,
+        severity: Severity.info,
+        timeout: 5000,
+      });
+    }
+    
+    // Fetch updated new config
+    const getRes: Response<Config> = await GetConfig();
+    if (getRes.Error) {
+      notifications.addNotification({
+        message: getRes.Error,
+        severity: Severity.error,
+        timeout: 5000,
+      });
+    }
+    config = getRes.Data 
+  };
 </script>
 
 <ContentLayout {hide}>
-  <h2>Configuration</h2>
-  <p>Settings coming...</p>
+  <h2>Configure Runik</h2>
+  <div class="setting-entry">
+    <span>Path to Kindlegen</span>
+    <InfoPopover
+      >The path to the kindlegen program on your computer. Kindlegen is a
+      utility that comes bundled with Kindle Previewer and is necessary for
+      generating kindle dictionaries.</InfoPopover
+    >
+    <div class="flex">
+      <input type="text" id="kindle-gen" readonly value={config?.kindlegenPath}/>
+      <Button small onClick={handleUpdateKindlegenPath}>Browse...</Button>
+      <!-- TODO: reset to default value -->
+    </div>
+  </div>
 </ContentLayout>
 
 <style>
   h2 {
     margin-bottom: 24px;
+  }
+  .setting-entry div {
+    margin-top: 1rem;
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  /* Unify these styles into a component */
+  input {
+    height: 28px;
+    padding: 1px 8px;
+    border-radius: 8px;
+    border: 1px solid lightgrey;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
   }
 </style>
