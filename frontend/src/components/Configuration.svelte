@@ -21,11 +21,11 @@
         timeout: 5000,
       });
     }
-    config = res.Data 
+    config = res.Data;
   });
 
   const handleSelectFile = async () => {
-    const res: Response<string> = await SelectFile();
+    const res: Response<string> = await SelectFile({});
     if (res.Error) {
       notifications.addNotification({
         message: res.Error,
@@ -38,12 +38,10 @@
     return res.Data;
   };
 
-  const handleUpdateKindlegenPath = async () => {
-    const newPath = await handleSelectFile();
-    config["kindlegenPath"] = newPath;
-
+  const setKindlegenValue = async (value?: string) => {
     // TODO: loading state while config saves
     // This func has no return value
+    config["kindlegenPath"] = value;
     const setRes: Response<string> = await SetConfig(config);
     if (setRes.Error) {
       notifications.addNotification({
@@ -52,7 +50,7 @@
         timeout: 5000,
       });
     }
-    
+
     // Fetch updated new config
     const getRes: Response<Config> = await GetConfig();
     if (getRes.Error) {
@@ -62,12 +60,26 @@
         timeout: 5000,
       });
     }
-    config = getRes.Data 
+
+    return getRes.Data;
+  };
+
+  /** Accept value arg  */
+  const handleUpdateKindlegenPath = async (value?: string) => {
+    const newPath = await handleSelectFile();
+    const newConfig = await setKindlegenValue(newPath);
+
+    config = newConfig;
+  };
+
+  const handleResetKindlegenPath = async () => {
+    await setKindlegenValue("");
   };
 </script>
 
 <ContentLayout {hide}>
   <h2>Configure Runik</h2>
+  <!-- When we have more than one setting, make this a standalone component -->
   <div class="setting-entry">
     <span>Path to Kindlegen</span>
     <InfoPopover
@@ -76,9 +88,16 @@
       generating kindle dictionaries.</InfoPopover
     >
     <div class="flex">
-      <input type="text" id="kindle-gen" readonly value={config?.kindlegenPath}/>
+      <input
+        type="text"
+        id="kindle-gen"
+        readonly
+        value={config?.kindlegenPath}
+      />
       <Button small onClick={handleUpdateKindlegenPath}>Browse...</Button>
-      <!-- TODO: reset to default value -->
+      <Button small type={"error"} onClick={handleResetKindlegenPath}
+        >Reset</Button
+      >
     </div>
   </div>
 </ContentLayout>
@@ -101,6 +120,5 @@
     border-radius: 8px;
     border: 1px solid lightgrey;
     font-size: 0.9rem;
-    margin-right: 0.5rem;
   }
 </style>
