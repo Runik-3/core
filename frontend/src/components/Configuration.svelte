@@ -65,11 +65,12 @@
   };
 
   /** Accept value arg  */
-  const handleUpdateKindlegenPath = async (value?: string) => {
+  const handleSetKindlegenPathFromFileSelect = async (value?: string) => {
     const newPath = await handleSelectFile();
-    const newConfig = await setKindlegenValue(newPath);
-
-    config = newConfig;
+    if (newPath) {
+      const newConfig = await setKindlegenValue(newPath);
+      config = newConfig;
+    }
   };
 
   const handleResetKindlegenPath = async () => {
@@ -91,10 +92,19 @@
       <input
         type="text"
         id="kindle-gen"
-        readonly
+        on:blur={async (e) => {
+          if (
+            e.currentTarget.value &&
+            e.currentTarget.value != config.kindlegenPath
+          ) {
+            await setKindlegenValue(e.currentTarget.value);
+          }
+        }}
         value={config?.kindlegenPath}
       />
-      <Button small onClick={handleUpdateKindlegenPath}>Browse...</Button>
+      <Button small onClick={handleSetKindlegenPathFromFileSelect}
+        >Browse...</Button
+      >
       <Button small type={"error"} onClick={handleResetKindlegenPath}
         >Reset</Button
       >
