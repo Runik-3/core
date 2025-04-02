@@ -91,6 +91,10 @@ func (a *App) CheckForUpdate() bool {
 func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
 
+	if deviceDir == "" {
+		return c.Response[dev.Device]{Data: dev.Kobo{}, Error: ""}
+	}
+
 	device, err := dev.NewDevice(deviceDir, a.runikDir, dev.DeviceOptions{KindlegenPath: a.config.KindlegenPath})
 	if err != nil {
 		return c.Response[dev.Device]{Data: dev.Kobo{}, Error: err.Error()}
