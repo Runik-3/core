@@ -75,7 +75,7 @@ func (k Kindle) DeleteDictionary(name string) error {
 
 func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 	if k.KindleGenPath == "" {
-		return "", errors.New("No kindlegen configuration found. Please include a path to kindlegen in settings.")
+		return "", errors.New("Kindlegen not configured. Please include a path to kindlegen in settings.")
 	}
 
 	dict, err := c.DictFromFile(rawDictPath)
@@ -97,7 +97,7 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 	convertedDictionary := path.Join(k.AppDir, "temp", "epub", "OEBPS", fmt.Sprintf("%s.mobi", dict.Name))
 	_, err = os.Stat(convertedDictionary)
 	if err != nil {
-		return "", err
+		return "", errors.New("Failed to convert dictionary for Kindle. Make sure you've configured the kindlegen path correctly in settings.") 
 	}
 
 	// send to device
