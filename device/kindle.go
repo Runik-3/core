@@ -97,7 +97,7 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 	convertedDictionary := path.Join(k.AppDir, "temp", "epub", "OEBPS", fmt.Sprintf("%s.mobi", dict.Name))
 	_, err = os.Stat(convertedDictionary)
 	if err != nil {
-		return "", errors.New("Failed to convert dictionary for Kindle. Make sure you've configured the kindlegen path correctly in settings.") 
+		return "", errors.New("Failed to convert dictionary for Kindle. Make sure you've configured the kindlegen path correctly in settings.")
 	}
 
 	// send to device
@@ -131,12 +131,12 @@ const OPF_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookID"> 
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
    <dc:title>{{.Name}}</dc:title>
-   <dc:language>en</dc:language>
+   <dc:language>{{.Lang}}</dc:language>
    <dc:publisher>runik</dc:publisher>
   </metadata>
   <x-metadata>
-   <DictionaryInLanguage>en</DictionaryInLanguage>
-   <DictionaryOutLanguage>en</DictionaryOutLanguage>
+   <DictionaryInLanguage>{{.Lang}}</DictionaryInLanguage>
+   <DictionaryOutLanguage>{{.Lang}}</DictionaryOutLanguage>
   </x-metadata>
   <manifest>
    <item id="cover" href="html/cover.xhtml" media-type="application/xhtml+xml"/>
