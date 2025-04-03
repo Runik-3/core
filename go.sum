@@ -50,8 +50,6 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.4 h1:8TfxU8dW6PdqD27gjM8MVNuicgxIjxpm4K7x4jp8sis=
 github.com/rivo/uniseg v0.4.4/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
-github.com/runik-3/builder v0.0.2 h1:L8F7cKt8kTVwdg3Oa/nUf6CujzXKy0yQ6/DBUDPqlKY=
-github.com/runik-3/builder v0.0.2/go.mod h1:rcG23F4Q7nxhqvbDrmXisALXlU+u/JTQFNoT4lo4IW4=
 github.com/runik-3/builder v0.0.3 h1:jEdwWpRpd6QWzxTAnx6Uyz43FV+PIVl6+SujHJeHfH8=
 github.com/runik-3/builder v0.0.3/go.mod h1:rcG23F4Q7nxhqvbDrmXisALXlU+u/JTQFNoT4lo4IW4=
 github.com/russross/blackfriday/v2 v2.0.1 h1:lPqVAte+HuHNfhJ/0LC98ESWRz8afy9tM/0RK8m9o+Q=
