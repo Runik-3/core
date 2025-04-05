@@ -14,9 +14,17 @@ Runik leverages the crowd-sourced info of fan wikis to generate custom e-reader 
 
 ## Limitations
 
-Runik is in early development and currently **only supports Kobo e-readers**. Kindle support is in the works and coming in a future update. In the meantime, if you are a tinkerer, you can use the [Runik Builder](https://github.com/Runik-3/builder) tool to generate dictionaries and use one of the many other tools out there to convert it for use with Kindle devices.
+Runik is in early development and is bound to contain bugs. Feel free to report any [issues](https://github.com/Runik-3/core/issues) you encounter. 
 
-Runik is designed to work on wikis built with [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki). There is a decent amount of variablility in the way wikis can be configured and runik is not guaranteed to work with all wikis. Runik was mostly tested against Fandom wikis which are generally pretty consistent and *should* work best.
+Runik is designed to work with [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki) sites. There is variablility in the way wikis can be configured or the way articles are written -- runik is not guaranteed to work with all of them. I mostly tested against Fandom wikis which are pretty consistent and *should* be well supported.
+
+If Runik does not yet support your device -- and you are comfortable tinkering -- you can use the [Runik Builder](https://github.com/Runik-3/builder) cli tool to generate dictionaries and use one of the many other tools out there to convert it for use with your device.
+
+## FAQs
+
+>Why are Kobo dictionaries prefixed with dicthtml-[r]?
+
+Kobo expects dictionaries to be in the following format `dicthtml-<language-code>`, automatically detecting dicthtml-es as a spanish language dictionary and displaying it as Espanol. Without the dicthtml prefix, kobos don't know to treat this file as a dictionary, and if we tried to put the dictionary name alone after the prefix (eg. `dicthtml-gameofthrones`), the kobo treats the first two letters "ga" as a language code, interpreting this as a gaelic dictionary. So instead, we use characters that cannot be mistaken for a language code before the name of the dictionary, "[r]". It's not a perfect solution and I'm working on a solution to get more user-friendly kobo dictionary names.
 
 ## Runik is made with
 
