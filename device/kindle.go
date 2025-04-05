@@ -3,10 +3,10 @@ package device
 import (
 	"errors"
 	"fmt"
+	"html/template"
 	"os"
 	"os/exec"
 	"path"
-	"text/template"
 
 	d "github.com/runik-3/builder/dict"
 	c "github.com/runik-3/core/core"
@@ -126,7 +126,6 @@ func (k Kindle) ConvertDictionary(rawDictPath string) (string, error) {
 	return convertedDictPath, nil
 }
 
-// TODO: Need language on the dictionary object to handle dict lang
 const OPF_TEMPLATE string = `<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookID"> 
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
