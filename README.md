@@ -12,6 +12,36 @@ Most e-readers have built-in dictionaries, letting you define words in-text as y
 
 Runik leverages the crowd-sourced info of fan wikis to generate custom e-reader dictionaries, extending the volcabulary of your e-reader to include fictional references. 
 
+## Installation
+
+Binaries for Linux, macOS, and Windows can be found on the [releases page](https://github.com/Runik-3/core/releases).
+
+## For developers
+
+### Quick start
+
+1. Clone the project
+2. Run the app in dev mode
+    ```
+    wails dev
+    ```
+3. Build for your target OS
+    ```
+    wails build
+    ```
+
+Note: To build a flatpak for linux use the `make build-linux` command
+
+### Dependencies
+
+You'll need the following software installed on your system before being able to build and run runik.
+
+- Wails CLI (install the version specified in go.mod)
+- Go
+- Nodejs + npm
+- A C compiler
+
+
 ## Limitations
 
 Runik is in early development and is bound to contain bugs. Feel free to report any [issues](https://github.com/Runik-3/core/issues) you encounter. 
