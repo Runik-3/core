@@ -116,10 +116,10 @@ func convertForKobo(pathToRawDict string, outputDir string) (string, error) {
 
 	outFileName := path.Join(outputDir, getDeviceReadableName(dict.Name))
 	file, err := os.Create(outFileName)
-	defer file.Close()
 	if err != nil {
 		return "", err
 	}
+	defer file.Close()
 
 	kw := kobodict.NewWriter(file)
 
