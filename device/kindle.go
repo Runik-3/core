@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"os"
 	"os/exec"
-	"path"
+	path "path/filepath"
 
 	d "github.com/runik-3/builder/dict"
 	c "github.com/runik-3/core/core"
@@ -210,6 +210,7 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	opfFile.Close()
 
 	err = tmpl.Execute(opfFile, dict)
 	if err != nil {
@@ -226,6 +227,7 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	wordsFile.Close()
 
 	err = tmpl.Execute(wordsFile, dict)
 	if err != nil {
@@ -242,6 +244,7 @@ func writeEpub(dict d.Dict, appDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	coverFile.Close()
 
 	err = tmpl.Execute(coverFile, dict)
 	if err != nil {
