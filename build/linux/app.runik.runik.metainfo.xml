@@ -27,7 +27,7 @@
     </p>
   </description>
   
-  <launchable type="desktop-id">runik.desktop</launchable>
+  <launchable type="desktop-id">app.runik.runik.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image>https://github.com/Runik-3/core/blob/main/assets/runik_screenshot.png</image>

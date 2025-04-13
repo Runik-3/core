@@ -41,7 +41,7 @@ modules:
       - install -Dm755 build/bin/runik /app/bin/runik
       # install app meta, desktop entry, icon
       - install -Dm755 build/linux/app.runik.runik.metainfo.xml /app/share/metainfo/app.runik.runik.metainfo.xml
-      - install -Dm755 build/linux/runik.desktop /app/share/applications/runik.desktop
+      - install -Dm755 build/linux/runik.desktop /app/share/applications/app.runik.runik.desktop
       - install -Dm755 build/appicon.png /app/share/icons/hicolor/256x256/apps/app.runik.runik.png
     sources:
       - type: dir 
