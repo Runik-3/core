@@ -13,7 +13,7 @@ func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format str
 	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
 		Name:         name,
 		Output:       a.dictionaryDir,
-		EntryLimit:   10000,
+		EntryLimit:   25000,
 		Depth:        depth,
 		Format:       "json",
 		ProgressHook: a.emitProgress,
