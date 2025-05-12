@@ -18,11 +18,12 @@
   );
 
   let search = "";
-  let anyDefsChanged = false;
+  let anyDefsChanged = false; // Defs edited
+  let dictModified = false; // Defs added or deleted
 
   // this should write the new dict to disk
   const saveEdits = async () => {
-    if (anyDefsChanged) {
+    if (anyDefsChanged || dictModified) {
       const res: Response<string> = await WriteLocalDictionary({
         Name: title,
         Lexicon: lexicon,
@@ -46,7 +47,7 @@
 
   const deleteEntry = (word: string) => {
     lexicon = lexicon.filter((entry) => entry.Word !== word);
-    anyDefsChanged = true;
+    dictModified = true;
   };
 
   let addMode = false;
@@ -61,7 +62,7 @@
         initDefinition: newDefinition,
       });
 
-      anyDefsChanged = true;
+      dictModified = true;
       notifications.addNotification({
         message: `${newWord} successfully added to dictionary!`,
         severity: Severity.success,
@@ -211,11 +212,15 @@
           onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
           maxWidth
           small
-          type="secondary">{anyDefsChanged ? "Cancel" : "Close"}</Button
+          type="secondary"
+          >{anyDefsChanged || dictModified ? "Cancel" : "Close"}</Button
         >
         <div id="btn-divider"></div>
-        <Button onClick={saveEdits} maxWidth disabled={!anyDefsChanged} small
-          >Save changes</Button
+        <Button
+          onClick={saveEdits}
+          maxWidth
+          disabled={!anyDefsChanged && !dictModified}
+          small>Save changes</Button
         >
       </div>
     </div>
