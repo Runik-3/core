@@ -16,15 +16,18 @@ Runik leverages the crowd-sourced info of fan wikis to generate custom e-reader 
 
 Binaries for Linux, macOS, and Windows can be found on the [releases page](https://github.com/Runik-3/core/releases).
 
-#### Additional step for kindle users 
+### Additional step for Kindle users 
 
-To properly convert runik dictionaries for Kindles, you'll also need a copy of a program called "kindlegen" which is bundled with [Kindle Previewer](https://kdp.amazon.com/en_US/help/topic/G202131170).
+To properly convert runik dictionaries for Kindles, you'll need to install **Kindle Previewer**, which bundles the `kindlegen` program required for dictionary compilation.
 
-With Kindle Previewer installed, navigate to the configuration tab in runik and enter the path to kindlegen. The default kindlegen installation locations for each OS are listed below:
+1. Download and install [Kindle Previewer](https://kdp.amazon.com/en_US/help/topic/G202131170).
+2. In Runik, navigate to the **Settings** tab and enter the full path to the kindlegen executable.
+
+The default kindlegen installation locations are:
 
 - macOS: `/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen`
 - Windows: `C:\Users\<username>\AppData\Local\Amazon\Kindle Previewer 3\lib\fc\bin\kindlegen`
-- Linux: _Kindle Previewer does not support linux, but old versions of the standalone kindlegen program should still work with runik._
+- Linux: _Kindle Previewer does not support linux, but old versions of the standalone kindlegen CLI program should still work._
 
 ## For developers
 
