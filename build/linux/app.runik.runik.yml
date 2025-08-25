@@ -33,6 +33,8 @@ modules:
     buildsystem: simple
     build-commands:
       - go install github.com/wailsapp/wails/v2/cmd/wails@latest
+    cleanup:
+      - "*"
   - name: runik
     buildsystem: simple
     build-commands:
