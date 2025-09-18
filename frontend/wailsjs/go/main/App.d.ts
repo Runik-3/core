@@ -14,6 +14,8 @@ export function DeleteDeviceDictFile(arg1:string):Promise<core.Response[string]>
 
 export function DeleteLocalDictFile(arg1:string):Promise<core.Response[string]>;
 
+export function ExportDictionary(arg1:string,arg2:Array<string>):Promise<core.Response[string]>;
+
 export function GetConfig():Promise<core.Response[github>;
 
 export function GetDeviceDictionaries():Promise<core.Response[[]github>;

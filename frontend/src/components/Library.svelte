@@ -4,6 +4,7 @@
   import {
     ConvertDictionary,
     DeleteLocalDictFile,
+    ExportDictionary,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
@@ -13,6 +14,7 @@
   import type { Response } from "../types/response";
   import Anvil from "./icons/Anvil.svelte";
   import { nav } from "../stores/nav";
+  import { modalStore } from "../stores/modal";
 
   export let hide = false;
 
@@ -29,7 +31,7 @@
     }
   });
 
-  let selected = new Set();
+  let selected: Set<string> = new Set();
 
   const select = (name: string) => {
     if (selected.has(name)) {
@@ -82,6 +84,41 @@
       });
     }
   };
+
+  const confirmExport = async (dictType: string) => {
+    const dicts = [...selected];
+    if (!dictType) {
+      notifications.addNotification({
+        message: "You must select an export format.",
+        severity: Severity.info,
+        timeout: 5000,
+      });
+      return;
+    }
+    const res: Response<string> = await ExportDictionary(dictType, dicts);
+    if (res.Error) {
+      notifications.addNotification({
+        message: "There was an error exporting.",
+        severity: Severity.error,
+      });
+      return;
+    }
+    notifications.addNotification({
+      message: res.Data, // Data here is a completion message
+      timeout: 5000,
+      severity: Severity.success,
+    });
+  };
+
+  const exportDicts = () => {
+    modalStore.set({
+      title: "Export",
+      description: `Select an export format`,
+      confirmLabel: "Choose destination...",
+      modalType: "convertSelect",
+      confirmFn: () => confirmExport($modalStore.selected),
+    });
+  };
 </script>
 
 <ContentLayout split {hide}>
@@ -108,6 +145,9 @@
     {/if}
   </div>
   <div id="button-container">
+    <Button type="secondary" disabled={!selected.size} onClick={exportDicts}
+      >Export as...</Button
+    >
     <Button disabled={!selected.size} onClick={sendDictsToDevice}>
       Send to device
     </Button>
@@ -120,7 +160,9 @@
   }
   #button-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    width: 340px;
+    margin: auto;
   }
   #forge-link {
     color: #1f797e;
