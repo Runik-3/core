@@ -18,7 +18,7 @@
   }
   .split {
     display: grid;
-    grid-template-rows: auto 36px;
+    grid-template-rows: auto 48px;
     grid-template-columns: 1;
   }
   .hide {
