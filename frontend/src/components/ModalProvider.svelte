@@ -1,6 +1,7 @@
 <script lang="ts">
   import { modalStore } from "../stores/modal";
   import Basic from "./modals/basic.svelte";
+  import ConvertSelect from "./modals/convertSelect.svelte";
   import Dict from "./modals/dict.svelte";
 
   const { modalType } = $modalStore;
@@ -9,6 +10,8 @@
 <div id="overlay"></div>
 {#if modalType === "dict"}
   <Dict />
+{:else if modalType === "convertSelect"}
+  <ConvertSelect />
 {:else}
   <Basic />
 {/if}

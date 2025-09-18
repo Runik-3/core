@@ -9,6 +9,7 @@ import (
 	d "github.com/runik-3/builder/dict"
 	"github.com/runik-3/core/convert"
 	c "github.com/runik-3/core/core"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
@@ -39,34 +40,36 @@ func (a *App) ConvertDictionary(fileName string) c.Response[string] {
 	return c.Response[string]{Data: dictPath, Error: ""}
 }
 
-func (a *App) ExportDictionary(dictType string, dictName string, outDir string) c.Response[string] {
-	dictPath := filepath.Join(a.dictionaryDir, dictName)
-
-	switch dictType {
-	case "stardict":
-		outPath, err := convert.StarDict(dictPath, outDir, a.runikDir)
-		if err != nil {
-			return c.Response[string]{Data: "", Error: err.Error()}
-		}
-		return c.Response[string]{Data: outPath, Error: ""}
-
-	case "dicthtml":
-		outPath, err := convert.KoboDicthtml(dictPath, outDir, a.runikDir)
-		if err != nil {
-			return c.Response[string]{Data: "", Error: err.Error()}
-		}
-		return c.Response[string]{Data: outPath, Error: ""}
-
-	case "mobi":
-		outPath, err := convert.KindleMobi(dictPath, outDir, a.runikDir, a.config.KindlegenPath)
-		if err != nil {
-			return c.Response[string]{Data: "", Error: err.Error()}
-		}
-		return c.Response[string]{Data: outPath, Error: ""}
-
-	default:
-		return c.Response[string]{Data: "", Error: fmt.Sprintf("%s is not a valid dictionary format", dictType)}
+func (a *App) ExportDictionary(dictType string, dicts []string) c.Response[string] {
+	outDir := a.selectDirectory(runtime.OpenDialogOptions{})
+	if outDir == "" {
+		return c.Response[string]{Data: "", Error: "No export destination selected."}
 	}
+
+	var err error
+	for _, dictName := range dicts {
+		dictPath := filepath.Join(a.dictionaryDir, dictName)
+
+		switch dictType {
+		case "stardict":
+			_, err = convert.StarDict(dictPath, outDir, a.runikDir)
+
+		case "dicthtml":
+			_, err = convert.KoboDicthtml(dictPath, outDir, a.runikDir)
+
+		case "mobi":
+			_, err = convert.KindleMobi(dictPath, outDir, a.runikDir, a.config.KindlegenPath)
+
+		default:
+			return c.Response[string]{Data: "", Error: fmt.Sprintf("%s is not a valid dictionary format", dictType)}
+		}
+	}
+
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	return c.Response[string]{Data: "Dicts successfully exported", Error: ""}
 }
 
 func (a *App) GetLocalDictionaries() c.Response[[]c.File] {
