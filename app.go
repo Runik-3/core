@@ -91,7 +91,12 @@ func (a *App) CheckForUpdate() bool {
 func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
 
+	// Nothing selected
 	if deviceDir == "" {
+		if a.device != nil {
+			// Return existing device selection
+			return c.Response[dev.Device]{Data: a.device, Error: ""}
+		}
 		return c.Response[dev.Device]{Data: dev.Kobo{}, Error: ""}
 	}
 
