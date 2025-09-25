@@ -69,7 +69,7 @@ func (a *App) ExportDictionary(dictType string, dicts []string) c.Response[strin
 		return c.Response[string]{Data: "", Error: err.Error()}
 	}
 
-	return c.Response[string]{Data: "Dicts successfully exported", Error: ""}
+	return c.Response[string]{Data: "Export successful", Error: ""}
 }
 
 func (a *App) GetLocalDictionaries() c.Response[[]c.File] {

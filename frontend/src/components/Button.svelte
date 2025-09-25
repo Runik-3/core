@@ -70,4 +70,10 @@
     color: #d3d3d3;
     cursor: default;
   }
+  .secondary:disabled {
+    border-color: #5d5d5d;
+    background-color: #d3d3d3;
+    color: #202020;
+    cursor: default;
+  }
 </style>
