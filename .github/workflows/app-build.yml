@@ -64,7 +64,7 @@ jobs:
       - name: Install Windows deps
         if: runner.os == 'Windows'
         # install gcc so windows can compile dictutil
-        run: choco install mingw
+        run: choco install mingw nsis -y
         shell: pwsh 
       
       # Build runik
