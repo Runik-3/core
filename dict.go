@@ -16,7 +16,7 @@ func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format str
 	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
 		Name:         name,
 		Output:       a.dictionaryDir,
-		EntryLimit:   25000,
+		EntryLimit:   300000, // This should cover some of the largest fan wikis
 		Depth:        depth,
 		Format:       "json",
 		ProgressHook: a.emitProgress,
