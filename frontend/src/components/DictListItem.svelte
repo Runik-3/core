@@ -8,12 +8,18 @@
   import { modalStore } from "../stores/modal";
   import { ReadLocalDictionary } from "../../wailsjs/go/main/App";
   import Show from "./icons/Show.svelte";
+  import Ellipsis from "./icons/Ellipsis.svelte";
 
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
+
+  let el = null;
+  let menuOpen = false;
+
+  const toggleMenu = () => (menuOpen = !menuOpen);
 
   const deleteDictionary = (dict: DictFile) => {
     modalStore.set({
@@ -57,6 +63,11 @@
   };
 </script>
 
+<svelte:document
+  on:click={(e) => {
+    console.log(el.contains(e.target));
+  }}
+/>
 <li class={`${compact && "compact"}`}>
   <div>
     {#if !compact}
@@ -73,24 +84,30 @@
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
     {/if}
-    {#if !compact}
-      <button
-        class="list-item-button"
-        aria-label={`view ${dict.Name}`}
-        type="button"
-        on:click={() => loadDict(dict)}
-      >
-        <Show size="17px" color="#5d5d5d" />
+    <div bind:this={el}>
+      <button class="list-item-button" on:click={toggleMenu}>
+        <Ellipsis size="1.6rem" color="#202020" />
       </button>
-    {/if}
-    <button
-      class="list-item-button"
-      aria-label={`delete ${dict.Name}`}
-      type="button"
-      on:click={() => deleteDictionary(dict)}
-    >
-      <Garbage size="16px" color="#c76767" />
-    </button>
+      <div hidden={!menuOpen} id="item-menu-dropdown">hi hi hi</div>
+    </div>
+    <!-- {#if !compact} -->
+    <!--   <button -->
+    <!--     class="list-item-button" -->
+    <!--     aria-label={`view ${dict.Name}`} -->
+    <!--     type="button" -->
+    <!--     on:click={() => loadDict(dict)} -->
+    <!--   > -->
+    <!--     <Show size="17px" color="#5d5d5d" /> -->
+    <!--   </button> -->
+    <!-- {/if} -->
+    <!-- <button -->
+    <!--   class="list-item-button" -->
+    <!--   aria-label={`delete ${dict.Name}`} -->
+    <!--   type="button" -->
+    <!--   on:click={() => deleteDictionary(dict)} -->
+    <!-- > -->
+    <!--   <Garbage size="16px" color="#c76767" /> -->
+    <!-- </button> -->
   </span>
 </li>
 
@@ -102,6 +119,7 @@
     padding: 12px 0;
     list-style: none;
     white-space: nowrap;
+    position: relative;
   }
   .compact {
     padding: 12px 0 0 0;
@@ -123,8 +141,8 @@
   }
   .list-btn-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr min-content;
-    grid-gap: 12px;
+    grid-template-columns: 1fr 1fr min-content;
+    grid-gap: 1rem;
     text-align: right;
     align-items: center;
     margin-left: 24px;
@@ -139,5 +157,16 @@
   }
   button:last-child {
     grid-column: 4/4;
+  }
+  #item-menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: 2.5rem;
+    min-width: 150px;
+    background-color: white;
+    z-index: 999;
+    border: 1px #d3d3d3 solid;
+    border-radius: 8px;
+    padding: 1rem;
   }
 </style>
