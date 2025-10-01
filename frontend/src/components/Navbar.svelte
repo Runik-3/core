@@ -11,14 +11,15 @@
 
 <nav>
   <button
-    class={`${$nav === "lib" && "active"}`}
+    class={`${$nav === "lib" ? "active" : ""}`}
     on:click={() => navigate("lib")}
     ><Book size="20px" color={`${$nav === "lib" ? "black" : "#5D5D5D"}`} /><span
       >Library</span
     ></button
   >
   <button
-    class={`${$nav === "gen" && "active"}`}
+    type="button"
+    class={`${$nav === "gen" ? "active" : ""}`}
     on:click={() => navigate("gen")}
     ><Anvil
       size="20px"
@@ -26,7 +27,7 @@
     /><span>Forge</span></button
   >
   <button
-    class={`${$nav === "conf" && "active"}`}
+    class={`${$nav === "conf" ? "active" : ""}`}
     on:click={() => navigate("conf")}
     ><Cog size="20px" color={`${$nav === "conf" ? "black" : "#5D5D5D"}`} /><span
       >Settings</span

@@ -33,7 +33,7 @@
 
   let selected: Set<string> = new Set();
 
-  const select = (name: string) => {
+  const toggleSelect = (name: string) => {
     if (selected.has(name)) {
       selected.delete(name);
       selected = new Set([...selected]);
@@ -108,6 +108,8 @@
       timeout: 5000,
       severity: Severity.success,
     });
+    console.log(selected);
+    selected = new Set();
   };
 
   const exportDicts = () => {
@@ -128,7 +130,7 @@
       {#each $library as dict}
         <DictListItem
           {dict}
-          {select}
+          {toggleSelect}
           selected={selected.has(dict.Name)}
           deleteDict={DeleteLocalDictFile}
         />

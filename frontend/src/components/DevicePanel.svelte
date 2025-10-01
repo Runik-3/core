@@ -42,7 +42,7 @@
               <DictListItem
                 compact
                 {dict}
-                select={() => {}}
+                toggleSelect={() => {}}
                 deleteDict={DeleteDeviceDictFile}
               />
             {/each}

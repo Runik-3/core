@@ -10,9 +10,9 @@
   import Show from "./icons/Show.svelte";
   import Dropdown from "./Dropdown.svelte";
 
-  export let dict: DictFile;
   export let selected = false;
-  export let select: (name: string) => void;
+  export let dict: DictFile;
+  export let toggleSelect: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
 
@@ -61,6 +61,7 @@
     await library.fetchDicts();
     await device.fetchDicts();
   };
+
   const formatDictSize = (size: number) => {
     const sizeKb = size / 1000;
     return Math.round(sizeKb * 10) / 10; // round to a single decimal place
@@ -68,15 +69,19 @@
 </script>
 
 <li class={`${compact && "compact"}`}>
-  <div>
+  <div id="title-checkbox-container">
     {#if !compact}
-      <button
-        class={`checkbox ${selected && "selected"}`}
-        aria-label={`select ${dict.Name}`}
-        on:click={() => select(dict.Name)}
-      ></button>
+      <input
+        name={`${dict.Name}-check`}
+        id={`${dict.Name}-check`}
+        type="checkbox"
+        bind:checked={selected}
+        on:change={() => toggleSelect(dict.Name)}
+      />
     {/if}
-    {dict.Display}
+    <label for={`${dict.Name}-check`}>
+      {dict.Display}
+    </label>
   </div>
   <span class={`list-btn-container ${compact ? "compact-list" : ""}`}>
     {#if !compact}
@@ -114,17 +119,30 @@
   span {
     color: #5d5d5d;
   }
-  .checkbox {
+
+  #title-checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+  input[type="checkbox"] {
+    /* Hide engine-rendered checkbox */
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+
+    /* Our custom styles */
     border: 1px solid black;
     background-color: white;
     height: 16px;
     width: 16px;
     border-radius: 2px;
-    cursor: pointer;
-    margin-right: 12px;
   }
-  .selected {
+  input[type="checkbox"]:checked {
     background-color: #1f797e;
+  }
+  label {
+    padding: 12px;
   }
   .list-btn-container {
     display: grid;
