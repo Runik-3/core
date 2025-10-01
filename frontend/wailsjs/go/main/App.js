@@ -46,6 +46,10 @@ export function ReadLocalDictionary(arg1) {
   return window['go']['main']['App']['ReadLocalDictionary'](arg1);
 }
 
+export function RenameLocalDictionary(arg1, arg2) {
+  return window['go']['main']['App']['RenameLocalDictionary'](arg1, arg2);
+}
+
 export function SelectDevice() {
   return window['go']['main']['App']['SelectDevice']();
 }

@@ -14,7 +14,9 @@
   <div id="modal">
     <div id="modal-content">
       <h2>{title}</h2>
-      <p>{description}</p>
+      {#if description}
+        <p>{description}</p>
+      {/if}
     </div>
     <slot />
     <div id="modal-buttons">

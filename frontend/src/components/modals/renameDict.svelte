@@ -11,7 +11,12 @@
 </script>
 
 <Basic>
-  <input type="text" placeholder="Dictionary name" on:input={handleInput} />
+  <input
+    value={$modalStore.formData}
+    type="text"
+    placeholder="Dictionary name"
+    on:input={handleInput}
+  />
 </Basic>
 
 <style>

@@ -26,6 +26,8 @@ export function GetWikiDetails(arg1:string):Promise<core.Response[github>;
 
 export function ReadLocalDictionary(arg1:string):Promise<core.Response[github>;
 
+export function RenameLocalDictionary(arg1:string,arg2:string):Promise<core.Response[string]>;
+
 export function SelectDevice():Promise<core.Response[github>;
 
 export function SelectFile(arg1:frontend.OpenDialogOptions):Promise<core.Response[string]>;

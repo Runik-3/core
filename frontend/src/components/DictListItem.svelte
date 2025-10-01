@@ -6,9 +6,13 @@
   import type { Response } from "../types/response";
   import { device } from "../stores/device";
   import { modalStore } from "../stores/modal";
-  import { ReadLocalDictionary } from "../../wailsjs/go/main/App";
+  import {
+    ReadLocalDictionary,
+    RenameLocalDictionary,
+  } from "../../wailsjs/go/main/App";
   import Show from "./icons/Show.svelte";
   import Dropdown from "./Dropdown.svelte";
+  import Edit from "./icons/Edit.svelte";
 
   export let selected = false;
   export let dict: DictFile;
@@ -25,21 +29,16 @@
     },
   ];
 
+  const refreshLibrary = () => {
+    void library.fetchDicts();
+    void device.fetchDicts();
+  };
+
   const deleteDictionary = (dict: DictFile) => {
     modalStore.set({
       title: "Confirm delete",
       description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
       confirmFn: () => confirmedDelete(dict),
-    });
-  };
-
-  const loadDict = async (dict: DictFile) => {
-    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
-
-    modalStore.set({
-      title: res.Data.Name,
-      dictData: res.Data,
-      modalType: "dict",
     });
   };
 
@@ -57,9 +56,63 @@
       severity: Severity.info,
       timeout: 5000,
     });
-    // TODO: clean this up with some dependency injection -- pass in the right store.
-    await library.fetchDicts();
-    await device.fetchDicts();
+    refreshLibrary();
+  };
+
+  const loadDict = async (dict: DictFile) => {
+    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
+    modalStore.set({
+      title: res.Data.Name,
+      dictData: res.Data,
+      modalType: "dict",
+    });
+  };
+
+  const rename = () => {
+    modalStore.set({
+      title: "Rename dictionary",
+      modalType: "renameDict",
+      formData: dict.Display,
+      confirmLabel: "Save",
+      confirmFn: confirmRename,
+    });
+  };
+
+  const confirmRename = async () => {
+    const newName = $modalStore.formData.trim();
+    if (!newName) {
+      notifications.addNotification({
+        message: "Name field empty",
+        severity: Severity.info,
+        timeout: 5000,
+      });
+      return;
+    }
+    if (newName === dict.Display) {
+      notifications.addNotification({
+        message: "Please enter a new name",
+        severity: Severity.info,
+        timeout: 5000,
+      });
+      return;
+    }
+    const res: Response<string> = await RenameLocalDictionary(
+      dict.Name,
+      newName,
+    );
+    if (res.Error) {
+      notifications.addNotification({
+        message: `There was an issue attempting to rename ${dict.Display}`,
+        severity: Severity.error,
+      });
+      return;
+    }
+    notifications.addNotification({
+      message: `Dictionary successfully renamed`,
+      severity: Severity.success,
+      timeout: 5000,
+    });
+    refreshLibrary();
   };
 
   const formatDictSize = (size: number) => {
@@ -97,6 +150,12 @@
               iconProps: { size: "18px", color: "#202020" },
               label: "View and edit",
               action: () => loadDict(dict),
+            },
+            {
+              icon: Edit,
+              iconProps: { size: "18px", color: "#202020" },
+              label: "Rename",
+              action: () => rename(),
             },
             ...compactOptions,
           ]}
