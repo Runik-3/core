@@ -10,8 +10,8 @@ export interface ModalProps {
   confirmLabel?: string
   // Specific to dict modal types
   dictData?: Dict
-  // Specific to select modal type
-  selected?: string | null
+  // Specific to user input modals
+  formData?: string | null
 }
 
 export const modalStore = writable<ModalProps | null>(null);

@@ -118,7 +118,7 @@
       description: `Select an export format`,
       confirmLabel: "Choose destination...",
       modalType: "convertSelect",
-      confirmFn: () => confirmExport($modalStore.selected),
+      confirmFn: () => confirmExport($modalStore.formData),
     });
   };
 </script>

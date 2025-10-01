@@ -16,6 +16,7 @@
       <h2>{title}</h2>
       <p>{description}</p>
     </div>
+    <slot />
     <div id="modal-buttons">
       <Button
         onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
