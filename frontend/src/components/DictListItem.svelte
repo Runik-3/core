@@ -8,12 +8,22 @@
   import { modalStore } from "../stores/modal";
   import { ReadLocalDictionary } from "../../wailsjs/go/main/App";
   import Show from "./icons/Show.svelte";
+  import Dropdown from "./Dropdown.svelte";
 
   export let dict: DictFile;
   export let selected = false;
   export let select: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
+
+  const compactOptions = [
+    {
+      icon: Garbage,
+      iconProps: { size: "16px", color: "#c76767" },
+      label: "Delete",
+      action: () => deleteDictionary(dict),
+    },
+  ];
 
   const deleteDictionary = (dict: DictFile) => {
     modalStore.set({
@@ -68,29 +78,24 @@
     {/if}
     {dict.Display}
   </div>
-  <span class="list-btn-container">
+  <span class={`list-btn-container ${compact ? "compact-list" : ""}`}>
     {#if !compact}
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
     {/if}
-    {#if !compact}
-      <button
-        class="list-item-button"
-        aria-label={`view ${dict.Name}`}
-        type="button"
-        on:click={() => loadDict(dict)}
-      >
-        <Show size="17px" color="#5d5d5d" />
-      </button>
-    {/if}
-    <button
-      class="list-item-button"
-      aria-label={`delete ${dict.Name}`}
-      type="button"
-      on:click={() => deleteDictionary(dict)}
-    >
-      <Garbage size="16px" color="#c76767" />
-    </button>
+    <Dropdown
+      items={compact
+        ? compactOptions
+        : [
+            {
+              icon: Show,
+              iconProps: { size: "18px", color: "#202020" },
+              label: "View and edit",
+              action: () => loadDict(dict),
+            },
+            ...compactOptions,
+          ]}
+    />
   </span>
 </li>
 
@@ -123,21 +128,18 @@
   }
   .list-btn-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr min-content;
+    grid-template-columns: 1fr 1fr min-content;
     grid-gap: 12px;
     text-align: right;
     align-items: center;
     margin-left: 24px;
   }
+  .compact-list {
+    grid-template-columns: 1fr min-content;
+  }
   .list-item-button {
     border: none;
     background-color: transparent;
     cursor: pointer;
-  }
-  button:nth-last-child(2) {
-    grid-column: 3/3;
-  }
-  button:last-child {
-    grid-column: 4/4;
   }
 </style>
