@@ -116,6 +116,36 @@ func (a *App) ReadLocalDictionary(name string) c.Response[d.Dict] {
 	return c.Response[d.Dict]{Data: dict, Error: ""}
 }
 
+/*
+dictName: the current dict name including extension
+newName: raw name not including extension (eg. .json)
+*/
+func (a *App) RenameLocalDictionary(dictName string, newName string) c.Response[string] {
+	originalPath := filepath.Join(a.dictionaryDir, dictName)
+
+	// Load existing dict into memory
+	dict, err := c.DictFromFile(originalPath)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	// Change name
+	dict.Name = newName
+	// Write dict to new path
+	newPath, err := dict.Write(a.dictionaryDir, "json")
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	// Delete old file
+	err = os.Remove(originalPath)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	return c.Response[string]{Data: newPath, Error: ""}
+}
+
 func (a *App) WriteLocalDictionary(dict d.Dict) c.Response[string] {
 	path, err := dict.Write(a.dictionaryDir, "json")
 	if err != nil {
