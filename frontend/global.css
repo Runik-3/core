@@ -27,16 +27,30 @@
   font-style: italic;
 }
 
-/* Source serif fonts */
+/* source-serif */
 @font-face {
-  font-family: "serif";
-  src: url("./assets/SourceSerif4-VariableFont_opsz\,wght.ttf");
+  font-family: 'Source Serif';
   font-style: normal;
+  font-weight: 400;
+  src: url('./assets/SourceSerifPro-Regular.woff') format('woff');
 }
 @font-face {
-  font-family: "serif";
-  src: url("./assets/SourceSerif4-Italic-VariableFont_opsz\,wght.ttf");
-  font-style: italic;
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 600;
+  src: url('./assets/SourceSerifPro-SemiBold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./assets/SourceSerifPro-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./assets/SourceSerifPro-Black.woff') format('woff');
 }
 
 html,
