@@ -26,7 +26,7 @@
     display: none;
     opacity: 80%;
     background-color: black;
-    color: var(--text);
+    color: var(--text-contrast);
     padding: 12px;
     width: 294px;
     font-size: 0.9rem;

@@ -57,9 +57,10 @@
   --bg: white;
   --bg-secondary: rgb(211, 211, 211); /* #d3d3d3 device panel background, borders */
   --bg-secondary-hover: rgba(211, 211, 211, 0.5); /* #d3d3d380 list selection */
-  --text: white;
+  --text: rgb(32, 32, 32); /* #202020 text */
+  --text-contrast: white;
   --text-secondary: rgb(93, 93, 93); /* #5d5d5d secondary text and icon */
-  --primary: rgb(32, 32, 32); /* #202020 buttons, text */
+  --primary: rgb(32, 32, 32); /* #202020 buttons */
   --primary-hover: rgb(44, 44, 44); /* 2c2c2c */
   --secondary: white; /* secondary buttons*/
   --secondary-hover: rgba(32, 32, 32, .1); /* #2020201a secondary buttons*/
@@ -87,4 +88,5 @@ h3 {
 body {
   background-color: var(--bg-secondary);
   height: 100%;
+  color: var(--text)
 }

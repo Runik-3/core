@@ -20,7 +20,7 @@
   button {
     background-color: var(--primary);
     box-sizing: border-box;
-    color: var(--text);
+    color: var(--text-contrast);
     border: 2px var(--primary) solid;
     border-radius: 8px;
     padding: 0 32px;
@@ -48,7 +48,7 @@
   .error {
     background-color: var(--error);
     border: 2px var(--error) solid;
-    color: var(--text);
+    color: var(--text-contrast);
   }
   .error:hover {
     background-color: var(--error-hover);
@@ -73,7 +73,7 @@
   .secondary:disabled {
     border-color: var(--text-secondary);
     background-color: var(--bg-secondary);
-    color: var(--primary);
+    color: var(--text);
     cursor: default;
   }
 </style>
