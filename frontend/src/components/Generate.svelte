@@ -168,7 +168,7 @@
 
 <style>
   h2 {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
   h3 {
     margin-top: 32px;

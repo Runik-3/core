@@ -114,7 +114,7 @@
 
 <style>
   h2 {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
   .setting-entry div {
     margin-top: 1rem;

@@ -158,7 +158,7 @@
 
 <style>
   h2 {
-    padding-bottom: 24px;
+    padding-bottom: 32px;
   }
   #button-container {
     display: flex;
