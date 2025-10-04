@@ -174,7 +174,7 @@
     margin-top: 32px;
   }
   h3 > span {
-    color: #1f797e;
+    color: var(--accent);
     font-family: "source serif";
   }
   .info-block {

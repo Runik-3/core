@@ -12,7 +12,7 @@
 
 <style>
   p {
-    color: #5d5d5d;
+    color: var(--text-secondary);
     padding: 0 8px;
     font-size: 0.9rem;
     font-style: italic;
@@ -31,7 +31,7 @@
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: #5d5d5d;
+    background: var(--text-secondary);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

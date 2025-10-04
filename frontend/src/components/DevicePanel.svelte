@@ -28,7 +28,7 @@
   <h2>Device</h2>
   <div class="content">
     {#if $device.path}
-      <Device size="128px" color="#5D5D5D" />
+      <Device size="128px" color="var(--text-secondary)" />
       <div id="device-info">
         <p>
           <strong>Name:</strong>
@@ -52,7 +52,7 @@
         {/if}
       </div>
     {:else}
-      <Device size="128px" hasPlug color="#5D5D5D" />
+      <Device size="128px" hasPlug color="var(--text-secondary)" />
       <p>Please plug-in and select your reader device.</p>
     {/if}
   </div>
@@ -78,7 +78,7 @@
     margin: 12px 0;
   }
   #device-dict-list {
-    background-color: white;
+    background-color: var(--bg);
     margin-top: 16px;
     border: 1px #a5a5a5 solid;
     border-radius: 8px;

@@ -51,7 +51,7 @@
     box-sizing: border-box;
     padding: 24px;
     z-index: 9999;
-    background-color: white;
+    background-color: var(--bg);
     width: 40%;
     height: 25%;
     min-width: 300px;

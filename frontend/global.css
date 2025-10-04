@@ -53,6 +53,23 @@
   src: url('./assets/SourceSerifPro-Black.woff') format('woff');
 }
 
+:root{
+  --bg: white;
+  --bg-secondary: rgb(211, 211, 211); /* #d3d3d3 device panel background, borders */
+  --bg-secondary-hover: rgba(211, 211, 211, 0.5); /* #d3d3d380 list selection */
+  --text: white;
+  --text-secondary: rgb(93, 93, 93); /* #5d5d5d secondary text and icon */
+  --primary: rgb(32, 32, 32); /* #202020 buttons, text */
+  --primary-hover: rgb(44, 44, 44); /* 2c2c2c */
+  --secondary: white; /* secondary buttons*/
+  --secondary-hover: rgba(32, 32, 32, .1); /* #2020201a secondary buttons*/
+  --accent: rgb(31, 121, 126); /* #1f797e info msgs, brand accent */
+  --error: rgb(199, 103, 103); /* #c76767 error msgs, buttons */
+  --error-hover: rgb(179, 92, 92); /* #b35c5c */
+  --warn: rgb(230, 193, 100); /* #e6c164 warn msgs */
+  --success: rgb(106, 178, 126); /* #6ab27e success msgs, buttons */
+}
+
 html,
 * {
   font-family: "ubuntu";
@@ -68,6 +85,6 @@ h3 {
   height: 100vh;
 }
 body {
-  background-color: #ddd;
+  background-color: var(--bg-secondary);
   height: 100%;
 }

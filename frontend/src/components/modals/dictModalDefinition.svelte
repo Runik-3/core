@@ -42,10 +42,10 @@
     <td>{def.Definition}</td>
     <td>
       <button on:click={() => (editMode = true)} class="edit-btn"
-        ><Edit color="#5d5d5d" /></button
+        ><Edit color="var(--text-secondary)" /></button
       >
       <button on:click={() => deleteEntry(def.Word)} class="edit-btn"
-        ><Garbage color="#c76767" size="14" /></button
+        ><Garbage color="var(--error)" size="14" /></button
       >
     </td>
   {/if}

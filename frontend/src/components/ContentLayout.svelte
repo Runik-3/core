@@ -12,7 +12,7 @@
     padding: 24px;
     height: calc(100vh - 48px);
     overflow: auto;
-    background-color: white;
+    background-color: var(--bg);
     border-top-right-radius: 16px;
     box-sizing: border-box;
   }

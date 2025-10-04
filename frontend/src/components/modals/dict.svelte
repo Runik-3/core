@@ -198,7 +198,7 @@
             />
             <Button onClick={addEntry} small type="secondary"
               ><span style="margin-right: 8px;">Add</span><Plus
-                color="#6AB27E"
+                color="var(--success)"
               /></Button
             >
           </div>
@@ -245,7 +245,7 @@
     padding: 24px;
     /* A layer lower than notifications. */
     z-index: 100;
-    background-color: white;
+    background-color: var(--bg);
     width: 90%;
     height: 90%;
     border-radius: 8px;

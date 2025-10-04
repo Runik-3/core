@@ -8,7 +8,7 @@
   on:pointerenter={() => (show = true)}
   on:pointerleave={() => (show = false)}
 >
-  <Info size="16px" color="#5d5d5d" />
+  <Info size="16px" color="var(--text-secondary)" />
   <div class={`info-popover ${show && "show"}`}>
     <slot />
   </div>
@@ -26,13 +26,13 @@
     display: none;
     opacity: 80%;
     background-color: black;
-    color: white;
+    color: var(--text);
     padding: 12px;
     width: 294px;
     font-size: 0.9rem;
     line-height: 1.2rem;
     border-radius: 8px;
-    border: 1px solid #d3d3d3;
+    border: 1px solid var(--bg-secondary);
   }
   .show {
     display: block;

@@ -167,7 +167,7 @@
     margin: auto;
   }
   #forge-link {
-    color: #1f797e;
+    color: var(--accent);
     text-decoration: none;
   }
 </style>

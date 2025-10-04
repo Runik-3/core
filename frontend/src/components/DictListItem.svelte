@@ -23,7 +23,7 @@
   const compactOptions = [
     {
       icon: Garbage,
-      iconProps: { size: "16px", color: "#c76767" },
+      iconProps: { size: "16px", color: "var(--error)" },
       label: "Delete",
       action: () => deleteDictionary(dict),
     },
@@ -147,13 +147,13 @@
         : [
             {
               icon: Show,
-              iconProps: { size: "18px", color: "#202020" },
+              iconProps: { size: "18px", color: "var(--primary)" },
               label: "View and edit",
               action: () => loadDict(dict),
             },
             {
               icon: Edit,
-              iconProps: { size: "18px", color: "#202020" },
+              iconProps: { size: "18px", color: "var(--primary)" },
               label: "Rename",
               action: () => rename(),
             },
@@ -176,7 +176,7 @@
     padding: 12px 0 0 0;
   }
   span {
-    color: #5d5d5d;
+    color: var(--text-secondary);
   }
 
   #title-checkbox-container {
@@ -192,13 +192,13 @@
 
     /* Our custom styles */
     border: 1px solid black;
-    background-color: white;
+    background-color: var(--bg);
     height: 16px;
     width: 16px;
     border-radius: 2px;
   }
   input[type="checkbox"]:checked {
-    background-color: #1f797e;
+    background-color: var(--accent);
   }
   label {
     padding: 12px;

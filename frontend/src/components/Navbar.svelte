@@ -13,7 +13,7 @@
   <button
     class={`${$nav === "lib" ? "active" : ""}`}
     on:click={() => navigate("lib")}
-    ><Book size="20px" color={`${$nav === "lib" ? "black" : "#5D5D5D"}`} /><span
+    ><Book size="20px" color={`${$nav === "lib" ? "black" : "var(--text-secondary)"}`} /><span
       >Library</span
     ></button
   >
@@ -23,13 +23,13 @@
     on:click={() => navigate("gen")}
     ><Anvil
       size="20px"
-      color={`${$nav === "gen" ? "black" : "#5D5D5D"}`}
+      color={`${$nav === "gen" ? "black" : "var(--text-secondary)"}`}
     /><span>Forge</span></button
   >
   <button
     class={`${$nav === "conf" ? "active" : ""}`}
     on:click={() => navigate("conf")}
-    ><Cog size="20px" color={`${$nav === "conf" ? "black" : "#5D5D5D"}`} /><span
+    ><Cog size="20px" color={`${$nav === "conf" ? "black" : "var(--text-secondary)"}`} /><span
       >Settings</span
     ></button
   >
@@ -53,17 +53,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #5d5d5d;
+    color: var(--text-secondary);
   }
   button:hover {
     background-color: #b5b5b5;
   }
   .active {
-    background-color: white;
+    background-color: var(--bg);
     color: black;
   }
   .active:hover {
-    background-color: white;
+    background-color: var(--bg);
   }
   button span {
     font-size: 0.9rem;

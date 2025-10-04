@@ -17,13 +17,13 @@
   const severityMap = (severity: Severity) => {
     switch (severity) {
       case Severity.warn:
-        return { color: "#e6c164", Component: Warn };
+        return { color: "var(--warn)", Component: Warn };
       case Severity.info:
-        return { color: "#1f797e", Component: Info };
+        return { color: "var(--accent)", Component: Info };
       case Severity.error:
-        return { color: "#c76767", Component: Error };
+        return { color: "var(--error)", Component: Error };
       case Severity.success:
-        return { color: "#6ab27e", Component: Success };
+        return { color: "var(--success)", Component: Success };
     }
   };
   const { color, Component: Icon } = severityMap(notification.severity);
@@ -44,7 +44,7 @@
     </div>
     {notification?.message}
     {#if notification?.externalLink}
-      <a class="external-link-btn" href="#" on:click={() => BrowserOpenURL(notification.externalLink)}><Link color='#5D5D5D' /></a> 
+      <a class="external-link-btn" href="#" on:click={() => BrowserOpenURL(notification.externalLink)}><Link color='var(--text-secondary)' /></a> 
     {/if}
   </div>
   <button
@@ -62,7 +62,7 @@
     border-radius: 8px;
     margin-top: 4px;
     width: 420px;
-    background-color: white;
+    background-color: var(--bg);
     border-width: 1px;
     border-style: solid;
     overflow: hidden;
@@ -84,16 +84,16 @@
     box-sizing: border-box;
   }
   .success {
-    border-color: #6ab27e;
+    border-color: var(--success);
   }
   .info {
-    border-color: #1f797e;
+    border-color: var(--accent);
   }
   .warn {
-    border-color: #e6c164;
+    border-color: var(--warn);
   }
   .error {
-    border-color: #c76767;
+    border-color: var(--error);
   }
   .notification-close-btn {
     padding-top: 8px;

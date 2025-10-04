@@ -18,10 +18,10 @@
 
 <style>
   button {
-    background-color: #202020;
+    background-color: var(--primary);
     box-sizing: border-box;
-    color: white;
-    border: 2px #202020 solid;
+    color: var(--text);
+    border: 2px var(--primary) solid;
     border-radius: 8px;
     padding: 0 32px;
     max-width: 256px;
@@ -34,25 +34,25 @@
     align-items: center;
   }
   button:hover {
-    background-color: #2c2c2c;
-    border-color: #2c2c2c;
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
   }
   .secondary {
-    background-color: transparent;
+    background-color: var(--secondary);
     border: 2px black solid;
     color: black;
   }
   .secondary:hover {
-    background-color: #20202018;
+    background-color: var(--secondary-hover);
   }
   .error {
-    background-color: #c76767;
-    border: 2px #c76767 solid;
-    color: white;
+    background-color: var(--error);
+    border: 2px var(--error) solid;
+    color: var(--text);
   }
   .error:hover {
-    background-color: #b35c5c;
-    border-color: #b35c5c;
+    background-color: var(--error-hover);
+    border-color: var(--error-hover);
   }
   .small {
     padding: 0 24px;
@@ -65,15 +65,15 @@
     width: 100%;
   }
   button:disabled {
-    border-color: #5d5d5d;
-    background-color: #5d5d5d;
-    color: #d3d3d3;
+    border-color: var(--text-secondary);
+    background-color: var(--text-secondary);
+    color: var(--bg-secondary);
     cursor: default;
   }
   .secondary:disabled {
-    border-color: #5d5d5d;
-    background-color: #d3d3d3;
-    color: #202020;
+    border-color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    color: var(--primary);
     cursor: default;
   }
 </style>

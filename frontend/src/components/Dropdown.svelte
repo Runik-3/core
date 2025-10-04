@@ -28,7 +28,7 @@
 <svelte:document on:click={handleClickOutside} />
 <div bind:this={container} class="dropdown-container">
   <button class="dropdown-button" on:click={toggle}>
-    <Ellipsis size="24px" color="#202020" />
+    <Ellipsis size="24px" color="var(--primary)" />
   </button>
   <ul hidden={!show} id="menu-items-container">
     {#each items as item}
@@ -60,19 +60,19 @@
     border-radius: 8px;
   }
   .dropdown-button:hover {
-    background: #d3d3d380;
+    background: var(--bg-secondary-hover);
   }
   .dropdown-button:active {
-    background: #d3d3d3;
+    background: var(--bg-secondary);
   }
   #menu-items-container {
     z-index: 99;
     position: absolute;
     min-width: 176px;
     right: 0;
-    background-color: white;
+    background-color: var(--bg);
     border-radius: 0.5rem;
-    border: 1px #d3d3d3 solid;
+    border: 1px var(--bg-secondary) solid;
     text-align: left;
     padding: 0.5rem 0;
   }
@@ -93,7 +93,7 @@
     align-items: center;
   }
   li button:hover {
-    background: #d3d3d380;
+    background: var(--bg-secondary-hover);
   }
   .icon-container {
     justify-self: center;
