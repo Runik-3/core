@@ -36,11 +36,7 @@
     }
     loading = false;
     wikiInfo = res.Data;
-    getNameFromUrl(url);
-  };
-
-  const getNameFromUrl = (url: string) => {
-    dictName = new URL(url).hostname.split(".")[0];
+    dictName = wikiInfo.SiteName;
   };
 
   const resetPageState = () => {
@@ -219,9 +215,6 @@
   }
   #depth-input {
     width: 36px;
-  }
-  #name-input {
-    width: 112px;
   }
   details {
     width: 256px;

@@ -108,7 +108,6 @@
       timeout: 5000,
       severity: Severity.success,
     });
-    console.log(selected);
     selected = new Set();
   };
 
