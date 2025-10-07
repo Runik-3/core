@@ -13,6 +13,17 @@ import (
 )
 
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
+	// handle name collisions
+	dicts := a.GetLocalDictionaries()
+	if dicts.Error != "" {
+		return c.Response[d.Dict]{Data: d.Dict{}, Error: dicts.Error}
+	}
+	for _, dict := range dicts.Data {
+		if dict.Display == name {
+			return c.Response[d.Dict]{Data: d.Dict{}, Error: fmt.Sprintf("A dictionary called '%s' already exists, try again with a unique name.", name)}
+		}
+	}
+
 	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
 		Name:         name,
 		Output:       a.dictionaryDir,
