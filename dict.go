@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	d "github.com/runik-3/builder/dict"
 	"github.com/runik-3/core/convert"
@@ -12,16 +14,32 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
+func (a *App) handleNameCollisions(dictName string, isDevice bool) error {
 	// handle name collisions
-	dicts := a.GetLocalDictionaries()
+	var dicts c.Response[[]c.File]
+	if isDevice {
+		dicts = a.GetDeviceDictionaries()
+	} else {
+		dicts = a.GetLocalDictionaries()
+	}
+
 	if dicts.Error != "" {
-		return c.Response[d.Dict]{Data: d.Dict{}, Error: dicts.Error}
+		return errors.New(dicts.Error)
 	}
 	for _, dict := range dicts.Data {
-		if dict.Display == name {
-			return c.Response[d.Dict]{Data: d.Dict{}, Error: fmt.Sprintf("A dictionary called '%s' already exists, try again with a unique name.", name)}
+		if dict.Display == dictName {
+			return fmt.Errorf("A dictionary called '%s' already exists.", dictName)
 		}
+	}
+
+	return nil
+}
+
+func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
+	// handle name collisions
+	err := a.handleNameCollisions(name, false)
+	if err != nil {
+		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
 	}
 
 	dict, err := d.BuildDictionary(wikiUrl, d.GeneratorOptions{
@@ -39,6 +57,13 @@ func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format str
 }
 
 func (a *App) ConvertDictionary(fileName string) c.Response[string] {
+	// handle name collisions
+	dictName := strings.Split(fileName, ".json")[0]
+	err := a.handleNameCollisions(dictName, true)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
 	if a.device == nil || a.device.GetPath() == "" {
 		return c.Response[string]{Data: "", Error: "No device connected"}
 	}

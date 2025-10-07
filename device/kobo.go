@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/runik-3/core/convert"
 	c "github.com/runik-3/core/core"
@@ -57,6 +58,8 @@ func (k Kobo) GetDictionaries() ([]c.File, error) {
 	deviceDicts := []c.File{}
 	for _, file := range files {
 		if file.Extension == "zip" {
+			// strip dicthtml-[r]
+			file.Display = strings.Split(file.Display, "dicthtml-[r]")[1]
 			deviceDicts = append(deviceDicts, file)
 		}
 	}
