@@ -2,7 +2,6 @@ package core
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -11,9 +10,14 @@ import (
 const RELEASES_ENDPOINT = "https://api.github.com/repos/Runik-3/core/releases"
 
 func UpdateAvailable(version string) bool {
-	latest := fetchLatestRelease()
-	current := strings.TrimSpace(string(version))
+	latest, err := fetchLatestRelease()
+	// Updates are non-essential, if we cannot fetch the release info, try again
+	// next time, do not crash the app.
+	if err != nil {
+		return false
+	}
 
+	current := strings.TrimSpace(string(version))
 	if current != latest {
 		return true
 	}
@@ -25,26 +29,26 @@ type GithubRelease struct {
 	Name string `json:"name"`
 }
 
-func fetchLatestRelease() string {
+func fetchLatestRelease() (string, error) {
 	// TODO: Mechanism for logging go process errors
 	res, err := http.Get(RELEASES_ENDPOINT)
 	if err != nil {
-		fmt.Println(err)
+		return "", err
 	}
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
+		return "", err
 	}
 
 	releases := []GithubRelease{}
 	err = json.Unmarshal(body, &releases)
 	if err != nil {
-		fmt.Println(err)
+		return "", err
 	}
 
 	if len(releases) == 0 {
-		return ""
+		return "", err
 	}
-	return strings.TrimSpace(releases[0].Name)
+	return strings.TrimSpace(releases[0].Name), nil
 }
