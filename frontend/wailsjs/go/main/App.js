@@ -10,10 +10,6 @@ export function CheckForUpdate() {
   return window['go']['main']['App']['CheckForUpdate']();
 }
 
-export function ConvertDictionary(arg1) {
-  return window['go']['main']['App']['ConvertDictionary'](arg1);
-}
-
 export function DeleteDeviceDictFile(arg1) {
   return window['go']['main']['App']['DeleteDeviceDictFile'](arg1);
 }
@@ -22,8 +18,8 @@ export function DeleteLocalDictFile(arg1) {
   return window['go']['main']['App']['DeleteLocalDictFile'](arg1);
 }
 
-export function ExportDictionary(arg1, arg2) {
-  return window['go']['main']['App']['ExportDictionary'](arg1, arg2);
+export function ExportDictionaries(arg1, arg2) {
+  return window['go']['main']['App']['ExportDictionaries'](arg1, arg2);
 }
 
 export function GetConfig() {
@@ -40,6 +36,10 @@ export function GetLocalDictionaries() {
 
 export function GetWikiDetails(arg1) {
   return window['go']['main']['App']['GetWikiDetails'](arg1);
+}
+
+export function InstallDictionaries(arg1) {
+  return window['go']['main']['App']['InstallDictionaries'](arg1);
 }
 
 export function ReadLocalDictionary(arg1) {

@@ -2,9 +2,9 @@
   import { Severity, notifications } from "../stores/notification";
   import { library } from "../stores/library";
   import {
-    ConvertDictionary,
+    InstallDictionaries,
     DeleteLocalDictFile,
-    ExportDictionary,
+    ExportDictionaries,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
@@ -42,47 +42,26 @@
     selected = new Set([...selected, name]);
   };
 
-  const convertDictionary = async (dictName: string) => {
-    const res: Response<string> = await ConvertDictionary(dictName);
-    return new Promise((resolve, reject) => {
-      if (res.Error) {
-        return reject(res.Error);
-      }
-      return resolve(res.Data);
-    });
-  };
-
   const sendDictsToDevice = async () => {
-    if (!$device?.path) {
-      notifications.addNotification({
-        message: "No device selected.",
-        severity: Severity.info,
-        timeout: 5000,
-      });
-      return;
-    }
-    try {
-      await Promise.all(
-        [...selected].map(async (dictName: string) => {
-          return convertDictionary(dictName);
-        }),
-      );
-      notifications.addNotification({
-        message: "Added to device",
-        severity: Severity.success,
-        timeout: 5000,
-      });
-      // refetch dicts and selections
-      await device.fetchDicts();
-      selected = new Set();
-    } catch (e) {
+    const dicts = [...selected];
+    const res: Response<string> = await InstallDictionaries(dicts);
+    if (res.Error) {
       notifications.addNotification({
         message: `${
           selected.size === 1 ? "Dictionary" : "Dictionaries"
-        } failed to send to device:\n ${e}`,
+        } failed to send to device:\n ${res.Error}`,
         severity: Severity.error,
       });
+      return;
     }
+    notifications.addNotification({
+      message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} added to device`,
+      severity: Severity.success,
+      timeout: 5000,
+    });
+    // refetch dicts and selections
+    await device.fetchDicts();
+    selected = new Set();
   };
 
   const confirmExport = async (dictType: string) => {
@@ -95,7 +74,7 @@
       });
       return;
     }
-    const res: Response<string> = await ExportDictionary(dictType, dicts);
+    const res: Response<string> = await ExportDictionaries(dictType, dicts);
     if (res.Error) {
       notifications.addNotification({
         message: "There was an error exporting.",
@@ -142,7 +121,9 @@
             id="forge-link"
             href="#"
             on:click={() => nav.set("gen")}>forge</a
-          ></p><Anvil size="32" />
+          >
+        </p>
+        <Anvil size="32" />
       </div>
     {/if}
   </div>

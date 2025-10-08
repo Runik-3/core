@@ -56,27 +56,31 @@ func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format str
 	return c.Response[d.Dict]{Data: dict, Error: ""}
 }
 
-func (a *App) ConvertDictionary(fileName string) c.Response[string] {
+func (a *App) InstallDictionaries(dictFiles []string) c.Response[string] {
 	// handle name collisions
-	dictName := strings.Split(fileName, ".json")[0]
-	err := a.handleNameCollisions(dictName, true)
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err.Error()}
+	for _, fileName := range dictFiles {
+		dictName := strings.Split(fileName, ".json")[0]
+		err := a.handleNameCollisions(dictName, true)
+		if err != nil {
+			return c.Response[string]{Data: "", Error: err.Error()}
+		}
 	}
 
-	if a.device == nil || a.device.GetPath() == "" {
-		return c.Response[string]{Data: "", Error: "No device connected"}
-	}
+	for _, fileName := range dictFiles {
+		if a.device == nil || a.device.GetPath() == "" {
+			return c.Response[string]{Data: "", Error: "No device connected"}
+		}
 
-	rawDictPath := filepath.Join(a.dictionaryDir, fileName)
-	dictPath, err := a.device.ConvertDictionary(rawDictPath)
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err.Error()}
+		rawDictPath := filepath.Join(a.dictionaryDir, fileName)
+		_, err := a.device.ConvertDictionary(rawDictPath)
+		if err != nil {
+			return c.Response[string]{Data: "", Error: err.Error()}
+		}
 	}
-	return c.Response[string]{Data: dictPath, Error: ""}
+	return c.Response[string]{Data: "Install successful", Error: ""}
 }
 
-func (a *App) ExportDictionary(dictType string, dicts []string) c.Response[string] {
+func (a *App) ExportDictionaries(dictType string, dicts []string) c.Response[string] {
 	outDir := a.selectDirectory(runtime.OpenDialogOptions{})
 	if outDir == "" {
 		return c.Response[string]{Data: "", Error: "No export destination selected."}

@@ -8,13 +8,11 @@ export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string)
 
 export function CheckForUpdate():Promise<boolean>;
 
-export function ConvertDictionary(arg1:string):Promise<core.Response_string_>;
-
 export function DeleteDeviceDictFile(arg1:string):Promise<core.Response_string_>;
 
 export function DeleteLocalDictFile(arg1:string):Promise<core.Response_string_>;
 
-export function ExportDictionary(arg1:string,arg2:Array<string>):Promise<core.Response_string_>;
+export function ExportDictionaries(arg1:string,arg2:Array<string>):Promise<core.Response_string_>;
 
 export function GetConfig():Promise<core.Response_github_com_runik_3_core_core_Config_>;
 
@@ -23,6 +21,8 @@ export function GetDeviceDictionaries():Promise<core.Response___github_com_runik
 export function GetLocalDictionaries():Promise<core.Response___github_com_runik_3_core_core_File_>;
 
 export function GetWikiDetails(arg1:string):Promise<core.Response_github_com_runik_3_builder_wikiBot_WikiDetails_>;
+
+export function InstallDictionaries(arg1:Array<string>):Promise<core.Response_string_>;
 
 export function ReadLocalDictionary(arg1:string):Promise<core.Response_github_com_runik_3_builder_dict_Dict_>;
 

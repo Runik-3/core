@@ -36,7 +36,7 @@ func KindleMobi(dictPath string, outDir string, appConfigDir string, kindleGenPa
 	convertedDictionary := filepath.Join(appConfigDir, "temp", "epub", "OEBPS", fmt.Sprintf("%s.mobi", dict.Name))
 	_, err = os.Stat(convertedDictionary)
 	if err != nil {
-		return "", errors.New("Failed to convert dictionary for Kindle. Make sure you've configured the kindlegen path correctly in settings.")
+		return "", fmt.Errorf("Failed to convert %s for Kindle. Make sure you've configured the kindlegen path correctly in settings.", dict.Name)
 	}
 
 	// send to device
