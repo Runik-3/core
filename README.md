@@ -36,14 +36,17 @@ The default kindlegen installation locations are:
 1. Clone the project
 2. Run the app in dev mode
     ```
-    wails dev
-    ```
-3. Build for your target OS
-    ```
-    wails build
+    make dev
     ```
 
-Note: To build a flatpak for linux use the `make build-linux` command
+    _If you're developing on linux use the `make dev-linux` command._
+
+3. Build for your target OS
+    ```
+    make build
+    ```
+
+Note: To build a flatpak for linux use the `make build-flatpak` command
 
 ### Dependencies
 

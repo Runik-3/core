@@ -4,18 +4,17 @@ runtime-version: '47'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.node24
 build-options:
   build-args:
     - --share=network
-  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node22/bin
+  append-path: /usr/lib/sdk/golang/bin:/usr/lib/sdk/node24/bin
   env:
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang
 command: runik
 finish-args:
   - --share=ipc 
-  - --socket=x11
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
