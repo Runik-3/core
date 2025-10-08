@@ -140,26 +140,34 @@
     {#if !compact}
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
+
+      <Dropdown
+        items={[
+          {
+            icon: Show,
+            iconProps: { size: "18px", color: "var(--primary)" },
+            label: "View and edit",
+            action: () => loadDict(dict),
+          },
+          {
+            icon: Edit,
+            iconProps: { size: "18px", color: "var(--primary)" },
+            label: "Rename",
+            action: () => rename(),
+          },
+          {
+            icon: Garbage,
+            iconProps: { size: "16px", color: "var(--error)" },
+            label: "Delete",
+            action: () => deleteDictionary(dict),
+          },
+        ]}
+      />
+    {:else}
+      <button class="list-item-button" on:click={() => deleteDictionary(dict)}
+        ><Garbage size={"16px"} color={"var(--error)"} /></button
+      >
     {/if}
-    <Dropdown
-      items={compact
-        ? compactOptions
-        : [
-            {
-              icon: Show,
-              iconProps: { size: "18px", color: "var(--primary)" },
-              label: "View and edit",
-              action: () => loadDict(dict),
-            },
-            {
-              icon: Edit,
-              iconProps: { size: "18px", color: "var(--primary)" },
-              label: "Rename",
-              action: () => rename(),
-            },
-            ...compactOptions,
-          ]}
-    />
   </span>
 </li>
 
