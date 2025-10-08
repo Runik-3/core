@@ -182,6 +182,7 @@
   #title-checkbox-container {
     display: flex;
     align-items: center;
+    overflow: auto;
   }
   input[type="checkbox"] {
     /* Hide engine-rendered checkbox */

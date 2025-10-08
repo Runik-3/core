@@ -78,12 +78,14 @@
     margin: 12px 0;
   }
   #device-dict-list {
+    box-sizing: border-box;
     background-color: var(--bg);
     margin-top: 16px;
     border: 1px #a5a5a5 solid;
     border-radius: 8px;
     padding: 8px 16px;
     height: calc(100vh - 524px); /* overflow needs a set number for height */
+    max-width: 302px; /* max device container minus 24px padding on each side */
     overflow-y: auto;
   }
   p {
