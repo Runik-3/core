@@ -4,34 +4,34 @@ import {core} from '../models';
 import {frontend} from '../models';
 import {dict} from '../models';
 
-export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string):Promise<core.Response[github>;
+export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string):Promise<core.Response_github_com_runik_3_builder_dict_Dict_>;
 
 export function CheckForUpdate():Promise<boolean>;
 
-export function ConvertDictionary(arg1:string):Promise<core.Response[string]>;
+export function ConvertDictionary(arg1:string):Promise<core.Response_string_>;
 
-export function DeleteDeviceDictFile(arg1:string):Promise<core.Response[string]>;
+export function DeleteDeviceDictFile(arg1:string):Promise<core.Response_string_>;
 
-export function DeleteLocalDictFile(arg1:string):Promise<core.Response[string]>;
+export function DeleteLocalDictFile(arg1:string):Promise<core.Response_string_>;
 
-export function ExportDictionary(arg1:string,arg2:Array<string>):Promise<core.Response[string]>;
+export function ExportDictionary(arg1:string,arg2:Array<string>):Promise<core.Response_string_>;
 
-export function GetConfig():Promise<core.Response[github>;
+export function GetConfig():Promise<core.Response_github_com_runik_3_core_core_Config_>;
 
-export function GetDeviceDictionaries():Promise<core.Response[[]github>;
+export function GetDeviceDictionaries():Promise<core.Response___github_com_runik_3_core_core_File_>;
 
-export function GetLocalDictionaries():Promise<core.Response[[]github>;
+export function GetLocalDictionaries():Promise<core.Response___github_com_runik_3_core_core_File_>;
 
-export function GetWikiDetails(arg1:string):Promise<core.Response[github>;
+export function GetWikiDetails(arg1:string):Promise<core.Response_github_com_runik_3_builder_wikiBot_WikiDetails_>;
 
-export function ReadLocalDictionary(arg1:string):Promise<core.Response[github>;
+export function ReadLocalDictionary(arg1:string):Promise<core.Response_github_com_runik_3_builder_dict_Dict_>;
 
-export function RenameLocalDictionary(arg1:string,arg2:string):Promise<core.Response[string]>;
+export function RenameLocalDictionary(arg1:string,arg2:string):Promise<core.Response_string_>;
 
-export function SelectDevice():Promise<core.Response[github>;
+export function SelectDevice():Promise<core.Response_github_com_runik_3_core_device_Device_>;
 
-export function SelectFile(arg1:frontend.OpenDialogOptions):Promise<core.Response[string]>;
+export function SelectFile(arg1:frontend.OpenDialogOptions):Promise<core.Response_string_>;
 
-export function SetConfig(arg1:core.Config):Promise<core.Response[string]>;
+export function SetConfig(arg1:core.Config):Promise<core.Response_string_>;
 
-export function WriteLocalDictionary(arg1:dict.Dict):Promise<core.Response[string]>;
+export function WriteLocalDictionary(arg1:dict.Dict):Promise<core.Response_string_>;
