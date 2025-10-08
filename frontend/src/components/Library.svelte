@@ -136,13 +136,14 @@
       {/each}
     {:else}
       <!-- Empty library -->
-      <p>
-        Nothing here yet. Generate dictionaries in the <a
-          id="forge-link"
-          href="#"
-          on:click={() => nav.set("gen")}>forge</a
-        ><Anvil size="36" />
-      </p>
+      <div id="empty-library-container">
+        <p>
+          Nothing here yet. Generate dictionaries in the <a
+            id="forge-link"
+            href="#"
+            on:click={() => nav.set("gen")}>forge</a
+          ></p><Anvil size="32" />
+      </div>
     {/if}
   </div>
   <div id="button-container">
@@ -168,5 +169,10 @@
   #forge-link {
     color: var(--accent);
     text-decoration: none;
+    margin-right: 0.25rem;
+  }
+  #empty-library-container {
+    display: flex;
+    align-items: center;
   }
 </style>
