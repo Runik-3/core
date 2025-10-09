@@ -27,7 +27,7 @@ func (a *App) handleNameCollisions(dictName string, isDevice bool) error {
 		return errors.New(dicts.Error)
 	}
 	for _, dict := range dicts.Data {
-		if dict.Display == dictName {
+		if strings.EqualFold(dict.Display, dictName) {
 			return fmt.Errorf("A dictionary called '%s' already exists.", dictName)
 		}
 	}
