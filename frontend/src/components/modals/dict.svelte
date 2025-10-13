@@ -7,6 +7,7 @@
   import { notifications, Severity } from "../../stores/notification";
   import type { Definition, EditableDefinition } from "../../types/dict";
   import Plus from "../icons/Plus.svelte";
+  import { dict } from "../../../wailsjs/go/models";
 
   const { title, dictData, cancelFn } = $modalStore;
   let lexicon: EditableDefinition[] = dictData.Lexicon.map(
@@ -27,7 +28,9 @@
       const res: Response<string> = await WriteLocalDictionary({
         Name: title,
         Lexicon: lexicon,
-      });
+        ApiUrl: dictData.ApiUrl,
+        Lang: dictData.Lang,
+      } as unknown as dict.Dict); // FIXME: wails types are incompatible
       if (res.Error) {
         notifications.addNotification({
           message: "Failed to save changes. Please try again.",

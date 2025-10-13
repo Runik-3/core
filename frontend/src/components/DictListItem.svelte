@@ -20,15 +20,6 @@
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let compact = false;
 
-  const compactOptions = [
-    {
-      icon: Garbage,
-      iconProps: { size: "16px", color: "var(--error)" },
-      label: "Delete",
-      action: () => deleteDictionary(dict),
-    },
-  ];
-
   const refreshLibrary = () => {
     void library.fetchDicts();
     void device.fetchDicts();

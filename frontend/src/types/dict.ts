@@ -20,5 +20,7 @@ export interface EditableDefinition extends Definition {
 
 export interface Dict {
   Name: string
+  ApiUrl: string
+  Lang: string
   Lexicon: Definition[]
 }
