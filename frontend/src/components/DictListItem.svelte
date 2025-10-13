@@ -195,6 +195,7 @@
     background-color: var(--bg);
     height: 16px;
     width: 16px;
+    min-width: 16px;
     border-radius: 2px;
   }
   input[type="checkbox"]:checked {
