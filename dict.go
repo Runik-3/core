@@ -14,8 +14,8 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (a *App) handleNameCollisions(dictName string, isDevice bool) error {
-	// handle name collisions
+// Handles name collisions -- does not count case sensitivity
+func (a *App) handleNameCollisions(dictName string, caseSensitive bool, isDevice bool) error {
 	var dicts c.Response[[]c.File]
 	if isDevice {
 		dicts = a.GetDeviceDictionaries()
@@ -27,8 +27,14 @@ func (a *App) handleNameCollisions(dictName string, isDevice bool) error {
 		return errors.New(dicts.Error)
 	}
 	for _, dict := range dicts.Data {
-		if strings.EqualFold(dict.Display, dictName) {
-			return fmt.Errorf("A dictionary called '%s' already exists.", dictName)
+		if caseSensitive {
+			if dict.Display == dictName {
+				return fmt.Errorf("A dictionary called '%s' already exists.", dictName)
+			}
+		} else {
+			if strings.EqualFold(dict.Display, dictName) {
+				return fmt.Errorf("A dictionary called '%s' already exists.", dictName)
+			}
 		}
 	}
 
@@ -37,7 +43,7 @@ func (a *App) handleNameCollisions(dictName string, isDevice bool) error {
 
 func (a *App) BuildDictionary(wikiUrl string, name string, depth int, format string) c.Response[d.Dict] {
 	// handle name collisions
-	err := a.handleNameCollisions(name, false)
+	err := a.handleNameCollisions(name, false, false)
 	if err != nil {
 		return c.Response[d.Dict]{Data: d.Dict{}, Error: err.Error()}
 	}
@@ -60,7 +66,7 @@ func (a *App) InstallDictionaries(dictFiles []string) c.Response[string] {
 	// handle name collisions
 	for _, fileName := range dictFiles {
 		dictName := strings.Split(fileName, ".json")[0]
-		err := a.handleNameCollisions(dictName, true)
+		err := a.handleNameCollisions(dictName, false, true)
 		if err != nil {
 			return c.Response[string]{Data: "", Error: err.Error()}
 		}
@@ -161,24 +167,33 @@ dictName: the current dict name including extension
 newName: raw name not including extension (eg. .json)
 */
 func (a *App) RenameLocalDictionary(dictName string, newName string) c.Response[string] {
+	// Handle collisions
+	// - allow for case-changes (eg. stardust.json -> Stardust.json)
+	// - prevent overwriting existing dictionaries
+	err := a.handleNameCollisions(newName, true, false)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
 	originalPath := filepath.Join(a.dictionaryDir, dictName)
 
-	// Load existing dict into memory
-	dict, err := c.DictFromFile(originalPath)
+	// First, rename the file
+	newPath := filepath.Join(a.dictionaryDir, fmt.Sprintf("%s.json", newName))
+	err = os.Rename(originalPath, newPath)
+	if err != nil {
+		return c.Response[string]{Data: "", Error: err.Error()}
+	}
+
+	// Load dict into memory
+	dict, err := c.DictFromFile(newPath)
 	if err != nil {
 		return c.Response[string]{Data: "", Error: err.Error()}
 	}
 
 	// Change name
 	dict.Name = newName
-	// Write dict to new path
-	newPath, err := dict.Write(a.dictionaryDir, "json")
-	if err != nil {
-		return c.Response[string]{Data: "", Error: err.Error()}
-	}
-
-	// Delete old file
-	err = os.Remove(originalPath)
+	// write new metadata to new path
+	newPath, err = dict.Write(a.dictionaryDir, "json")
 	if err != nil {
 		return c.Response[string]{Data: "", Error: err.Error()}
 	}

@@ -93,7 +93,7 @@
     );
     if (res.Error) {
       notifications.addNotification({
-        message: `There was an issue attempting to rename ${dict.Display}`,
+        message: `There was an issue attempting to rename ${dict.Display}:\n${res.Error}`,
         severity: Severity.error,
       });
       return;
