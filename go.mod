@@ -6,7 +6,7 @@ toolchain go1.24.8
 
 require (
 	github.com/pgaskin/dictutil v0.3.2
-	github.com/runik-3/builder v0.0.7
+	github.com/runik-3/builder v0.0.8
 	github.com/wailsapp/wails/v2 v2.10.2
 )
 
