@@ -40,7 +40,7 @@
           <ul id="device-dict-list">
             {#each $device.dicts as dict}
               <DictListItem
-                compact
+                isDeviceList
                 {dict}
                 toggleSelect={() => {}}
                 deleteDict={DeleteDeviceDictFile}

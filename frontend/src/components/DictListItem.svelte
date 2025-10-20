@@ -18,7 +18,7 @@
   export let dict: DictFile;
   export let toggleSelect: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
-  export let compact = false;
+  export let isDeviceList = false;
 
   const refreshLibrary = () => {
     void library.fetchDicts();
@@ -112,9 +112,9 @@
   };
 </script>
 
-<li class={`${compact && "compact"}`}>
+<li class={`${isDeviceList && "compact"}`}>
   <div id="title-checkbox-container">
-    {#if !compact}
+    {#if !isDeviceList}
       <input
         name={`${dict.Name}-check`}
         id={`${dict.Name}-check`}
@@ -127,8 +127,8 @@
       {dict.Display}
     </label>
   </div>
-  <span class={`list-btn-container ${compact ? "compact-list" : ""}`}>
-    {#if !compact}
+  <span class={`list-btn-container ${isDeviceList ? "compact-list" : ""}`}>
+    {#if !isDeviceList}
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
 
@@ -188,7 +188,7 @@
     -webkit-appearance: none;
     appearance: none;
     background-color: #fff;
-    margin: 0;
+    margin: 0 1rem 0;
 
     /* Our custom styles */
     border: 1px solid black;
@@ -202,7 +202,14 @@
     background-color: var(--accent);
   }
   label {
-    padding: 12px;
+    padding: 12px 0;
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .compact label {
+    width: 180px;
   }
   .list-btn-container {
     display: grid;
