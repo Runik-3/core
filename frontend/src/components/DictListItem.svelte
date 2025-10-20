@@ -112,7 +112,7 @@
   };
 </script>
 
-<li class={`${isDeviceList && "compact"}`}>
+<li class={`${isDeviceList && "device"}`}>
   <div id="title-checkbox-container">
     {#if !isDeviceList}
       <input
@@ -123,11 +123,17 @@
         on:change={() => toggleSelect(dict.Name)}
       />
     {/if}
-    <label for={`${dict.Name}-check`}>
-      {dict.Display}
-    </label>
+    {#if !isDeviceList}
+      <button class="dict-label" on:click={() => loadDict(dict)}>
+        {dict.Display}
+      </button>
+    {:else}
+      <span class="dict-label">
+        {dict.Display}
+      </span>
+    {/if}
   </div>
-  <span class={`list-btn-container ${isDeviceList ? "compact-list" : ""}`}>
+  <span class={`list-btn-container ${isDeviceList ? "device-list" : ""}`}>
     {#if !isDeviceList}
       <span>{dict.Modified.split("T")[0]}</span>
       <span>{formatDictSize(dict.Size)} KB</span>
@@ -171,7 +177,7 @@
     list-style: none;
     white-space: nowrap;
   }
-  .compact {
+  .device {
     padding: 12px 0 0 0;
   }
   span {
@@ -201,15 +207,22 @@
   input[type="checkbox"]:checked {
     background-color: var(--accent);
   }
-  label {
+  .dict-label {
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1rem;
     padding: 12px 0;
     width: 350px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
+    color: var(--text);
   }
-  .compact label {
+  .device .dict-label {
     width: 180px;
+    cursor: unset;
   }
   .list-btn-container {
     display: grid;
@@ -219,7 +232,7 @@
     align-items: center;
     margin-left: 24px;
   }
-  .compact-list {
+  .device-list {
     grid-template-columns: 1fr min-content;
   }
   .list-item-button {
