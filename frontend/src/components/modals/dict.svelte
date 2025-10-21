@@ -287,6 +287,7 @@
   }
   #paging-select-container {
     display: flex;
+    align-items: center;
     font-size: 1rem;
     margin: 0 0.5rem;
     height: 100%;
