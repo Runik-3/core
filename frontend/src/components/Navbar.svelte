@@ -58,15 +58,14 @@
     color: var(--text-secondary);
   }
   button:hover {
-    border-color: #d3d3d3;
+    background-color: #b5b5b5;
   }
   .active {
     background-color: var(--bg);
     color: var(--text);
-    border-color: var(--text-secondary);
   }
   .active:hover {
-    border-color: var(--text-secondary);
+    background-color: var(--bg);
   }
   button span {
     font-size: 0.9rem;
