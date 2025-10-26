@@ -9,8 +9,10 @@
 
 <style>
   div {
-    padding: 24px;
-    height: calc(100vh - 48px);
+    padding: 1rem;
+    margin: 0 0.5rem 0.5rem;
+    border-radius: 8px;
+    height: calc(100vh - 56px);
     overflow: auto;
     background-color: var(--bg);
     box-sizing: border-box;
