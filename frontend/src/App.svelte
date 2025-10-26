@@ -1,6 +1,5 @@
 <script lang="ts">
   import { nav } from "./stores/nav";
-  import DevicePanel from "./components/DevicePanel.svelte";
   import Generate from "./components/Generate.svelte";
   import Library from "./components/Library.svelte";
   import Navbar from "./components/Navbar.svelte";
@@ -35,9 +34,6 @@
     <Generate hide={$nav !== "gen"} />
     <Configuration hide={$nav !== "conf"} />
   </div>
-  <div id="device">
-    <DevicePanel />
-  </div>
   <NotificationProvider />
   {#if $modalStore}
     <ModalProvider />
@@ -49,22 +45,10 @@
     height: 100%;
     display: grid;
     grid-template-rows: 48px auto;
-    grid-template-columns: auto minmax(300px, 350px);
-    grid-template-areas:
-      "nav nav"
-      "view device";
-  }
-  #nav {
-    grid-area: nav;
+    grid-template-columns: auto;
   }
 
   #view {
-    grid-area: view;
-    height: 100%;
-  }
-
-  #device {
-    grid-area: device;
     height: 100%;
   }
 </style>
