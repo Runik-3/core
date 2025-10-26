@@ -86,7 +86,7 @@ h3 {
   height: 100vh;
 }
 body {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg);
   height: 100%;
   color: var(--text)
 }

@@ -13,9 +13,10 @@
   <button
     class={`${$nav === "lib" ? "active" : ""}`}
     on:click={() => navigate("lib")}
-    ><Book size="20px" color={`${$nav === "lib" ? "black" : "var(--text-secondary)"}`} /><span
-      >Library</span
-    ></button
+    ><Book
+      size="20px"
+      color={`${$nav === "lib" ? "black" : "var(--text-secondary)"}`}
+    /><span>Library</span></button
   >
   <button
     type="button"
@@ -29,9 +30,10 @@
   <button
     class={`${$nav === "conf" ? "active" : ""}`}
     on:click={() => navigate("conf")}
-    ><Cog size="20px" color={`${$nav === "conf" ? "black" : "var(--text-secondary)"}`} /><span
-      >Settings</span
-    ></button
+    ><Cog
+      size="20px"
+      color={`${$nav === "conf" ? "black" : "var(--text-secondary)"}`}
+    /><span>Settings</span></button
   >
 </nav>
 
@@ -45,10 +47,10 @@
   button {
     padding: 0 12px;
     margin-left: 0.5rem;
-    border-radius: 4px;
+    border-radius: 8px;
     height: 80%;
     background-color: transparent;
-    border: none;
+    border: 1px solid transparent;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -56,14 +58,15 @@
     color: var(--text-secondary);
   }
   button:hover {
-    background-color: #b5b5b5;
+    border-color: #d3d3d3;
   }
   .active {
     background-color: var(--bg);
-    color: black;
+    color: var(--text);
+    border-color: var(--text-secondary);
   }
   .active:hover {
-    background-color: var(--bg);
+    border-color: var(--text-secondary);
   }
   button span {
     font-size: 0.9rem;
