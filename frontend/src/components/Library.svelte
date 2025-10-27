@@ -5,16 +5,18 @@
     InstallDictionaries,
     DeleteLocalDictFile,
     ExportDictionaries,
+    ReadLocalDictionary,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
-  import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
   import { onMount } from "svelte";
   import { device } from "../stores/device";
   import type { Response } from "../types/response";
+  import type { Dict, DictFile } from "../types/dict";
   import Anvil from "./icons/Anvil.svelte";
   import { nav } from "../stores/nav";
   import { modalStore } from "../stores/modal";
+  import DictView from "./modals/dict.svelte";
 
   export let hide = false;
 
@@ -31,7 +33,17 @@
     }
   });
 
+  const loadDict = async (dict: DictFile) => {
+    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
+    return {
+      title: res.Data.Name,
+      dictData: res.Data,
+    };
+  };
+
   let selected: Set<string> = new Set();
+  // TODO: make this dependent on a viewing selector
+  $: viewingDict = async () => await loadDict($library[0]);
 
   const toggleSelect = (name: string) => {
     if (selected.has(name)) {
@@ -101,51 +113,55 @@
   };
 </script>
 
-<ContentLayout split {hide}>
-  <div>
-    <h2>My Dictionaries</h2>
-    {#if $library.length > 0}
-      {#each $library as dict}
-        <DictListItem
-          {dict}
-          {toggleSelect}
-          selected={selected.has(dict.Name)}
-          deleteDict={DeleteLocalDictFile}
-        />
-      {/each}
-    {:else}
-      <!-- Empty library -->
-      <div id="empty-library-container">
-        <p>
-          Nothing here yet. Generate dictionaries in the <a
-            id="forge-link"
-            href="#"
-            on:click={() => nav.set("gen")}>forge</a
-          >
-        </p>
-        <Anvil size="32" />
+<ContentLayout {hide} transparent={true}>
+  {#if $library.length > 0}
+    <div id="library-container">
+      <div id="dictionary-list">
+        <h2>My Dictionaries</h2>
+        {#each $library as dict}
+          <DictListItem
+            {dict}
+            {toggleSelect}
+            selected={selected.has(dict.Name)}
+            deleteDict={DeleteLocalDictFile}
+          />
+        {/each}
       </div>
-    {/if}
-  </div>
-  <div id="button-container">
-    <Button type="secondary" disabled={!selected.size} onClick={exportDicts}
-      >Export as...</Button
-    >
-    <Button disabled={!selected.size} onClick={sendDictsToDevice}>
-      Send to device
-    </Button>
-  </div>
+      <div id="dictionary-editor">
+        {#await viewingDict() then dict}
+          <DictView title={dict.title} dictData={dict.dictData} />
+        {/await}
+      </div>
+    </div>
+  {:else}
+    <!-- Empty library -->
+    <div id="empty-library-container">
+      <p>
+        Nothing here yet. Generate dictionaries in the <a
+          id="forge-link"
+          href="#"
+          on:click={() => nav.set("gen")}>forge</a
+        >
+      </p>
+      <Anvil size="32" />
+    </div>
+  {/if}
 </ContentLayout>
 
 <style>
   h2 {
     padding-bottom: 32px;
   }
-  #button-container {
-    display: flex;
-    justify-content: space-between;
-    width: 340px;
-    margin: auto;
+  #library-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: 100%;
+  }
+  #dictionary-list {
+    background-color: var(--bg);
+    margin-right: 8px;
+    border-radius: 8px;
+    padding: 1rem;
   }
   #forge-link {
     color: var(--accent);

@@ -5,11 +5,14 @@
   import Button from "../Button.svelte";
   import DictModalDefinition from "./dictModalDefinition.svelte";
   import { notifications, Severity } from "../../stores/notification";
-  import type { Definition, EditableDefinition } from "../../types/dict";
+  import type { Definition, Dict, EditableDefinition } from "../../types/dict";
   import Plus from "../icons/Plus.svelte";
   import { dict } from "../../../wailsjs/go/models";
 
-  const { title, dictData, cancelFn } = $modalStore;
+  // const { title, dictData, cancelFn } = $modalStore;
+  export let title: string;
+  export let dictData: Dict;
+
   let lexicon: EditableDefinition[] = dictData.Lexicon.map(
     (def: Definition) => ({
       initWord: def.Word,
@@ -212,14 +215,6 @@
       </div>
       <div id="modal-buttons">
         <Button
-          onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
-          maxWidth
-          small
-          type="secondary"
-          >{anyDefsChanged || dictModified ? "Cancel" : "Close"}</Button
-        >
-        <div id="btn-divider"></div>
-        <Button
           onClick={saveEdits}
           maxWidth
           disabled={!anyDefsChanged && !dictModified}
@@ -231,27 +226,22 @@
 </div>
 
 <style>
+  /* TODO - refactor this out of the modal, change names etc. */
   #modal-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* calc based on header + nav */
+    height: calc(100vh - 56px);
   }
   #modal {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
     box-sizing: border-box;
-    padding: 24px;
     /* A layer lower than notifications. */
     z-index: 100;
     background-color: var(--bg);
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
+    padding: 1rem;
   }
   #modal-data {
     overflow-y: auto;
