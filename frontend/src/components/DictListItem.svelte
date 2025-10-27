@@ -135,8 +135,8 @@
   </div>
   <span class={`list-btn-container ${isDeviceList ? "device-list" : ""}`}>
     {#if !isDeviceList}
-      <span>{dict.Modified.split("T")[0]}</span>
-      <span>{formatDictSize(dict.Size)} KB</span>
+      <!-- <span>{dict.Modified.split("T")[0]}</span> -->
+      <!-- <span>{formatDictSize(dict.Size)} KB</span> -->
 
       <Dropdown
         items={[
@@ -194,7 +194,7 @@
     -webkit-appearance: none;
     appearance: none;
     background-color: #fff;
-    margin: 0 1rem 0;
+    margin-right: 0.75rem;
 
     /* Our custom styles */
     border: 1px solid black;

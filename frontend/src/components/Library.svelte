@@ -5,6 +5,7 @@
     InstallDictionaries,
     DeleteLocalDictFile,
     ExportDictionaries,
+    ReadLocalDictionary,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import Button from "./Button.svelte";
@@ -12,9 +13,11 @@
   import { onMount } from "svelte";
   import { device } from "../stores/device";
   import type { Response } from "../types/response";
+  import type { Dict, DictFile } from "../types/dict";
   import Anvil from "./icons/Anvil.svelte";
   import { nav } from "../stores/nav";
   import { modalStore } from "../stores/modal";
+  import DictView from "./modals/dict.svelte";
 
   export let hide = false;
 
@@ -31,7 +34,16 @@
     }
   });
 
+  const loadDict = async (dict: DictFile) => {
+    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
+    return {
+      title: res.Data.Name,
+      dictData: res.Data,
+    };
+  };
+
   let selected: Set<string> = new Set();
+  $: viewingDict = async () => await loadDict($library[0]);
 
   const toggleSelect = (name: string) => {
     if (selected.has(name)) {
@@ -105,14 +117,23 @@
   <div>
     <h2>My Dictionaries</h2>
     {#if $library.length > 0}
-      {#each $library as dict}
-        <DictListItem
-          {dict}
-          {toggleSelect}
-          selected={selected.has(dict.Name)}
-          deleteDict={DeleteLocalDictFile}
-        />
-      {/each}
+      <div id="library-container">
+        <div id="dictionary-list">
+          {#each $library as dict}
+            <DictListItem
+              {dict}
+              {toggleSelect}
+              selected={selected.has(dict.Name)}
+              deleteDict={DeleteLocalDictFile}
+            />
+          {/each}
+        </div>
+        <div id="dictionary-editor">
+          {#await viewingDict() then dict}
+            <DictView title={dict.title} dictData={dict.dictData} />
+          {/await}
+        </div>
+      </div>
     {:else}
       <!-- Empty library -->
       <div id="empty-library-container">
@@ -140,6 +161,10 @@
 <style>
   h2 {
     padding-bottom: 32px;
+  }
+  #library-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
   }
   #button-container {
     display: flex;
