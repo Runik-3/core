@@ -14,9 +14,13 @@
   import Dropdown from "./Dropdown.svelte";
   import Edit from "./icons/Edit.svelte";
 
-  export let selected = false;
   export let dict: DictFile;
-  export let toggleSelect: (name: string) => void;
+  // Dictionary is selected
+  export let selected = false;
+  export let selectDict: (dict: DictFile) => void;
+  // Checkbox is checked
+  export let checked = false;
+  export let toggleChecked: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let isDeviceList = false;
 
@@ -112,19 +116,19 @@
   };
 </script>
 
-<li class={`${isDeviceList && "device"}`}>
+<li class={`${isDeviceList && "device"} ${selected && "selected"}`}>
   <div id="title-checkbox-container">
     {#if !isDeviceList}
       <input
         name={`${dict.Name}-check`}
         id={`${dict.Name}-check`}
         type="checkbox"
-        bind:checked={selected}
-        on:change={() => toggleSelect(dict.Name)}
+        bind:checked
+        on:change={() => toggleChecked(dict.Name)}
       />
     {/if}
     {#if !isDeviceList}
-      <button class="dict-label" on:click={() => loadDict(dict)}>
+      <button class="dict-label" on:click={() => selectDict(dict)}>
         {dict.Display}
       </button>
     {:else}
@@ -159,6 +163,7 @@
             action: () => deleteDictionary(dict),
           },
         ]}
+        iconColor={selected ? "var(--text-contrast)" : null}
       />
     {:else}
       <button class="list-item-button" on:click={() => deleteDictionary(dict)}
@@ -173,9 +178,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0;
+    padding: 8px;
     list-style: none;
     white-space: nowrap;
+  }
+  .selected {
+    background-color: var(--primary);
+    border-radius: 8px;
   }
   .device {
     padding: 12px 0 0 0;
@@ -219,6 +228,9 @@
     text-overflow: ellipsis;
     cursor: pointer;
     color: var(--text);
+  }
+  .selected .dict-label {
+    color: var(--text-contrast);
   }
   .device .dict-label {
     width: 180px;

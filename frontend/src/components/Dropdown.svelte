@@ -1,6 +1,8 @@
 <script lang="ts">
   import Ellipsis from "./icons/Ellipsis.svelte";
 
+  export let iconColor: string = "var(--primary)";
+
   interface Item {
     label: string;
     action: () => void;
@@ -28,7 +30,7 @@
 <svelte:document on:click={handleClickOutside} />
 <div bind:this={container} class="dropdown-container">
   <button class="dropdown-button" on:click={toggle}>
-    <Ellipsis size="24px" color="var(--primary)" />
+    <Ellipsis size="24px" color={iconColor} />
   </button>
   <ul hidden={!show} id="menu-items-container">
     {#each items as item}
