@@ -16,7 +16,7 @@
   import Anvil from "./icons/Anvil.svelte";
   import { nav } from "../stores/nav";
   import { modalStore } from "../stores/modal";
-  import DictView from "./modals/dict.svelte";
+  import DictView from "./DictEditor.svelte";
 
   export let hide = false;
 
@@ -150,7 +150,7 @@
 
 <style>
   h2 {
-    padding-bottom: 32px;
+    padding-bottom: 24px;
   }
   #library-container {
     display: grid;

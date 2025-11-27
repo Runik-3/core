@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Edit from "../icons/Edit.svelte";
-  import Check from "../icons/Check.svelte";
-  import type { EditableDefinition } from "../../types/dict";
-  import Garbage from "../icons/Garbage.svelte";
+  import Edit from "./icons/Edit.svelte";
+  import Check from "./icons/Check.svelte";
+  import type { EditableDefinition } from "../types/dict";
+  import Garbage from "./icons/Garbage.svelte";
 
   export let def: EditableDefinition;
   export let anyDefsChanged: boolean;

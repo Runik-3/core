@@ -225,7 +225,8 @@
     cursor: unset;
   }
   .list-btn-container {
-    display: grid;
+    /* TODO handle styling */
+    /* display: grid; */
     grid-template-columns: 1fr 1fr min-content;
     grid-gap: 12px;
     text-align: right;
