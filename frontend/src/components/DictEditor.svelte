@@ -1,15 +1,13 @@
 <script lang="ts">
-  import type { Response } from "../../types/response";
-  import { WriteLocalDictionary } from "../../../wailsjs/go/main/App";
-  import { modalStore } from "../../stores/modal";
-  import Button from "../Button.svelte";
-  import DictModalDefinition from "./dictModalDefinition.svelte";
-  import { notifications, Severity } from "../../stores/notification";
-  import type { Definition, Dict, EditableDefinition } from "../../types/dict";
-  import Plus from "../icons/Plus.svelte";
-  import { dict } from "../../../wailsjs/go/models";
+  import type { Response } from "../types/response";
+  import { WriteLocalDictionary } from "../../wailsjs/go/main/App";
+  import Button from "./Button.svelte";
+  import DictDefinition from "./DictEditorDefinition.svelte";
+  import { notifications, Severity } from "../stores/notification";
+  import type { Definition, Dict, EditableDefinition } from "../types/dict";
+  import Plus from "./icons/Plus.svelte";
+  import { dict } from "../../wailsjs/go/models";
 
-  // const { title, dictData, cancelFn } = $modalStore;
   export let title: string;
   export let dictData: Dict;
 
@@ -46,8 +44,6 @@
           timeout: 5000,
         });
       }
-
-      modalStore.set(null);
     }
   };
 
@@ -130,108 +126,102 @@
   $: page = filteredDefs.slice(pageStart, pageEnd);
 </script>
 
-<div id="modal-container">
-  <div id="modal">
-    <div id="modal-header">
-      <h2>{title}</h2>
-      <input
-        type="text"
-        on:input={handleSearch}
-        placeholder="Search definitions"
-      />
-      <div id="paging-container">
-        <button
-          on:click={() => {
-            if (currPage !== 1) {
-              currPage--;
-            }
-          }}>&lt</button
-        >
-        <div id="paging-select-container">
-          page:
-          <select bind:value={currPage}>
-            {#each { length: maxPages } as _, i}
-              <option value={i + 1}>{i + 1}</option>
-            {/each}
-          </select>
-          <span>/{maxPages}</span>
-        </div>
-        <button
-          on:click={() => {
-            if (currPage !== maxPages) {
-              currPage++;
-            }
-          }}>&gt</button
-        >
+<div id="dict-container">
+  <div id="dict-header">
+    <h2>{title}</h2>
+    <input
+      type="text"
+      on:input={handleSearch}
+      placeholder="Search definitions"
+    />
+    <div id="paging-container">
+      <button
+        on:click={() => {
+          if (currPage !== 1) {
+            currPage--;
+          }
+        }}>&lt</button
+      >
+      <div id="paging-select-container">
+        page:
+        <select bind:value={currPage}>
+          {#each { length: maxPages } as _, i}
+            <option value={i + 1}>{i + 1}</option>
+          {/each}
+        </select>
+        <span>/{maxPages}</span>
       </div>
+      <button
+        on:click={() => {
+          if (currPage !== maxPages) {
+            currPage++;
+          }
+        }}>&gt</button
+      >
     </div>
-    <div id="modal-data">
-      {#if Object.keys(filteredDefs).length}
-        <table>
-          <tbody>
-            {#each page as def}
-              <DictModalDefinition {def} bind:anyDefsChanged {deleteEntry} />
-            {/each}
-          </tbody>
-        </table>
-      {:else if search && !Object.keys(page).length}
-        <p>No matches for <span>{search}</span></p>
-      {:else}
-        <p>This dictionary is empty.</p>
-      {/if}
-    </div>
-    <div id="footer">
-      <div id="sub-footer">
-        <div id="add-definition-container">
-          <Button
-            onClick={() => (addMode = !addMode)}
-            small
-            type={addMode ? "error" : "secondary"}
-            ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
-          >
-          <div id="new-definition" class={addMode ? "" : "hide"}>
-            <input
-              bind:value={newWord}
-              placeholder="word"
-              class="new-definition-input"
-              type="text"
-            />
-            <input
-              bind:value={newDefinition}
-              placeholder="definition"
-              class="new-definition-input"
-              type="text"
-            />
-            <Button onClick={addEntry} small type="secondary"
-              ><span style="margin-right: 8px;">Add</span><Plus
-                color="var(--success)"
-              /></Button
-            >
-          </div>
-        </div>
-        <div id="count">
-          showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
-        </div>
-      </div>
-      <div id="modal-buttons">
+  </div>
+  <div id="dict-data">
+    {#if Object.keys(filteredDefs).length}
+      <table>
+        <tbody>
+          {#each page as def}
+            <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
+          {/each}
+        </tbody>
+      </table>
+    {:else if search && !Object.keys(page).length}
+      <p>No matches for <span>{search}</span></p>
+    {:else}
+      <p>This dictionary is empty.</p>
+    {/if}
+  </div>
+  <div id="footer">
+    <div id="sub-footer">
+      <div id="add-definition-container">
         <Button
-          onClick={saveEdits}
-          maxWidth
-          disabled={!anyDefsChanged && !dictModified}
-          small>Save changes</Button
+          onClick={() => (addMode = !addMode)}
+          small
+          type={addMode ? "error" : "secondary"}
+          ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
         >
+        <div id="new-definition" class={addMode ? "" : "hide"}>
+          <input
+            bind:value={newWord}
+            placeholder="word"
+            class="new-definition-input"
+            type="text"
+          />
+          <input
+            bind:value={newDefinition}
+            placeholder="definition"
+            class="new-definition-input"
+            type="text"
+          />
+          <Button onClick={addEntry} small type="secondary"
+            ><span style="margin-right: 8px;">Add</span><Plus
+              color="var(--success)"
+            /></Button
+          >
+        </div>
       </div>
+      <div id="count">
+        showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
+      </div>
+    </div>
+    <div id="dict-buttons">
+      <Button
+        onClick={saveEdits}
+        maxWidth
+        disabled={!anyDefsChanged && !dictModified}
+        small>Save changes</Button
+      >
     </div>
   </div>
 </div>
 
 <style>
   /* TODO - refactor this out of the modal, change names etc. */
-  #modal-container {
-    /* calc based on header + nav */
-    height: calc(100vh - 56px);
-  }
-  #modal {
+  #dict-container {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
     box-sizing: border-box;
@@ -239,11 +229,12 @@
     z-index: 100;
     background-color: var(--bg);
     width: 100%;
-    height: 100%;
+    /* calc based on header + nav */
+    height: calc(100vh - 56px);
     border-radius: 8px;
     padding: 1rem;
   }
-  #modal-data {
+  #dict-data {
     overflow-y: auto;
     margin-bottom: 1rem;
     border: 1px lightgrey solid;
@@ -251,17 +242,17 @@
     margin-top: 16px;
     overflow-y: auto;
   }
-  #modal-data p {
+  #dict-data p {
     padding: 8px;
   }
-  #modal-data span {
+  #dict-data span {
     text-decoration: underline;
   }
-  #modal-header {
+  #dict-header {
     display: flex;
     align-items: center;
   }
-  #modal-header input {
+  #dict-header input {
     padding: 8px;
     border-radius: 8px;
     border: 1px solid lightgrey;
@@ -332,10 +323,7 @@
     font-size: 0.8rem;
     font-style: italic;
   }
-  #modal-buttons {
+  #dict-buttons {
     display: flex;
-  }
-  #btn-divider {
-    width: 16px;
   }
 </style>

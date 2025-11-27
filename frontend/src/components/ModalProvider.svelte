@@ -3,15 +3,12 @@
   import Basic from "./modals/basic.svelte";
   import ConvertSelect from "./modals/convertSelect.svelte";
   import RenameDict from "./modals/renameDict.svelte";
-  import Dict from "./modals/dict.svelte";
 
   const { modalType } = $modalStore;
 </script>
 
 <div id="overlay"></div>
-{#if modalType === "dict"}
-  <Dict />
-{:else if modalType === "convertSelect"}
+{#if modalType === "convertSelect"}
   <ConvertSelect />
 {:else if modalType === "renameDict"}
   <RenameDict />
