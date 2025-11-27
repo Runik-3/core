@@ -20,9 +20,13 @@
 
   export let hide = false;
 
+  let checked: Set<string> = new Set();
+  let selected: DictFile;
+
   onMount(async () => {
     try {
       await library.fetchDicts();
+      selected = $library[0];
     } catch (e) {
       if (e instanceof Error) {
         notifications.addNotification({
@@ -41,43 +45,42 @@
     };
   };
 
-  let selected: Set<string> = new Set();
-  // TODO: make this dependent on a viewing selector
-  $: viewingDict = async () => await loadDict($library[0]);
-
-  const toggleSelect = (name: string) => {
-    if (selected.has(name)) {
-      selected.delete(name);
-      selected = new Set([...selected]);
+  const toggleChecked = (name: string) => {
+    if (checked.has(name)) {
+      checked.delete(name);
+      checked = new Set([...checked]);
       return;
     }
-    selected = new Set([...selected, name]);
+    checked = new Set([...checked, name]);
   };
 
+  $: viewingDict = async () => await loadDict(selected);
+
+  // TODO: hook this up again
   const sendDictsToDevice = async () => {
-    const dicts = [...selected];
+    const dicts = [...checked];
     const res: Response<string> = await InstallDictionaries(dicts);
     if (res.Error) {
       notifications.addNotification({
         message: `${
-          selected.size === 1 ? "Dictionary" : "Dictionaries"
+          checked.size === 1 ? "Dictionary" : "Dictionaries"
         } failed to send to device:\n ${res.Error}`,
         severity: Severity.error,
       });
       return;
     }
     notifications.addNotification({
-      message: `${selected.size === 1 ? "Dictionary" : "Dictionaries"} added to device`,
+      message: `${checked.size === 1 ? "Dictionary" : "Dictionaries"} added to device`,
       severity: Severity.success,
       timeout: 5000,
     });
     // refetch dicts and selections
     await device.fetchDicts();
-    selected = new Set();
+    checked = new Set();
   };
 
   const confirmExport = async (dictType: string) => {
-    const dicts = [...selected];
+    const dicts = [...checked];
     if (!dictType) {
       notifications.addNotification({
         message: "You must select an export format.",
@@ -99,9 +102,10 @@
       timeout: 5000,
       severity: Severity.success,
     });
-    selected = new Set();
+    checked = new Set();
   };
 
+  // TODO: hook this up again
   const exportDicts = () => {
     modalStore.set({
       title: "Export",
@@ -121,8 +125,12 @@
         {#each $library as dict}
           <DictListItem
             {dict}
-            {toggleSelect}
-            selected={selected.has(dict.Name)}
+            {toggleChecked}
+            selectDict={(dict) => {
+              selected = dict;
+            }}
+            selected={selected === dict}
+            checked={checked.has(dict.Name)}
             deleteDict={DeleteLocalDictFile}
           />
         {/each}

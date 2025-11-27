@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Response } from "../types/response";
-  import { WriteLocalDictionary } from "../../wailsjs/go/main/App";
+  import { WriteLocalDictionary, ReadLocalDictionary } from "../../wailsjs/go/main/App";
   import Button from "./Button.svelte";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
@@ -23,7 +23,6 @@
   let anyDefsChanged = false; // Defs edited
   let dictModified = false; // Defs added or deleted
 
-  // this should write the new dict to disk
   const saveEdits = async () => {
     if (anyDefsChanged || dictModified) {
       const res: Response<string> = await WriteLocalDictionary({
@@ -32,6 +31,7 @@
         ApiUrl: dictData.ApiUrl,
         Lang: dictData.Lang,
       } as unknown as dict.Dict); // FIXME: wails types are incompatible
+
       if (res.Error) {
         notifications.addNotification({
           message: "Failed to save changes. Please try again.",
@@ -44,6 +44,9 @@
           timeout: 5000,
         });
       }
+      // reset state
+      anyDefsChanged = false;
+      dictModified = false;
     }
   };
 
@@ -220,7 +223,6 @@
 </div>
 
 <style>
-  /* TODO - refactor this out of the modal, change names etc. */
   #dict-container {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
