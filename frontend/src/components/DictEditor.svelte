@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Response } from "../types/response";
-  import { WriteLocalDictionary, ReadLocalDictionary } from "../../wailsjs/go/main/App";
+  import { WriteLocalDictionary } from "../../wailsjs/go/main/App";
   import Button from "./Button.svelte";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
@@ -45,6 +45,13 @@
         });
       }
       // reset state
+      lexicon = lexicon.map(l => {
+        return {
+          ...l,
+          initWord: l.Word,
+          initDefinition: l.Definition,
+        }
+      })
       anyDefsChanged = false;
       dictModified = false;
     }
