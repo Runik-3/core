@@ -10,7 +10,6 @@
     ReadLocalDictionary,
     RenameLocalDictionary,
   } from "../../wailsjs/go/main/App";
-  import Show from "./icons/Show.svelte";
   import Dropdown from "./Dropdown.svelte";
   import Edit from "./icons/Edit.svelte";
 
@@ -144,12 +143,6 @@
 
       <Dropdown
         items={[
-          {
-            icon: Show,
-            iconProps: { size: "18px", color: "var(--primary)" },
-            label: "View and edit",
-            action: () => loadDict(dict),
-          },
           {
             icon: Edit,
             iconProps: { size: "18px", color: "var(--primary)" },
