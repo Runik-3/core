@@ -10,6 +10,11 @@
 
   export let title: string;
   export let dictData: Dict;
+  export let anyDefsChanged: boolean; // Defs edited - bound a level higher
+  export let dictModified: boolean; // Defs added - bound a level higher
+
+
+  let search = "";
 
   let lexicon: EditableDefinition[] = dictData.Lexicon.map(
     (def: Definition) => ({
@@ -19,9 +24,6 @@
     }),
   );
 
-  let search = "";
-  let anyDefsChanged = false; // Defs edited
-  let dictModified = false; // Defs added or deleted
 
   const saveEdits = async () => {
     if (anyDefsChanged || dictModified) {

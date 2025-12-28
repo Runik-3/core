@@ -22,6 +22,8 @@
 
   let checked: Set<string> = new Set();
   let selected: DictFile;
+  let anyDefsChanged = false;
+  let dictModified = false;
 
   onMount(async () => {
     try {
@@ -44,6 +46,23 @@
       dictData: res.Data,
     };
   };
+
+  const selectDict = (dict: DictFile) => {
+    if (anyDefsChanged || dictModified) {
+      modalStore.set({
+        title: "Unsaved changes",
+        description: "You have unsaved changes to this dictionary.",
+        confirmLabel: "Discard changes",
+        confirmFn: () => {
+          anyDefsChanged = false
+          dictModified = false
+          selected = dict
+        }
+      });
+    } else {
+      selected = dict
+    }
+  }
 
   const toggleChecked = (name: string) => {
     if (checked.has(name)) {
@@ -126,9 +145,7 @@
           <DictListItem
             {dict}
             {toggleChecked}
-            selectDict={(dict) => {
-              selected = dict;
-            }}
+            selectDict={(dict) => selectDict(dict)}
             selected={selected === dict}
             checked={checked.has(dict.Name)}
             deleteDict={DeleteLocalDictFile}
@@ -137,7 +154,12 @@
       </div>
       <div id="dictionary-editor">
         {#await viewingDict() then dict}
-          <DictView title={dict.title} dictData={dict.dictData} />
+          <DictView
+            bind:anyDefsChanged
+            bind:dictModified
+            title={dict.title}
+            dictData={dict.dictData}
+          />
         {/await}
       </div>
     </div>
