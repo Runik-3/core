@@ -4,7 +4,7 @@
   import Button from "./Button.svelte";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
-  import type { Definition, Dict, EditableDefinition } from "../types/dict";
+  import type { Definition, Dict, EditableDefinition} from "../types/dict";
   import Plus from "./icons/Plus.svelte";
   import { dict } from "../../wailsjs/go/models";
 
@@ -12,6 +12,7 @@
   export let dictData: Dict;
   export let anyDefsChanged: boolean; // Defs edited - bound a level higher
   export let dictModified: boolean; // Defs added - bound a level higher
+  export let reloadDict: () => void
 
 
   let search = "";
@@ -222,6 +223,14 @@
     </div>
     <div id="dict-buttons">
       <Button
+        onClick={reloadDict}
+        maxWidth
+        type="secondary"
+        disabled={!anyDefsChanged && !dictModified}
+        small>Discard changes</Button
+      >
+      <div id="btn-divider"></div>
+      <Button
         onClick={saveEdits}
         maxWidth
         disabled={!anyDefsChanged && !dictModified}
@@ -336,5 +345,8 @@
   }
   #dict-buttons {
     display: flex;
+  }
+  #btn-divider {
+    width: 16px;
   }
 </style>
