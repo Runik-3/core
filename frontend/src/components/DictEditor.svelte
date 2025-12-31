@@ -221,22 +221,22 @@
         showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
       </div>
     </div>
+    {#if anyDefsChanged || dictModified}
     <div id="dict-buttons">
       <Button
         onClick={reloadDict}
         maxWidth
         type="secondary"
-        disabled={!anyDefsChanged && !dictModified}
         small>Discard changes</Button
       >
       <div id="btn-divider"></div>
       <Button
         onClick={saveEdits}
         maxWidth
-        disabled={!anyDefsChanged && !dictModified}
         small>Save changes</Button
       >
     </div>
+    {/if}
   </div>
 </div>
 
@@ -311,7 +311,6 @@
   }
   #sub-footer {
     display: flex;
-    margin-bottom: 1rem;
   }
   .hide {
     display: none !important;
@@ -344,6 +343,7 @@
     font-style: italic;
   }
   #dict-buttons {
+    margin-top: 1rem;
     display: flex;
   }
   #btn-divider {
