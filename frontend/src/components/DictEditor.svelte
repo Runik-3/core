@@ -191,12 +191,6 @@
   <div id="footer">
     <div id="sub-footer">
       <div id="add-definition-container">
-        <Button
-          onClick={() => (addMode = !addMode)}
-          small
-          type={addMode ? "error" : "secondary"}
-          ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
-        >
         <div id="new-definition" class={addMode ? "" : "hide"}>
           <input
             bind:value={newWord}
@@ -216,6 +210,12 @@
             /></Button
           >
         </div>
+        <Button
+          onClick={() => (addMode = !addMode)}
+          small
+          type={addMode ? "error" : "secondary"}
+          ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
+        >
       </div>
       <div id="count">
         showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
@@ -319,7 +319,7 @@
     width: 100%;
   }
   #new-definition {
-    margin-top: 1rem;
+    margin-bottom: 1rem;
     display: flex;
   }
   #new-definition * {
