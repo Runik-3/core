@@ -1,7 +1,7 @@
 <script lang="ts">
   import Ellipsis from "./icons/Ellipsis.svelte";
 
-  export let iconColor: string = "var(--primary)";
+  export let iconColor: string = "var(--text)";
 
   interface Item {
     label: string;

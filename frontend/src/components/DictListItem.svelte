@@ -156,7 +156,6 @@
             action: () => deleteDictionary(dict),
           },
         ]}
-        iconColor={selected ? "var(--text-contrast)" : null}
       />
     {:else}
       <button class="list-item-button" on:click={() => deleteDictionary(dict)}
@@ -176,14 +175,11 @@
     white-space: nowrap;
   }
   .selected {
-    background-color: var(--primary);
+    background-color: var(--secondary-hover);
     border-radius: 8px;
   }
   .device {
     padding: 12px 0 0 0;
-  }
-  span {
-    color: var(--text-secondary);
   }
 
   #title-checkbox-container {
@@ -223,17 +219,13 @@
     color: var(--text);
   }
   .selected .dict-label {
-    color: var(--text-contrast);
+    color: var(--text);
   }
   .device .dict-label {
     width: 180px;
     cursor: unset;
   }
   .list-btn-container {
-    /* TODO handle styling */
-    /* display: grid; */
-    grid-template-columns: 1fr 1fr min-content;
-    grid-gap: 12px;
     text-align: right;
     align-items: center;
     margin-left: 24px;
