@@ -15,11 +15,11 @@ function createDeviceStore() {
   return {
     subscribe,
     selectDevice: async (path: string) => {
-
       set({ name: getDeviceNameFromPath(path), path })
       await fetchDicts()
     },
     fetchDicts,
+    set,
   }
 }
 
