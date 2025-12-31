@@ -3,6 +3,7 @@
   import Basic from "./modals/basic.svelte";
   import ConvertSelect from "./modals/convertSelect.svelte";
   import RenameDict from "./modals/renameDict.svelte";
+  import Device from "./modals/device.svelte";
 
   const { modalType } = $modalStore;
 </script>
@@ -12,6 +13,8 @@
   <ConvertSelect />
 {:else if modalType === "renameDict"}
   <RenameDict />
+{:else if modalType === "device"}
+  <Device/>
 {:else}
   <Basic />
 {/if}

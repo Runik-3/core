@@ -2,7 +2,7 @@
   import { modalStore } from "../..//stores/modal";
   import Button from "../Button.svelte";
 
-  const { title, description, confirmFn, confirmLabel, cancelFn } = $modalStore;
+  const { title, description, confirmFn, confirmLabel, cancelLabel, cancelFn } = $modalStore;
 
   const confirm = () => {
     confirmFn();
@@ -24,7 +24,7 @@
         onClick={cancelFn ? cancelFn : () => modalStore.set(null)}
         maxWidth
         small
-        type="secondary">Cancel</Button
+        type="secondary">{cancelLabel || "Cancel"}</Button
       >
       <div id="btn-divider"></div>
       <Button onClick={confirm} maxWidth small
@@ -53,11 +53,10 @@
     z-index: 9999;
     background-color: var(--bg);
     width: 40%;
-    height: 25%;
     min-width: 300px;
     min-height: 200px;
     max-width: 500px;
-    max-height: 350px;
+    max-height: 650px;
     border-radius: 8px;
     justify-content: space-between;
   }

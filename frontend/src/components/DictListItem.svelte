@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DictFile, Dict } from "../types/dict";
+  import type { DictFile } from "../types/dict";
   import { notifications, Severity } from "../stores/notification";
   import Garbage from "./icons/Garbage.svelte";
   import { library } from "../stores/library";
@@ -7,7 +7,6 @@
   import { device } from "../stores/device";
   import { modalStore } from "../stores/modal";
   import {
-    ReadLocalDictionary,
     RenameLocalDictionary,
   } from "../../wailsjs/go/main/App";
   import Dropdown from "./Dropdown.svelte";
@@ -51,15 +50,6 @@
       timeout: 5000,
     });
     refreshLibrary();
-  };
-
-  const loadDict = async (dict: DictFile) => {
-    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
-    modalStore.set({
-      title: res.Data.Name,
-      dictData: res.Data,
-      modalType: "dict",
-    });
   };
 
   const rename = () => {
