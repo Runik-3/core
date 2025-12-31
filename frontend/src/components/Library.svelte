@@ -73,7 +73,15 @@
     checked = new Set([...checked, name]);
   };
 
-  $: viewingDict = async () => await loadDict(selected);
+  $: viewingDict = (async () => await loadDict(selected))();
+
+  const reloadSelectedDict = () => {
+    // Force a rerender from dict saved to disk
+    selected = selected
+    // reset state
+    dictModified = false
+    anyDefsChanged = false
+  }
 
   // TODO: hook this up again
   const sendDictsToDevice = async () => {
@@ -153,12 +161,13 @@
         {/each}
       </div>
       <div id="dictionary-editor">
-        {#await viewingDict() then dict}
+        {#await viewingDict then dict}
           <DictView
             bind:anyDefsChanged
             bind:dictModified
             title={dict.title}
             dictData={dict.dictData}
+            reloadDict={reloadSelectedDict}
           />
         {/await}
       </div>
