@@ -19,8 +19,8 @@ function createDeviceStore() {
       await fetchDicts()
     },
     disconnect: async () => {
-      set({name: undefined, path: undefined, dicts: []})
-      await ClearDevice()  
+      set({ name: undefined, path: undefined, dicts: [] })
+      await ClearDevice()
     },
     fetchDicts,
     set,
