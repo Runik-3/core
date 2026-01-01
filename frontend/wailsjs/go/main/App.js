@@ -10,6 +10,10 @@ export function CheckForUpdate() {
   return window['go']['main']['App']['CheckForUpdate']();
 }
 
+export function ClearDevice() {
+  return window['go']['main']['App']['ClearDevice']();
+}
+
 export function DeleteDeviceDictFile(arg1) {
   return window['go']['main']['App']['DeleteDeviceDictFile'](arg1);
 }

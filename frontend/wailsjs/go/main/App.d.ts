@@ -8,6 +8,8 @@ export function BuildDictionary(arg1:string,arg2:string,arg3:number,arg4:string)
 
 export function CheckForUpdate():Promise<boolean>;
 
+export function ClearDevice():Promise<void>;
+
 export function DeleteDeviceDictFile(arg1:string):Promise<core.Response_string_>;
 
 export function DeleteLocalDictFile(arg1:string):Promise<core.Response_string_>;

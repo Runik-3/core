@@ -14,7 +14,8 @@
         <DictListItem
           isDeviceList
           {dict}
-          toggleSelect={undefined}
+          toggleChecked={() => {}}
+          selectDict={() => {}}
           deleteDict={DeleteDeviceDictFile}
         />
       {/each}

@@ -34,7 +34,7 @@
       modalType: "device",
       cancelFn: () => modalStore.set(null),
       confirmFn: () => {
-        device.set({ name: undefined, path: undefined, dicts: [] });
+        device.disconnect()
         modalStore.set(null);
       },
       cancelLabel: "Close",
