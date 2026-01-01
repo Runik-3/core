@@ -1,7 +1,7 @@
 import type { DictFile } from "../types/dict";
 import type { Response } from "../types/response";
 import { writable } from "svelte/store";
-import { GetDeviceDictionaries } from "../../wailsjs/go/main/App"
+import { GetDeviceDictionaries, ClearDevice } from "../../wailsjs/go/main/App"
 
 export interface Device {
   name: string;
@@ -17,6 +17,10 @@ function createDeviceStore() {
     selectDevice: async (path: string) => {
       set({ name: getDeviceNameFromPath(path), path })
       await fetchDicts()
+    },
+    disconnect: async () => {
+      set({name: undefined, path: undefined, dicts: []})
+      await ClearDevice()  
     },
     fetchDicts,
     set,

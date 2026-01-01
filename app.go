@@ -109,6 +109,10 @@ func (a *App) SelectDevice() c.Response[dev.Device] {
 	return c.Response[dev.Device]{Data: a.device, Error: ""}
 }
 
+func (a *App) ClearDevice() {
+	a.device = nil
+}
+
 func (a *App) selectDirectory(options runtime.OpenDialogOptions) string {
 	dirPath, err := runtime.OpenDirectoryDialog(a.ctx, options)
 	if err != nil {
