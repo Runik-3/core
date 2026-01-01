@@ -2,13 +2,11 @@
   import Basic from "./basic.svelte";
   import { device } from "../../stores/device";
   import DictListItem from "../DictListItem.svelte";
-  import {
-    DeleteDeviceDictFile,
-  } from "../../../wailsjs/go/main/App";
+  import { DeleteDeviceDictFile } from "../../../wailsjs/go/main/App";
 </script>
 
 <Basic>
-  {#if $device?.dicts?.length}
+ {#if $device?.dicts?.length}
     <ul id="device-dict-list">
       {#each $device.dicts as dict}
         <DictListItem

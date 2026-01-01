@@ -5,15 +5,14 @@
   import RenameDict from "./modals/renameDict.svelte";
   import Device from "./modals/device.svelte";
 
-  const { modalType } = $modalStore;
 </script>
 
 <div id="overlay"></div>
-{#if modalType === "convertSelect"}
+{#if $modalStore.modalType === "convertSelect"}
   <ConvertSelect />
-{:else if modalType === "renameDict"}
+{:else if $modalStore.modalType === "renameDict"}
   <RenameDict />
-{:else if modalType === "device"}
+{:else if $modalStore.modalType === "device"}
   <Device/>
 {:else}
   <Basic />

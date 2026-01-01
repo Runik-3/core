@@ -6,9 +6,7 @@
   import type { Response } from "../types/response";
   import { device } from "../stores/device";
   import { modalStore } from "../stores/modal";
-  import {
-    RenameLocalDictionary,
-  } from "../../wailsjs/go/main/App";
+  import { RenameLocalDictionary } from "../../wailsjs/go/main/App";
   import Dropdown from "./Dropdown.svelte";
   import Edit from "./icons/Edit.svelte";
 
@@ -27,15 +25,21 @@
     void device.fetchDicts();
   };
 
-  const deleteDictionary = (dict: DictFile) => {
+  const loadDeviceModal = () => {
     modalStore.set({
-      title: "Confirm delete",
-      description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
-      confirmFn: () => confirmedDelete(dict),
+      title: `Device: ${$device.name}`,
+      modalType: "device",
+      cancelFn: () => modalStore.set(null),
+      confirmFn: () => {
+        device.disconnect();
+        modalStore.set(null);
+      },
+      cancelLabel: "Close",
+      confirmLabel: "Disconnect",
     });
   };
 
-  const confirmedDelete = async (dict: DictFile) => {
+  const confirmDelete = async (dict: DictFile) => {
     const { Error } = await deleteDict(dict.Name);
     if (Error) {
       notifications.addNotification({
@@ -50,6 +54,25 @@
       timeout: 5000,
     });
     refreshLibrary();
+
+    if (isDeviceList) {
+      loadDeviceModal();
+    }
+  };
+
+  const deleteDictionary = (dict: DictFile) => {
+    modalStore.set({
+      title: "Confirm delete",
+      description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
+      confirmFn: () => confirmDelete(dict),
+      cancelFn: () => {
+        modalStore.set(null);
+        if (isDeviceList) {
+          loadDeviceModal();
+        }
+      },
+      modalType: "basic",
+    });
   };
 
   const rename = () => {

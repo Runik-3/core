@@ -125,7 +125,7 @@
     font-weight: 600;
     padding: 4px 8px;
     border: 2px solid var(--text-secondary);
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
   }
 </style>
