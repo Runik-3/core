@@ -25,19 +25,21 @@
         });
       }
       await device.selectDevice(deviceRes.Data.Path);
-    } else {
-      modalStore.set({
-        title: `Device: ${$device.name}`,
-        modalType: "device",
-        cancelFn: () => modalStore.set(null),
-        confirmFn: () => {
-          device.set({ name: undefined, path: undefined, dicts: [] });
-          modalStore.set(null);
-        },
-        cancelLabel: "Close",
-        confirmLabel: "Disconnect",
-      });
+      if (!$device.name) {
+        return
+      }
     }
+    modalStore.set({
+      title: `Device: ${$device.name}`,
+      modalType: "device",
+      cancelFn: () => modalStore.set(null),
+      confirmFn: () => {
+        device.set({ name: undefined, path: undefined, dicts: [] });
+        modalStore.set(null);
+      },
+      cancelLabel: "Close",
+      confirmLabel: "Disconnect",
+    });
   };
 </script>
 

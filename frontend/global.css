@@ -53,7 +53,7 @@
   src: url('./assets/SourceSerifPro-Black.woff') format('woff');
 }
 
-:root{
+:root {
   --bg: white;
   --bg-secondary: rgb(211, 211, 211); /* #d3d3d3 device panel background, borders */
   --bg-secondary-hover: rgba(211, 211, 211, 0.5); /* #d3d3d380 list selection */
