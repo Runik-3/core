@@ -244,7 +244,8 @@
   #dict-mgmt-btn-container {
     display: flex;
     flex-direction: column;
-    height: 88px;
+    /* magic number -- this makes offsets pixel perfect */
+    height: 87px; 
     justify-content: end;
   }
   #btn-divider {
