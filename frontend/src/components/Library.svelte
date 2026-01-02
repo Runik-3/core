@@ -40,8 +40,8 @@
     }
   });
 
-  const loadDict = async (dict: DictFile) => {
-    const res: Response<Dict> = await ReadLocalDictionary(dict.Name);
+  const loadDict = async (dictName: string) => {
+    const res: Response<Dict> = await ReadLocalDictionary(dictName);
     return {
       title: res.Data.Name,
       dictData: res.Data,
@@ -74,11 +74,22 @@
     checked = new Set([...checked, name]);
   };
 
-  $: viewingDict = (async () => await loadDict(selected))();
+  $: viewingDict = (async () => await loadDict(selected.Name))();
 
-  const reloadSelectedDict = () => {
-    // Force a rerender from dict saved to disk
-    selected = selected;
+  /**
+   * Reloads the currently selected dictionary.
+   *
+   * @param newName - use if reloading after a rename
+   */
+  const reloadSelectedDict = (newName?: string) => {
+    if (newName) {
+      selected = $library.find((dict) => {
+        return dict.Display === newName;
+      });
+    } else {
+      // Force a rerender from dict saved to disk
+      selected = selected;
+    }
     // reset state
     dictModified = false;
     anyDefsChanged = false;
@@ -157,16 +168,24 @@
               selected={selected === dict}
               checked={checked.has(dict.Name)}
               deleteDict={DeleteLocalDictFile}
+              reloadDict={reloadSelectedDict}
             />
           {/each}
         </ul>
         <div id="dict-mgmt-btn-container">
-          <Button disabled={!checked.size} onClick={exportDicts} maxWidth type="secondary" small
-            >Export as...</Button
+          <Button
+            disabled={!checked.size}
+            onClick={exportDicts}
+            maxWidth
+            type="secondary"
+            small>Export as...</Button
           >
           <div id="btn-divider"></div>
-          <Button disabled={!checked.size} onClick={sendDictsToDevice} maxWidth small
-            >Send to device</Button
+          <Button
+            disabled={!checked.size}
+            onClick={sendDictsToDevice}
+            maxWidth
+            small>Send to device</Button
           >
         </div>
       </div>
