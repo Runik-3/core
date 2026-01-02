@@ -4,7 +4,7 @@
   import ConvertSelect from "./modals/convertSelect.svelte";
   import RenameDict from "./modals/renameDict.svelte";
   import Device from "./modals/device.svelte";
-
+  import Details from "./modals/details.svelte";
 </script>
 
 <div id="overlay"></div>
@@ -13,7 +13,9 @@
 {:else if $modalStore.modalType === "renameDict"}
   <RenameDict />
 {:else if $modalStore.modalType === "device"}
-  <Device/>
+  <Device />
+{:else if $modalStore.modalType === "details"}
+  <Details />
 {:else}
   <Basic />
 {/if}

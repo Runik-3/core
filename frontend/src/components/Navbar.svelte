@@ -122,7 +122,6 @@
     background-color: transparent;
     color: var(--text-secondary);
     font-size: 0.8rem;
-    font-weight: 600;
     padding: 4px 8px;
     border: 2px solid var(--text-secondary);
     border-radius: 8px;
