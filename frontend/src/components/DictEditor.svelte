@@ -4,7 +4,7 @@
   import Button from "./Button.svelte";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
-  import type { Definition, Dict, EditableDefinition} from "../types/dict";
+  import type { Definition, Dict, EditableDefinition } from "../types/dict";
   import Plus from "./icons/Plus.svelte";
   import { dict } from "../../wailsjs/go/models";
 
@@ -12,8 +12,7 @@
   export let dictData: Dict;
   export let anyDefsChanged: boolean; // Defs edited - bound a level higher
   export let dictModified: boolean; // Defs added - bound a level higher
-  export let reloadDict: () => void
-
+  export let reloadDict: () => void;
 
   let search = "";
 
@@ -24,7 +23,6 @@
       ...def,
     }),
   );
-
 
   const saveEdits = async () => {
     if (anyDefsChanged || dictModified) {
@@ -48,13 +46,13 @@
         });
       }
       // reset state
-      lexicon = lexicon.map(l => {
+      lexicon = lexicon.map((l) => {
         return {
           ...l,
           initWord: l.Word,
           initDefinition: l.Definition,
-        }
-      })
+        };
+      });
       anyDefsChanged = false;
       dictModified = false;
     }
@@ -222,25 +220,25 @@
       </div>
     </div>
     {#if anyDefsChanged || dictModified}
-    <div id="dict-buttons">
-      <Button
-        onClick={reloadDict}
-        maxWidth
-        type="secondary"
-        small>Discard changes</Button
-      >
-      <div id="btn-divider"></div>
-      <Button
-        onClick={saveEdits}
-        maxWidth
-        small>Save changes</Button
-      >
-    </div>
+      <div id="dict-buttons">
+        <Button onClick={reloadDict} maxWidth type="secondary" small
+          >Discard changes</Button
+        >
+        <div id="btn-divider"></div>
+        <Button onClick={saveEdits} maxWidth small>Save changes</Button>
+      </div>
     {/if}
   </div>
 </div>
 
 <style>
+  h2 {
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 256px;
+  }
   #dict-container {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
