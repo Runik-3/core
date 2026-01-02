@@ -124,7 +124,7 @@
     font-size: 0.8rem;
     padding: 4px 8px;
     border: 2px solid var(--text-secondary);
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
   }
 </style>
