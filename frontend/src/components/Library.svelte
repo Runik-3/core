@@ -17,6 +17,7 @@
   import { nav } from "../stores/nav";
   import { modalStore } from "../stores/modal";
   import DictView from "./DictEditor.svelte";
+  import Button from "./Button.svelte";
 
   export let hide = false;
 
@@ -54,15 +55,15 @@
         description: "You have unsaved changes to this dictionary.",
         confirmLabel: "Discard changes",
         confirmFn: () => {
-          anyDefsChanged = false
-          dictModified = false
-          selected = dict
-        }
+          anyDefsChanged = false;
+          dictModified = false;
+          selected = dict;
+        },
       });
     } else {
-      selected = dict
+      selected = dict;
     }
-  }
+  };
 
   const toggleChecked = (name: string) => {
     if (checked.has(name)) {
@@ -77,13 +78,12 @@
 
   const reloadSelectedDict = () => {
     // Force a rerender from dict saved to disk
-    selected = selected
+    selected = selected;
     // reset state
-    dictModified = false
-    anyDefsChanged = false
-  }
+    dictModified = false;
+    anyDefsChanged = false;
+  };
 
-  // TODO: hook this up again
   const sendDictsToDevice = async () => {
     const dicts = [...checked];
     const res: Response<string> = await InstallDictionaries(dicts);
@@ -132,7 +132,6 @@
     checked = new Set();
   };
 
-  // TODO: hook this up again
   const exportDicts = () => {
     modalStore.set({
       title: "Export",
@@ -149,16 +148,27 @@
     <div id="library-container">
       <div id="dictionary-list">
         <h2>My Dictionaries</h2>
-        {#each $library as dict}
-          <DictListItem
-            {dict}
-            {toggleChecked}
-            selectDict={(dict) => selectDict(dict)}
-            selected={selected === dict}
-            checked={checked.has(dict.Name)}
-            deleteDict={DeleteLocalDictFile}
-          />
-        {/each}
+        <ul>
+          {#each $library as dict}
+            <DictListItem
+              {dict}
+              {toggleChecked}
+              selectDict={(dict) => selectDict(dict)}
+              selected={selected === dict}
+              checked={checked.has(dict.Name)}
+              deleteDict={DeleteLocalDictFile}
+            />
+          {/each}
+        </ul>
+        <div id="dict-mgmt-btn-container">
+          <Button disabled={!checked.size} onClick={exportDicts} maxWidth type="secondary" small
+            >Export as...</Button
+          >
+          <div id="btn-divider"></div>
+          <Button disabled={!checked.size} onClick={sendDictsToDevice} maxWidth small
+            >Send to device</Button
+          >
+        </div>
       </div>
       <div id="dictionary-editor">
         {#await viewingDict then dict}
@@ -201,6 +211,20 @@
     margin-right: 8px;
     border-radius: 8px;
     padding: 1rem;
+  }
+  ul {
+    padding: 0;
+    height: calc(100vh - 232px);
+    overflow-y: auto;
+  }
+  #dict-mgmt-btn-container {
+    display: flex;
+    flex-direction: column;
+    height: 88px;
+    justify-content: end;
+  }
+  #btn-divider {
+    height: 4px;
   }
   #forge-link {
     color: var(--accent);
