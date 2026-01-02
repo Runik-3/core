@@ -19,10 +19,11 @@
   export let toggleChecked: (name: string) => void;
   export let deleteDict: (name: string) => Promise<Response<any>>;
   export let isDeviceList = false;
+  export let reloadDict: (newName?: string) => void;
 
-  const refreshLibrary = () => {
-    void library.fetchDicts();
-    void device.fetchDicts();
+  const refreshLibrary = async () => {
+    await library.fetchDicts();
+    await device.fetchDicts();
   };
 
   const loadDeviceModal = () => {
@@ -53,7 +54,7 @@
       severity: Severity.info,
       timeout: 5000,
     });
-    refreshLibrary();
+    await refreshLibrary();
 
     if (isDeviceList) {
       loadDeviceModal();
@@ -119,7 +120,9 @@
       severity: Severity.success,
       timeout: 5000,
     });
-    refreshLibrary();
+
+    await refreshLibrary();
+    reloadDict(newName)
   };
 
   const formatDictSize = (size: number) => {

@@ -17,7 +17,7 @@ function createLibraryStore() {
       const dictFiles = res.Data
         .sort((a, b) => b.Modified.localeCompare(a.Modified))
       set(dictFiles)
-    }
+    },
   }
 }
 
