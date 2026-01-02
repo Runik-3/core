@@ -9,6 +9,7 @@
   import { RenameLocalDictionary } from "../../wailsjs/go/main/App";
   import Dropdown from "./Dropdown.svelte";
   import Edit from "./icons/Edit.svelte";
+  import Info from "./icons/Info.svelte";
 
   export let dict: DictFile;
   // Dictionary is selected
@@ -24,6 +25,16 @@
   const refreshLibrary = async () => {
     await library.fetchDicts();
     await device.fetchDicts();
+  };
+
+  const dictDetails = (dict: DictFile) => {
+    modalStore.set({
+      title: dict.Display,
+      modalType: "details",
+      cancelLabel: "Close",
+      // Kind of a hacky way to get details to modal
+      formData: JSON.stringify(dict),
+    });
   };
 
   const loadDeviceModal = () => {
@@ -122,7 +133,7 @@
     });
 
     await refreshLibrary();
-    reloadDict(newName)
+    reloadDict(newName);
   };
 
   const formatDictSize = (size: number) => {
@@ -159,6 +170,12 @@
 
       <Dropdown
         items={[
+          {
+            icon: Info,
+            iconProps: { size: "18px", color: "var(--primary)" },
+            label: "Details",
+            action: () => dictDetails(dict),
+          },
           {
             icon: Edit,
             iconProps: { size: "18px", color: "var(--primary)" },

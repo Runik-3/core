@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-type ModalType = "convertSelect" | "renameDict" | "device" | "basic"
+type ModalType = "convertSelect" | "renameDict" | "device" | "details" | "basic"
 
 export interface ModalProps {
   title: string
