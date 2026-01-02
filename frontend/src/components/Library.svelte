@@ -18,6 +18,7 @@
   import { modalStore } from "../stores/modal";
   import DictView from "./DictEditor.svelte";
   import Button from "./Button.svelte";
+  import Loader from "./Loader.svelte";
 
   export let hide = false;
 
@@ -190,7 +191,11 @@
         </div>
       </div>
       <div id="dictionary-editor">
-        {#await viewingDict then dict}
+        {#await viewingDict}
+          <div id="loader-container">
+            <Loader />
+          </div>
+        {:then dict}
           <DictView
             bind:anyDefsChanged
             bind:dictModified
@@ -252,6 +257,12 @@
   }
   #empty-library-container {
     display: flex;
+    align-items: center;
+  }
+  #loader-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
   }
 </style>
