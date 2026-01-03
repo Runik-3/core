@@ -6,7 +6,8 @@
 </script>
 
 <Basic>
- {#if $device?.dicts?.length}
+  {#if $device?.dicts?.length}
+    <h3>Dictionaries on this device</h3>
     <ul id="device-dict-list">
       {#each $device.dicts as dict}
         <DictListItem
@@ -25,6 +26,9 @@
 </Basic>
 
 <style>
+  h3 {
+    margin-top: 1rem;
+  }
   #device-dict-list {
     box-sizing: border-box;
     background-color: var(--bg);
