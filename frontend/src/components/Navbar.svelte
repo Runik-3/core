@@ -120,10 +120,10 @@
   #device-btn {
     border: none;
     background-color: transparent;
-    color: var(--text-secondary);
+    color: var(--primary);
     font-size: 0.8rem;
     padding: 4px 8px;
-    border: 2px solid var(--text-secondary);
+    border: 2px solid var(--primary);
     border-radius: 4px;
     cursor: pointer;
   }
