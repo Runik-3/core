@@ -1,11 +1,13 @@
 <script lang="ts">
   import { Severity, notifications } from "../stores/notification";
   import { library } from "../stores/library";
+  import type { Device as DeviceType } from "../types/device";
   import {
     InstallDictionaries,
     DeleteLocalDictFile,
     ExportDictionaries,
     ReadLocalDictionary,
+    SelectDevice,
   } from "../../wailsjs/go/main/App";
   import DictListItem from "./DictListItem.svelte";
   import ContentLayout from "./ContentLayout.svelte";
@@ -153,6 +155,48 @@
       confirmFn: () => confirmExport($modalStore.formData),
     });
   };
+
+  /**
+   * Connect a device, handles errors.
+   * @param callback - func that runs upon succesfull device connect
+   */
+  const connectDevice = async (callback: () => void) => {
+    if (!$device.name) {
+      const deviceRes: Response<DeviceType> = await SelectDevice();
+      if (deviceRes.Error) {
+        notifications.addNotification({
+          message: deviceRes.Error,
+          severity: Severity.warn,
+          timeout: 5000,
+        });
+      }
+      await device.selectDevice(deviceRes.Data.Path);
+      if (!$device.name) {
+        notifications.addNotification({
+          message: "Something went wrong trying to connect this device.",
+          severity: Severity.warn,
+          timeout: 5000,
+        });
+        return
+      }
+
+      // If succesfully connected, run callback
+      callback()
+
+      // TODO: Share common modal sets instead of copy-pasting
+      modalStore.set({
+        title: `Device: ${$device.name}`,
+        modalType: "device",
+        cancelFn: () => modalStore.set(null),
+        confirmFn: () => {
+          device.disconnect()
+          modalStore.set(null);
+        },
+        cancelLabel: "Close",
+        confirmLabel: "Disconnect",
+      });
+    }
+  }
 </script>
 
 <ContentLayout {hide} transparent={true}>
@@ -184,7 +228,19 @@
           <div id="btn-divider"></div>
           <Button
             disabled={!checked.size}
-            onClick={sendDictsToDevice}
+            onClick={() => {
+              if ($device.name) {
+                sendDictsToDevice();
+              } else {
+                modalStore.set({
+                  title: "Connect a device",
+                  description:
+                    "No e-reader connected, select a compatible device.",
+                  confirmLabel: "Choose device",
+                  confirmFn: () => connectDevice(sendDictsToDevice),
+                });
+              }
+            }}
             maxWidth
             small>Send to device</Button
           >
@@ -245,7 +301,7 @@
     display: flex;
     flex-direction: column;
     /* magic number -- this makes offsets pixel perfect */
-    height: 87px; 
+    height: 87px;
     justify-content: end;
   }
   #btn-divider {
