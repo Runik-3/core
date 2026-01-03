@@ -12,6 +12,7 @@
         <DictListItem
           isDeviceList
           {dict}
+          reloadDict={() => {}}
           toggleChecked={() => {}}
           selectDict={() => {}}
           deleteDict={DeleteDeviceDictFile}
