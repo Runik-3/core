@@ -313,8 +313,12 @@
     margin-right: 0.25rem;
   }
   #empty-library-container {
+    background-color: var(--bg);
+    height: 100%;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   #loader-container {
     height: 100%;
