@@ -13,9 +13,6 @@
         <DictListItem
           isDeviceList
           {dict}
-          reloadDict={() => {}}
-          toggleChecked={() => {}}
-          selectDict={() => {}}
           deleteDict={DeleteDeviceDictFile}
         />
       {/each}
@@ -31,9 +28,8 @@
   }
   #device-dict-list {
     box-sizing: border-box;
-    background-color: var(--bg);
     margin-top: 16px;
-    border: 1px #a5a5a5 solid;
+    border: 1px var(--bg-secondary) solid;
     border-radius: 8px;
     padding: 8px 16px;
     min-height: 12rem;
