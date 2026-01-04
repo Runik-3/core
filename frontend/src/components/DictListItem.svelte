@@ -14,13 +14,13 @@
   export let dict: DictFile;
   // Dictionary is selected
   export let selected = false;
-  export let selectDict: (dict: DictFile) => void;
   // Checkbox is checked
   export let checked = false;
-  export let toggleChecked: (name: string) => void;
-  export let deleteDict: (name: string) => Promise<Response<any>>;
   export let isDeviceList = false;
-  export let reloadDict: (newName?: string) => void;
+  export let deleteDict: (name: string) => Promise<Response<any>>;
+  export let reloadDict: (newName?: string) => void = () => {};
+  export let toggleChecked: (name: string) => void = () => {};
+  export let selectDict: (dict: DictFile) => void = () => {};
 
   const refreshLibrary = async () => {
     await library.fetchDicts();
@@ -135,11 +135,6 @@
     await refreshLibrary();
     reloadDict(newName);
   };
-
-  const formatDictSize = (size: number) => {
-    const sizeKb = size / 1000;
-    return Math.round(sizeKb * 10) / 10; // round to a single decimal place
-  };
 </script>
 
 <li class={`${isDeviceList && "device"} ${selected && "selected"}`}>
@@ -165,9 +160,6 @@
   </div>
   <span class={`list-btn-container ${isDeviceList ? "device-list" : ""}`}>
     {#if !isDeviceList}
-      <!-- <span>{dict.Modified.split("T")[0]}</span> -->
-      <!-- <span>{formatDictSize(dict.Size)} KB</span> -->
-
       <Dropdown
         items={[
           {

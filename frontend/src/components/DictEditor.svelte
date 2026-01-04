@@ -243,8 +243,6 @@
     display: grid;
     grid-template-rows: min-content 1fr min-content;
     box-sizing: border-box;
-    /* A layer lower than notifications. */
-    z-index: 100;
     background-color: var(--bg);
     width: 100%;
     /* calc based on header + nav */

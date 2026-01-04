@@ -77,7 +77,7 @@
     checked = new Set([...checked, name]);
   };
 
-  $: viewingDict = (async () => await loadDict(selected.Name))();
+  $: viewingDict = (async () => await loadDict(selected.Name))()
 
   /**
    * Reloads the currently selected dictionary.
@@ -177,11 +177,11 @@
           severity: Severity.warn,
           timeout: 5000,
         });
-        return
+        return;
       }
 
       // If succesfully connected, run callback
-      callback()
+      callback();
 
       // TODO: Share common modal sets instead of copy-pasting
       modalStore.set({
@@ -189,14 +189,14 @@
         modalType: "device",
         cancelFn: () => modalStore.set(null),
         confirmFn: () => {
-          device.disconnect()
+          device.disconnect();
           modalStore.set(null);
         },
         cancelLabel: "Close",
         confirmLabel: "Disconnect",
       });
     }
-  }
+  };
 </script>
 
 <ContentLayout {hide} transparent={true}>
@@ -259,6 +259,11 @@
             dictData={dict.dictData}
             reloadDict={reloadSelectedDict}
           />
+        <!-- If we're catching errors here it's likely because selected is not defined yet -->
+        {:catch}
+          <div id="loader-container">
+            <Loader />
+          </div>
         {/await}
       </div>
     </div>
