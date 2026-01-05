@@ -15,7 +15,9 @@ then
   git commit -m "build: $1"
   git tag $1
 
+  git push
+  git push origin tag $1
+
   echo "$GREEN
-$1 created. To finalize release, push the tag with$RESET
-  git push origin tag [tagname]"
+Release $1 successfully created."
 fi
