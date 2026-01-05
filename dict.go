@@ -202,6 +202,7 @@ func (a *App) RenameLocalDictionary(dictName string, newName string) c.Response[
 }
 
 func (a *App) WriteLocalDictionary(dict d.Dict) c.Response[string] {
+	// TODO: validate dictionary
 	path, err := dict.Write(a.dictionaryDir, "json")
 	if err != nil {
 		return c.Response[string]{Data: "", Error: err.Error()}

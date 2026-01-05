@@ -21,7 +21,7 @@
       <h4>Language</h4>
       <span>{dict.Data.Lang}</span>
       <h4>Source wiki</h4>
-      <span>{dict.Data.ApiUrl}</span>
+      <span>{new URL(dict.Data.ApiUrl).origin}</span>
       <h4>Last modified</h4>
       <span>{new Date(dictFile.Modified).toDateString()}</span>
     {/await}
