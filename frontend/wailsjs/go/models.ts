@@ -215,6 +215,7 @@ export namespace dict {
 	export class Entry {
 	    Word: string;
 	    Definition: string;
+	    Synonyms: string[];
 	
 	    static createFrom(source: any = {}) {
 	        return new Entry(source);
@@ -224,6 +225,7 @@ export namespace dict {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Word = source["Word"];
 	        this.Definition = source["Definition"];
+	        this.Synonyms = source["Synonyms"];
 	    }
 	}
 	export class Dict {

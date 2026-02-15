@@ -10,6 +10,7 @@ export interface DictFile {
 export interface Definition {
   Word: string
   Definition: string
+  Synonyms: string[]
 }
 
 // modifies the type signature of Definition so we can edit in-place
