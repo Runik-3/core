@@ -71,6 +71,16 @@ func TestConvertStarDict(t *testing.T) {
 		)
 	}
 
+	convertedSyn := readFileData(filepath.Join(convertedDictDir, "Test.syn"))
+	expectedSyn := getFixtureData(filepath.Join("stardict", "stardict.syn"))
+	if !bytes.Equal(convertedSyn, expectedSyn) {
+		t.Fatalf(
+			"Stardict: converted syn does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			convertedSyn,
+			expectedSyn,
+		)
+	}
+
 	// Cleanup
 	os.RemoveAll(tempDir)
 }
