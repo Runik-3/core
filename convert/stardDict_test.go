@@ -45,7 +45,7 @@ func TestConvertStarDict(t *testing.T) {
 	expectedDict := getFixtureData(filepath.Join("stardict", "stardict.dict"))
 	if !bytes.Equal(convertedDict, expectedDict) {
 		t.Fatalf(
-			"Stardict: converted dict does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Stardict: converted dict does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedDict,
 			expectedDict,
 		)
@@ -55,7 +55,7 @@ func TestConvertStarDict(t *testing.T) {
 	expectedIdx := getFixtureData(filepath.Join("stardict", "stardict.idx"))
 	if !bytes.Equal(convertedIdx, expectedIdx) {
 		t.Fatalf(
-			"Stardict: converted idx does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Stardict: converted idx does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedIdx,
 			expectedIdx,
 		)
@@ -65,7 +65,7 @@ func TestConvertStarDict(t *testing.T) {
 	expectedIfo := getFixtureData(filepath.Join("stardict", "stardict.ifo"))
 	if !bytes.Equal(convertedIfo, expectedIfo) {
 		t.Fatalf(
-			"Stardict: converted ifo does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Stardict: converted ifo does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedIfo,
 			expectedIfo,
 		)
@@ -75,7 +75,7 @@ func TestConvertStarDict(t *testing.T) {
 	expectedSyn := getFixtureData(filepath.Join("stardict", "stardict.syn"))
 	if !bytes.Equal(convertedSyn, expectedSyn) {
 		t.Fatalf(
-			"Stardict: converted syn does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Stardict: converted syn does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedSyn,
 			expectedSyn,
 		)

@@ -8,8 +8,8 @@ import (
 	"testing"
 )
 
-// At the risk of testing an external lib, this tests the intermediary ebub
-// shape the dictionary gets converted to before being processes by kindlegen.
+// To avoid testing an external lib, this test focuses on the intermediary
+// epub shape the dict gets converted to before being processed by kindlegen.
 func TestConvertKindleMobi(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "runik_temp_test_dir")
 	if err != nil {
@@ -27,7 +27,7 @@ func TestConvertKindleMobi(t *testing.T) {
 	expectedWords := getFixtureData(filepath.Join("kindleEpub", "words.xhtml"))
 	if !bytes.Equal(convertedWords, expectedWords) {
 		t.Fatalf(
-			"Kindle epub: converted words.xhtml does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Kindle epub: converted words.xhtml does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedWords,
 			expectedWords,
 		)
@@ -37,7 +37,7 @@ func TestConvertKindleMobi(t *testing.T) {
 	expectedOpf := getFixtureData(filepath.Join("kindleEpub", "content.opf"))
 	if !bytes.Equal(convertedOpf, expectedOpf) {
 		t.Fatalf(
-			"Kindle epub: converted opf file does not match expected\n\nconverted: \n%b\n\nexpected: \n%b",
+			"Kindle epub: converted opf file does not match expected\n\nconverted: \n%s\n\nexpected: \n%s",
 			convertedOpf,
 			expectedOpf,
 		)

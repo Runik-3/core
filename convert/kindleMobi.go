@@ -90,8 +90,15 @@ xmlns:mbp="https://kindlegen.s3.amazonaws.com/AmazonKindlePublishingGuidelines.p
 <mbp:frameset>
   {{range .Lexicon}}
     <idx:entry scriptable="yes" spell="yes">
-      <idx:orth>{{.Word}}</idx:orth>
-      <p>{{.Definition}}</p>
+      <idx:orth>
+				{{- .Word}}
+				<idx:infl>
+					{{- range .Synonyms -}}
+					<idx:iform value="{{- . -}}"></idx:iform> 
+					{{- end -}}
+				</idx:infl>
+			</idx:orth>
+			<p>{{.Definition}}</p>
     </idx:entry>
   {{end}}
 </mbp:frameset>
