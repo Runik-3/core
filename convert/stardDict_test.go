@@ -85,6 +85,7 @@ func TestConvertStarDict(t *testing.T) {
 	os.RemoveAll(tempDir)
 }
 
+// TODO split out into common test file
 func readFileData(path string) []byte {
 	text, _ := os.ReadFile(path)
 	return text
