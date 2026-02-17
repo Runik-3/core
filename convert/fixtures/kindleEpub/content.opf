@@ -1,0 +1,20 @@
+&lt;?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookID"> 
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <dc:title>Test</dc:title>
+   <dc:language>en</dc:language>
+   <dc:publisher>runik</dc:publisher>
+  </metadata>
+  <x-metadata>
+   <DictionaryInLanguage>en</DictionaryInLanguage>
+   <DictionaryOutLanguage>en</DictionaryOutLanguage>
+  </x-metadata>
+  <manifest>
+   <item id="cover" href="html/cover.xhtml" media-type="application/xhtml+xml"/>
+   <item id="words" href="html/words.xhtml" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine>
+   <itemref idref="cover"/>
+   <itemref idref="words"/>
+  </spine>
+</package>
