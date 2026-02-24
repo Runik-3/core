@@ -221,7 +221,7 @@
     </div>
     {#if anyDefsChanged || dictModified}
       <div id="dict-buttons">
-        <Button onClick={reloadDict} maxWidth type="secondary" small
+        <Button onClick={() => reloadDict()} maxWidth type="secondary" small
           >Discard changes</Button
         >
         <div id="btn-divider"></div>
