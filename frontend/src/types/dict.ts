@@ -7,21 +7,22 @@ export interface DictFile {
   Modified: string;
 }
 
-export interface Definition {
+export interface Entry {
   Word: string
   Definition: string
   Synonyms: string[]
 }
 
 // modifies the type signature of Definition so we can edit in-place
-export interface EditableDefinition extends Definition {
+export interface EditableDefinition extends Entry {
   initWord: string;
   initDefinition: string;
+  initSynonyms: string[]
 }
 
 export interface Dict {
   Name: string
   ApiUrl: string
   Lang: string
-  Lexicon: Definition[]
+  Lexicon: Entry[]
 }
