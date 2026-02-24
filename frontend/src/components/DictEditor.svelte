@@ -4,9 +4,11 @@
   import Button from "./Button.svelte";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
-  import type { Definition, Dict, EditableDefinition } from "../types/dict";
+  import type { Dict, EditableDefinition, Entry } from "../types/dict";
   import Plus from "./icons/Plus.svelte";
   import { dict } from "../../wailsjs/go/models";
+  import InfoPopover from "./InfoPopover.svelte";
+  import Info from "./icons/Info.svelte";
 
   export let title: string;
   export let dictData: Dict;
@@ -16,13 +18,12 @@
 
   let search = "";
 
-  let lexicon: EditableDefinition[] = dictData.Lexicon.map(
-    (def: Definition) => ({
-      initWord: def.Word,
-      initDefinition: def.Definition,
-      ...def,
-    }),
-  );
+  let lexicon: EditableDefinition[] = dictData.Lexicon.map((def: Entry) => ({
+    initWord: def.Word,
+    initDefinition: def.Definition,
+    initSynonyms: def.Synonyms,
+    ...def,
+  }));
 
   const saveEdits = async () => {
     if (anyDefsChanged || dictModified) {
@@ -66,13 +67,21 @@
   let addMode = false;
   let newWord = "";
   let newDefinition = "";
+  let newSynonymsInputVal = "";
+  // Handle transformation between input and dict shapes
+  // TODO: Svelte v5 use bind getter/setter
+  $: newSynonyms = newSynonymsInputVal.split("|").map((syn) => syn.trim());
+  $: console.log(newSynonyms, newSynonymsInputVal);
+  console.log(newSynonyms);
   const addEntry = () => {
     if (newWord && newDefinition) {
       lexicon.push({
         Word: newWord,
         Definition: newDefinition,
+        Synonyms: newSynonyms,
         initWord: newWord,
         initDefinition: newDefinition,
+        initSynonyms: newSynonyms,
       });
 
       dictModified = true;
@@ -86,6 +95,7 @@
       addMode = false;
       newWord = "";
       newDefinition = "";
+      newSynonymsInputVal = "";
     } else {
       notifications.addNotification({
         message: "Cannot add blank word or definition.",
@@ -196,6 +206,17 @@
             class="new-definition-input"
             type="text"
           />
+          <span id="synonym-container" class="new-definition-input">
+            <input
+              bind:value={newSynonymsInputVal}
+              placeholder="synonyms"
+              type="text"
+            />
+            <InfoPopover
+              >List of synonyms separated by "|" (eg. word|variant). Words
+              included as synonyms also match this definition.</InfoPopover
+            >
+          </span>
           <input
             bind:value={newDefinition}
             placeholder="definition"
@@ -216,7 +237,7 @@
         >
       </div>
       <div id="count">
-        showing {pageStart + 1}-{pageEnd} of {lexicon.length} entries
+        {pageStart + 1}-{pageEnd} of {lexicon.length} entries
       </div>
     </div>
     {#if anyDefsChanged || dictModified}
@@ -316,25 +337,42 @@
   }
   #new-definition {
     margin-bottom: 1rem;
+    display: grid;
+    align-items: center;
+    /* word, synonyms, definition, add button */
+    grid-template-columns: 0.4fr 0.5fr 1fr 96px;
+  }
+  #synonym-container {
     display: flex;
+    position: relative;
+    /* Manually adjust padding to match height of other inputs */
+    padding: 6px 8px;
+  }
+  #synonym-container:focus-within {
+    outline: 2px solid var(--text-secondary);
+    outline-offset: -2px;
+  }
+  #synonym-container input {
+    font-size: 0.8rem;
+    border: none;
+    margin: 0;
+  }
+  #synonym-container input:focus {
+    outline: none;
   }
   #new-definition * {
-    margin-right: 8px;
+    margin-right: 4px;
+    min-width: 0px;
   }
   .new-definition-input {
     border: 1px solid lightgrey;
     padding: 8px;
     font-size: 0.8rem;
     border-radius: 8px;
-    width: 100%;
   }
-  .new-definition-input:first-of-type {
-    width: 25%;
-  }
-
   #count {
     text-align: right;
-    width: 50%;
+    width: 188px;
     font-size: 0.8rem;
     font-style: italic;
   }
