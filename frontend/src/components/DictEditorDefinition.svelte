@@ -9,6 +9,12 @@
   export let deleteEntry: (w: string) => void;
 
   let editMode = false;
+  let synonymInput = def.Synonyms ? def.Synonyms.join("\n") : "";
+
+  // Offset by 2px to remove scrollbar
+  const scaleTextareaHeight = (element: HTMLElement) => {
+    element.style.height = `${element.scrollHeight + 2}px`;
+  };
 
   $: defChanged =
     def.initWord !== def.Word || def.initDefinition !== def.Definition;
@@ -18,68 +24,138 @@
   } else {
     anyDefsChanged = false;
   }
+
+  $: def.Synonyms = synonymInput
+    .split("\n")
+    .map((syn) => syn.trim())
+    .filter((syn) => syn);
+
+  // TODO
+  // - handle defs cahnged and saving
+  // - update add UI to match newline
+  // - cleanup UI, make it feel good enough for v1
 </script>
 
-<tr class="row">
+<div class="row">
   {#if editMode}
-    <th bind:textContent={def.Word} contenteditable>{def.Word}</th>
-    <td bind:textContent={def.Definition} contenteditable>{def.Definition}</td>
-    <td>
+    <textarea
+      use:scaleTextareaHeight
+      on:input={(e) => scaleTextareaHeight(e.currentTarget)}
+      class="editable word"
+      bind:value={def.Word}
+      placeholder="Word"
+      rows="1"
+    />
+    <textarea
+      use:scaleTextareaHeight
+      on:input={(e) => scaleTextareaHeight(e.currentTarget)}
+      class="editable synonyms"
+      bind:value={synonymInput}
+      placeholder="Synonyms: one per line"
+    />
+    <textarea
+      use:scaleTextareaHeight
+      on:input={(e) => scaleTextareaHeight(e.currentTarget)}
+      class="editable definition"
+      bind:value={def.Definition}
+      placeholder="Definition"
+    />
+    <div class="btn-container">
       <button
         on:click={() => {
           editMode = false;
         }}
-        class="edit-btn"><Check size="16px" color="green" /></button
+        class="edit-btn"><Check size="16px" color="var(--success)" /></button
       >
-    </td>
+    </div>
   {:else}
-    <th>
+    <span class="editable word">
       {#if defChanged}
         <span class="changed">*</span>
       {/if}
       {def.Word}
-    </th>
-    <td>{def.Definition}</td>
-    <td>
+    </span>
+    <ul class="editable synonyms">
+      {#each def.Synonyms || [] as syn}
+        <li>{syn}</li>
+      {/each}
+    </ul>
+    <span class="editable definition">{def.Definition}</span>
+    <div class="btn-container">
       <button on:click={() => (editMode = true)} class="edit-btn"
         ><Edit color="var(--text-secondary)" /></button
       >
       <button on:click={() => deleteEntry(def.Word)} class="edit-btn"
         ><Garbage color="var(--error)" size="14" /></button
       >
-    </td>
+    </div>
   {/if}
-</tr>
+</div>
 
 <style>
-  td,
-  th {
-    /* Because of how table cells stretch, this acts as min-height */
-    height: 92px;
-    padding: 16px 8px;
-    border: 1px transparent solid;
-    text-align: left;
-    vertical-align: top;
-  }
-  td button {
-    padding: 8px;
-  }
-  tr [contenteditable] {
-    outline: none;
-    border-radius: 4px;
-    border: 1px gray solid;
-    background-color: whitesmoke;
-  }
-  tr th {
-    min-width: 144px;
-  }
-  tr td:first-of-type {
+  .row {
+    display: grid;
+    grid-template-areas:
+      "word definition btns"
+      "synonyms definition btns";
+    gap: 2px;
+    grid-template-rows: max-content 1fr;
+    grid-template-columns: minmax(144px, 168px) 3fr 4rem;
+    padding: 1rem 0;
     width: 100%;
   }
   .edit-btn {
     background-color: transparent;
     border: None;
     cursor: pointer;
+  }
+  .editable {
+    padding: 8px 8px;
+    border: 1px transparent solid;
+    font-size: 1rem;
+  }
+  .word {
+    grid-area: word;
+    font-weight: bold;
+  }
+  .synonyms {
+    /* Maintain min text height if no synonyms  */
+    min-height: 18px;
+    grid-area: synonyms;
+    white-space: pre-wrap;
+    font-weight: normal;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  ul {
+    list-style-position: outside;
+    margin-left: 0.5rem;
+    list-style-type: "- ";
+    font-style: italic;
+  }
+  textarea.editable {
+    outline: none;
+    border-radius: 4px;
+    border: 1px gray solid;
+    background-color: whitesmoke;
+    box-sizing: border-box;
+    resize: none;
+  }
+  .word,
+  .synonyms {
+    max-width: 12rem;
+    text-wrap: wrap;
+    word-break: break-word;
+  }
+  .definition {
+    grid-area: definition;
+    white-space: pre-wrap;
+  }
+  .btn-container {
+    grid-area: btns;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
   }
   .changed {
     color: grey;

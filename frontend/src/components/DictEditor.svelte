@@ -71,8 +71,6 @@
   // Handle transformation between input and dict shapes
   // TODO: Svelte v5 use bind getter/setter
   $: newSynonyms = newSynonymsInputVal.split("|").map((syn) => syn.trim());
-  $: console.log(newSynonyms, newSynonymsInputVal);
-  console.log(newSynonyms);
   const addEntry = () => {
     if (newWord && newDefinition) {
       lexicon.push({
@@ -183,13 +181,11 @@
   </div>
   <div id="dict-data">
     {#if Object.keys(filteredDefs).length}
-      <table>
-        <tbody>
+      <ul>
           {#each page as def}
             <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
           {/each}
-        </tbody>
-      </table>
+      </ul>
     {:else if search && !Object.keys(page).length}
       <p>No matches for <span>{search}</span></p>
     {:else}
@@ -322,6 +318,9 @@
     border: 1px lightgrey solid;
     border-radius: 8px;
     cursor: pointer;
+  }
+  ul {
+    padding: 8px;
   }
   #footer {
     width: 100%;
