@@ -91,6 +91,9 @@ body {
   color: var(--text)
 }
 /* Override browser default focus */
+textarea:focus-visible {
+  outline: none;
+}
 input:focus-visible {
   outline: 2px solid var(--text-secondary);
 }
