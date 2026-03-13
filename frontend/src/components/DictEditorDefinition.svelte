@@ -29,11 +29,6 @@
     .split("\n")
     .map((syn) => syn.trim())
     .filter((syn) => syn);
-
-  // TODO
-  // - handle defs cahnged and saving
-  // - update add UI to match newline
-  // - cleanup UI, make it feel good enough for v1
 </script>
 
 <div class="row">

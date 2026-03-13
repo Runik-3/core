@@ -7,8 +7,6 @@
   import type { Dict, EditableDefinition, Entry } from "../types/dict";
   import Plus from "./icons/Plus.svelte";
   import { dict } from "../../wailsjs/go/models";
-  import InfoPopover from "./InfoPopover.svelte";
-  import Info from "./icons/Info.svelte";
 
   export let title: string;
   export let dictData: Dict;
@@ -70,7 +68,10 @@
   let newSynonymsInputVal = "";
   // Handle transformation between input and dict shapes
   // TODO: Svelte v5 use bind getter/setter
-  $: newSynonyms = newSynonymsInputVal.split("|").map((syn) => syn.trim());
+  $: newSynonyms = newSynonymsInputVal
+    .split("\n")
+    .map((syn) => syn.trim())
+    .filter((syn) => syn);
   const addEntry = () => {
     if (newWord && newDefinition) {
       lexicon.push({
@@ -81,6 +82,9 @@
         initDefinition: newDefinition,
         initSynonyms: newSynonyms,
       });
+
+      // Force a rerender to show new word in entry list
+      lexicon = lexicon
 
       dictModified = true;
       notifications.addNotification({
@@ -143,6 +147,10 @@
       ? pageStart + pageSize
       : filteredDefs.length;
   $: page = filteredDefs.slice(pageStart, pageEnd);
+
+  // TODO
+  // - handle defs cahnged and saving
+  // - update add UI to match newline
 </script>
 
 <div id="dict-container">
@@ -196,41 +204,42 @@
     <div id="sub-footer">
       <div id="add-definition-container">
         <div id="new-definition" class={addMode ? "" : "hide"}>
-          <input
-            bind:value={newWord}
-            placeholder="word"
-            class="new-definition-input"
-            type="text"
-          />
-          <span id="synonym-container" class="new-definition-input">
+          <div id="word-synonym-container">
             <input
-              bind:value={newSynonymsInputVal}
-              placeholder="synonyms"
+              bind:value={newWord}
+              placeholder="Word"
+              id="word-input"
+              class="new-definition-input"
               type="text"
             />
-            <InfoPopover
-              >List of synonyms separated by "|" (eg. word|variant). Words
-              included as synonyms also match this definition.</InfoPopover
-            >
-          </span>
-          <input
+            <textarea
+              class="new-definition-input"
+              bind:value={newSynonymsInputVal}
+              placeholder="Synonyms: one per line"
+            />
+          </div>
+          <textarea
             bind:value={newDefinition}
-            placeholder="definition"
+            placeholder="Definition"
             class="new-definition-input"
-            type="text"
           />
-          <Button onClick={addEntry} small type="secondary"
-            ><span style="margin-right: 8px;">Add</span><Plus
-              color="var(--success)"
-            /></Button
-          >
         </div>
-        <Button
-          onClick={() => (addMode = !addMode)}
-          small
-          type={addMode ? "error" : "secondary"}
-          ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
-        >
+        <div class="button-container">
+          <Button
+            onClick={() => (addMode = !addMode)}
+            small
+            type={addMode ? "error" : "secondary"}
+            ><span>{addMode ? "Cancel" : "Add definition"}</span></Button
+          >
+          <div id="btn-divider"></div>
+          {#if addMode}
+            <Button onClick={addEntry} small type="secondary"
+              ><span style="margin-right: 8px;">Add</span><Plus
+                color="var(--success)"
+              /></Button
+            >
+          {/if}
+        </div>
       </div>
       <div id="count">
         {pageStart + 1}-{pageEnd} of {lexicon.length} entries
@@ -339,28 +348,14 @@
     display: grid;
     align-items: center;
     /* word, synonyms, definition, add button */
-    grid-template-columns: 0.4fr 0.5fr 1fr 96px;
+    grid-template-columns: 0.4fr 1fr;
   }
-  #synonym-container {
+  #word-synonym-container {
     display: flex;
-    position: relative;
-    /* Manually adjust padding to match height of other inputs */
-    padding: 6px 8px;
-  }
-  #synonym-container:focus-within {
-    outline: 2px solid var(--text-secondary);
-    outline-offset: -2px;
-  }
-  #synonym-container input {
-    font-size: 0.8rem;
-    border: none;
-    margin: 0;
-  }
-  #synonym-container input:focus {
-    outline: none;
+    flex-direction: column;
+    margin-right: 4px;
   }
   #new-definition * {
-    margin-right: 4px;
     min-width: 0px;
   }
   .new-definition-input {
@@ -368,6 +363,17 @@
     padding: 8px;
     font-size: 0.8rem;
     border-radius: 8px;
+  }
+  #word-input {
+    margin-bottom: 4px;
+  }
+  textarea {
+    resize: none;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .button-container {
+    display: flex;
   }
   #count {
     text-align: right;
@@ -380,6 +386,6 @@
     display: flex;
   }
   #btn-divider {
-    width: 16px;
+    width: 4px;
   }
 </style>
