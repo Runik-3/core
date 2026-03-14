@@ -205,7 +205,7 @@
       <div id="dictionary-list">
         <h2>My Dictionaries</h2>
         <ul>
-          {#each $library as dict}
+          {#each $library as dict (dict.Name)}
             <DictListItem
               {dict}
               {toggleChecked}

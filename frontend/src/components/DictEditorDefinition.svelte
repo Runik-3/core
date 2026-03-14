@@ -9,7 +9,7 @@
   export let deleteEntry: (w: string) => void;
 
   let editMode = false;
-  let synonymInput = def.Synonyms ? def.Synonyms.join("\n") : "";
+  let synonymInput = def.Synonyms?.join("\n") || "";
 
   // Offset by 2px to remove scrollbar
   const scaleTextareaHeight = (element: HTMLElement) => {
