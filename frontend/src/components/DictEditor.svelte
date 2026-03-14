@@ -152,10 +152,6 @@
       ? pageStart + pageSize
       : filteredDefs.length;
   $: page = filteredDefs.slice(pageStart, pageEnd);
-
-  // TODO
-  // - handle defs cahnged and saving
-  // - update add UI to match newline
 </script>
 
 <div id="dict-container">
@@ -195,7 +191,7 @@
   <div id="dict-data">
     {#if Object.keys(filteredDefs).length}
       <ul>
-          {#each page as def}
+          {#each page as def (def.Word)}
             <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
           {/each}
       </ul>
