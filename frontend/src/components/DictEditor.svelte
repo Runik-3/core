@@ -119,7 +119,6 @@
   ) => {
     if (timeoutID) {
       clearTimeout(timeoutID);
-      timeoutID = null;
     }
     timeoutID = setTimeout(() => {
       search = e.target.value;
@@ -127,11 +126,15 @@
     }, 400);
   };
 
+  // TODO: This is super inefficient, let's make this better
   $: filteredDefs = [
     ...new Set([
-      // We prioritize word matches over matches within the definition.
+      // We prioritize word, synonym matches over matches within the definition.
       ...lexicon.filter((def: EditableDefinition) => {
         return def.initWord.toLowerCase().includes(search.toLowerCase());
+      }),
+      ...lexicon.filter((def: EditableDefinition) => {
+        return (def.initSynonyms || []).join("|").toLowerCase().includes(search.toLowerCase());
       }),
       ...lexicon.filter((def: EditableDefinition) => {
         return def.initDefinition.toLowerCase().includes(search.toLowerCase());
