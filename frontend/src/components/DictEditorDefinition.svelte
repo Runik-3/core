@@ -11,6 +11,17 @@
   let editMode = false;
   let synonymInput = def.Synonyms?.join("\n") || "";
 
+  let clickOutsideContainer: HTMLElement
+  const handleClickOutside = (e: MouseEvent) => {
+    console.log('HERE')
+    if (!editMode) {
+      return;
+    }
+    if (!clickOutsideContainer.contains(e.target as Node)) {
+      editMode = false;
+    }
+  };
+
   // Offset by 2px to remove scrollbar
   const scaleTextareaHeight = (element: HTMLElement) => {
     element.style.height = `${element.scrollHeight + 2}px`;
@@ -33,7 +44,8 @@
     .filter((syn) => syn);
 </script>
 
-<div class="row">
+<svelte:document on:mousedown={handleClickOutside} />
+<div class="row" bind:this={clickOutsideContainer}>
   {#if editMode}
     <textarea
       use:scaleTextareaHeight
@@ -79,7 +91,8 @@
     </ul>
     <span class="editable definition">{def.Definition}</span>
     <div class="btn-container">
-      <button on:click={() => (editMode = true)} class="edit-btn"
+      <!-- Stop propogation prevents click outside handling to prevent edits -->
+      <button on:click|stopPropagation={() => (editMode = true)} class="edit-btn"
         ><Edit color="var(--text-secondary)" /></button
       >
       <button on:click={() => deleteEntry(def.Word)} class="edit-btn"
