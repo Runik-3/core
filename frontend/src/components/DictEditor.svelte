@@ -50,6 +50,7 @@
           ...l,
           initWord: l.Word,
           initDefinition: l.Definition,
+          initSynonyms: l.Synonyms
         };
       });
       anyDefsChanged = false;
@@ -72,6 +73,7 @@
     .split("\n")
     .map((syn) => syn.trim())
     .filter((syn) => syn);
+
   const addEntry = () => {
     if (newWord && newDefinition) {
       lexicon.push({
