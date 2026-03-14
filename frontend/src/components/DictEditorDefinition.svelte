@@ -17,7 +17,9 @@
   };
 
   $: defChanged =
-    def.initWord !== def.Word || def.initDefinition !== def.Definition;
+    def.initWord !== def.Word ||
+    def.initDefinition !== def.Definition ||
+    def.initSynonyms.join("|") !== def.Synonyms.join("|");
 
   $: if (defChanged) {
     anyDefsChanged = true;
