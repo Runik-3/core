@@ -11,9 +11,8 @@
   let editMode = false;
   let synonymInput = def.Synonyms?.join("\n") || "";
 
-  let clickOutsideContainer: HTMLElement
+  let clickOutsideContainer: HTMLElement;
   const handleClickOutside = (e: MouseEvent) => {
-    console.log('HERE')
     if (!editMode) {
       return;
     }
@@ -30,7 +29,7 @@
   $: defChanged =
     def.initWord !== def.Word ||
     def.initDefinition !== def.Definition ||
-    def.initSynonyms?.join("|") !== def.Synonyms?.join("|");
+    (def.initSynonyms || []).join("|") !== (def.Synonyms || []).join("|");
 
   $: if (defChanged) {
     anyDefsChanged = true;
@@ -92,8 +91,9 @@
     <span class="editable definition">{def.Definition}</span>
     <div class="btn-container">
       <!-- Stop propogation prevents click outside handling to prevent edits -->
-      <button on:click|stopPropagation={() => (editMode = true)} class="edit-btn"
-        ><Edit color="var(--text-secondary)" /></button
+      <button
+        on:click|stopPropagation={() => (editMode = true)}
+        class="edit-btn"><Edit color="var(--text-secondary)" /></button
       >
       <button on:click={() => deleteEntry(def.Word)} class="edit-btn"
         ><Garbage color="var(--error)" size="14" /></button
