@@ -72,11 +72,12 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 24px 12px;
+    padding: 1rem;
     word-break: break-word;
   }
   .icon {
     margin-right: 12px;
+    height: 24px;
   }
   .bar {
     height: 100%;
