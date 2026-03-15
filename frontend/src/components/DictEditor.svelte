@@ -50,7 +50,7 @@
           ...l,
           initWord: l.Word,
           initDefinition: l.Definition,
-          initSynonyms: l.Synonyms
+          initSynonyms: l.Synonyms,
         };
       });
       anyDefsChanged = false;
@@ -86,7 +86,7 @@
       });
 
       // Force a rerender to show new word in entry list
-      lexicon = lexicon
+      lexicon = lexicon;
 
       dictModified = true;
       notifications.addNotification({
@@ -126,21 +126,37 @@
     }, 400);
   };
 
-  // TODO: This is super inefficient, let's make this better
-  $: filteredDefs = [
-    ...new Set([
-      // We prioritize word, synonym matches over matches within the definition.
-      ...lexicon.filter((def: EditableDefinition) => {
-        return def.initWord.toLowerCase().includes(search.toLowerCase());
-      }),
-      ...lexicon.filter((def: EditableDefinition) => {
-        return (def.initSynonyms || []).join("|").toLowerCase().includes(search.toLowerCase());
-      }),
-      ...lexicon.filter((def: EditableDefinition) => {
-        return def.initDefinition.toLowerCase().includes(search.toLowerCase());
-      }),
-    ]),
-  ];
+  // Handle search filtering
+  let filteredDefs = lexicon;
+  $: {
+    // Prioritize word matches first, then synonyms and definitions.
+    const matches = {
+      word: [],
+      synonyms: [],
+      definition: [],
+    };
+    for (const entry of lexicon) {
+      if (entry.Word.toLowerCase().includes(search.toLowerCase())) {
+        matches.word.push(entry);
+      } else if (
+        (entry?.Synonyms || [])
+          .join("|")
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      ) {
+        matches.synonyms.push(entry);
+      } else if (
+        entry.Definition.toLowerCase().includes(search.toLowerCase())
+      ) {
+        matches.definition.push(entry);
+      }
+    }
+    filteredDefs = [
+      ...matches.word,
+      ...matches.synonyms,
+      ...matches.definition,
+    ];
+  }
 
   let currPage = 1;
   let pageSize = 200;
@@ -191,9 +207,9 @@
   <div id="dict-data">
     {#if Object.keys(filteredDefs).length}
       <ul>
-          {#each page as def (def.Word)}
-            <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
-          {/each}
+        {#each page as def (def.Word)}
+          <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
+        {/each}
       </ul>
     {:else if search && !Object.keys(page).length}
       <p>No matches for <span>{search}</span></p>
