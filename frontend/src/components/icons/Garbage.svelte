@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let color = "black";
+  export let color = "var(--text)";
   export let size = "16px";
 </script>
 

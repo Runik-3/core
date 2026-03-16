@@ -38,9 +38,9 @@
     border-color: var(--primary-hover);
   }
   .secondary {
-    background-color: var(--secondary);
-    border: 2px black solid;
-    color: black;
+    background-color: transparent;
+    border: 2px var(--text) solid;
+    color: var(--text);
   }
   .secondary:hover {
     background-color: var(--secondary-hover);

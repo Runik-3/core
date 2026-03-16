@@ -208,7 +208,7 @@
     margin-right: 0.75rem;
 
     /* Our custom styles */
-    border: 1px solid black;
+    border: 1px solid var(--text);
     background-color: var(--bg);
     height: 16px;
     width: 16px;
