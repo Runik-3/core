@@ -10,6 +10,7 @@
   import Dropdown from "./Dropdown.svelte";
   import Edit from "./icons/Edit.svelte";
   import Info from "./icons/Info.svelte";
+  import { deviceModal } from "../lib/modals";
 
   export let dict: DictFile;
   // Dictionary is selected
@@ -37,20 +38,6 @@
     });
   };
 
-  const loadDeviceModal = () => {
-    modalStore.set({
-      title: `Device: ${$device.name}`,
-      modalType: "device",
-      cancelFn: () => modalStore.set(null),
-      dangerFn: () => {
-        device.disconnect();
-        modalStore.set(null);
-      },
-      cancelLabel: "Close",
-      dangerLabel: "Disconnect",
-    });
-  };
-
   const confirmDelete = async (dict: DictFile) => {
     const { Error } = await deleteDict(dict.Name);
     if (Error) {
@@ -68,7 +55,7 @@
     await refreshLibrary();
 
     if (isDeviceList) {
-      loadDeviceModal();
+      deviceModal()
     }
   };
 
@@ -79,7 +66,7 @@
       cancelFn: () => {
         modalStore.set(null);
         if (isDeviceList) {
-          loadDeviceModal();
+          deviceModal()
         }
       },
       dangerFn: () => confirmDelete(dict),

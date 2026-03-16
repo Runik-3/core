@@ -1,7 +1,6 @@
 <script lang="ts">
   import { nav, type Nav } from "../stores/nav";
   import { device } from "../stores/device";
-  import { modalStore } from "../stores/modal";
   import Anvil from "./icons/Anvil.svelte";
   import Book from "./icons/Book.svelte";
   import Cog from "./icons/Cog.svelte";
@@ -9,6 +8,7 @@
   import type { Device as DeviceType } from "../types/device";
   import type { Response } from "../types/response";
   import { notifications, Severity } from "../stores/notification";
+  import { deviceModal } from "../lib/modals";
 
   const navigate = (location: Nav) => {
     nav.set(location);
@@ -29,17 +29,7 @@
         return
       }
     }
-    modalStore.set({
-      title: `Device: ${$device.name}`,
-      modalType: "device",
-      cancelFn: () => modalStore.set(null),
-      dangerFn: () => {
-        device.disconnect()
-        modalStore.set(null);
-      },
-      cancelLabel: "Close",
-      dangerLabel: "Disconnect",
-    });
+    deviceModal()
   };
 </script>
 
