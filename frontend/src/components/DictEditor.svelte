@@ -296,7 +296,7 @@
   #dict-data {
     overflow-y: auto;
     margin-bottom: 1rem;
-    border: 1px lightgrey solid;
+    border: 1px var(--outline) solid;
     border-radius: 8px;
     margin-top: 16px;
     overflow-y: auto;
@@ -314,7 +314,7 @@
   #dict-header input {
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid lightgrey;
+    border: 1px solid var(--outline);
     font-size: 0.9rem;
     width: 100%;
     margin: 0 1rem;
@@ -344,7 +344,7 @@
     width: 2rem;
     border: none;
     background: transparent;
-    border: 1px lightgrey solid;
+    border: 1px var(--outline) solid;
     border-radius: 8px;
     cursor: pointer;
   }
@@ -379,7 +379,7 @@
     min-width: 0px;
   }
   .new-definition-input {
-    border: 1px solid lightgrey;
+    border: 1px solid var(--outline);
     padding: 8px;
     font-size: 0.8rem;
     border-radius: 8px;

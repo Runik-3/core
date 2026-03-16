@@ -202,7 +202,7 @@
     height: 28px;
     padding: 1px 8px;
     border-radius: 8px;
-    border: 1px solid lightgrey;
+    border: 1px solid var(--outline);
     font-size: 0.9rem;
   }
   #wiki-input {
@@ -230,7 +230,7 @@
     overflow-y: auto;
     padding: 16px;
     border-radius: 8px;
-    border: 1px solid lightgrey;
+    border: 1px solid var(--outline);
   }
   details[open] {
     max-height: 270px;

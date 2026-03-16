@@ -81,6 +81,7 @@
     max-height: 650px;
     border-radius: 8px;
     justify-content: space-between;
+    border: 1px solid var(--outline);
   }
   #modal-buttons {
     width: 100%;
@@ -91,5 +92,6 @@
   }
   p {
     margin-top: 16px;
+    color: var(--text-secondary);
   }
 </style>

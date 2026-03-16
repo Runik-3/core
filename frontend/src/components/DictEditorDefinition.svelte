@@ -21,9 +21,9 @@
     }
   };
 
-  // Offset by 2px to remove scrollbar
+  // Offset by 4px to remove scrollbar
   const scaleTextareaHeight = (element: HTMLElement) => {
-    element.style.height = `${element.scrollHeight + 2}px`;
+    element.style.height = `${element.scrollHeight + 4}px`;
   };
 
   $: defChanged =
@@ -121,7 +121,7 @@
   }
   .editable {
     padding: 8px 8px;
-    border: 1px transparent solid;
+    border: 2px transparent solid;
     font-size: 1rem;
   }
   .word {
@@ -146,8 +146,8 @@
   textarea.editable {
     outline: none;
     border-radius: 4px;
-    border: 1px gray solid;
-    background-color: whitesmoke;
+    border: 2px var(--outline-active) solid;
+    background-color: var(--input);
     box-sizing: border-box;
     resize: none;
   }
@@ -165,7 +165,7 @@
     grid-area: btns;
     display: flex;
     flex-direction: column;
-    padding: 16px;
+    padding: 8px;
   }
   .changed {
     color: grey;
