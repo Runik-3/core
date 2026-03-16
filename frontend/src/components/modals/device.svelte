@@ -6,20 +6,16 @@
 </script>
 
 <Basic>
-  {#if $device?.dicts?.length}
-    <h3>Dictionaries on this device</h3>
-    <ul id="device-dict-list">
+  <h3>Dictionaries on this device</h3>
+  <ul id="device-dict-list">
+    {#if $device?.dicts?.length}
       {#each $device.dicts as dict}
-        <DictListItem
-          isDeviceList
-          {dict}
-          deleteDict={DeleteDeviceDictFile}
-        />
+        <DictListItem isDeviceList {dict} deleteDict={DeleteDeviceDictFile} />
       {/each}
-    </ul>
-  {:else}
-    No dictionaries found on this device.
-  {/if}
+    {:else}
+      <div id="no-dicts">No dictionaries found on this device.</div>
+    {/if}
+  </ul>
 </Basic>
 
 <style>
@@ -36,5 +32,11 @@
     max-height: 18rem;
     margin-bottom: 1rem;
     overflow-y: auto;
+  }
+  #no-dicts {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
   }
 </style>

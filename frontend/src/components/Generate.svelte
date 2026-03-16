@@ -102,17 +102,22 @@
         It's best to provide a main page link or direct api endpoint.</InfoPopover
       >
     </label>
-    <div id="search">
+    <form id="search" action="">
       <input
         id="wiki-input"
         placeholder="https://kingkiller.fandom.com"
         type="text"
         bind:value={url}
       />
-      <Button disabled={loading} onClick={() => wikiDetails(url)} small
-        >Find</Button
+      <Button
+        disabled={loading}
+        onClick={(e) => {
+          e.preventDefault()
+          wikiDetails(url);
+        }}
+        small>Find</Button
       >
-    </div>
+    </form>
   </div>
 
   <div class="input-container depth-container">
@@ -122,8 +127,7 @@
         value is 2 or 3 to provide enough context while avoiding unexpected
         spoilers.</InfoPopover
       ></label
-    >
-    <input id="depth-input" type="number" bind:value={depth} />
+    ><input id="depth-input" type="number" bind:value={depth} />
   </div>
 
   {#if loading}
@@ -216,8 +220,10 @@
     justify-content: center;
     margin: 3rem 0;
   }
+  .input-container label {
+    margin-bottom: 1rem;
+  }
   #search {
-    margin-top: 8px;
     display: flex;
     align-items: center;
   }
