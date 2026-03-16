@@ -325,6 +325,9 @@
     flex-wrap: nowrap;
     font-size: 0.8rem;
   }
+  #paging-container button {
+    color: var(--text);
+  }
   #paging-select-container {
     display: flex;
     align-items: center;

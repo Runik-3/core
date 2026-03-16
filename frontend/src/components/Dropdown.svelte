@@ -84,6 +84,7 @@
   }
   li button {
     display: grid;
+    color: var(--text);
     grid-template-columns: 20px 1fr;
     font-size: 1rem;
     padding: 0.5rem 1rem;

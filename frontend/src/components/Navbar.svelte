@@ -40,7 +40,7 @@
       on:click={() => navigate("lib")}
       ><Book
         size="20px"
-        color={`${$nav === "lib" ? "black" : "var(--text-secondary)"}`}
+        color={`${$nav === "lib" ? "var(--text)" : "var(--text-secondary)"}`}
       /><span>Library</span></button
     >
     <button
@@ -49,7 +49,7 @@
       on:click={() => navigate("gen")}
       ><Anvil
         size="20px"
-        color={`${$nav === "gen" ? "black" : "var(--text-secondary)"}`}
+        color={`${$nav === "gen" ? "var(--text)" : "var(--text-secondary)"}`}
       /><span>Forge</span></button
     >
     <button
@@ -57,7 +57,7 @@
       on:click={() => navigate("conf")}
       ><Cog
         size="20px"
-        color={`${$nav === "conf" ? "black" : "var(--text-secondary)"}`}
+        color={`${$nav === "conf" ? "var(--text)" : "var(--text-secondary)"}`}
       /><span>Settings</span></button
     >
   </div>
