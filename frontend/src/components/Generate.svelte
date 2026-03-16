@@ -26,7 +26,9 @@
       return;
     }
     loading = true;
-    const res: Response<WikiInfo> = await GetWikiDetails(wikiUrl);
+    const res: Response<WikiInfo> = (await GetWikiDetails(
+      wikiUrl,
+    )) as unknown as Response<WikiInfo>;
     if (res.Error) {
       notifications.addNotification({
         message: res.Error,
@@ -86,8 +88,8 @@
   };
 
   // Handle update load string based on progress
-  EventsOn("progressUpdate", ({ Processed, Total }) => {
-    loadString = `${Processed} definitions processed out of ${Total}...`;
+  EventsOn("progressUpdate", ({ Processed }) => {
+    loadString = `${Processed} definitions processed...`;
   });
 </script>
 
@@ -137,7 +139,13 @@
         <strong>Name:</strong>
         <input id="name-input" type="text" bind:value={dictName} />
       </p>
-      <p class="info-line"><strong>Entries:</strong> {wikiInfo?.Articles}</p>
+      <p class="info-line">
+        <strong>Entries:</strong> ~{wikiInfo?.Articles}
+        <InfoPopover
+          >This number is an estimate, not all wiki pages result in valid
+          dictionary entries.</InfoPopover
+        >
+      </p>
       <p class="info-line"><strong>Language:</strong> {wikiInfo?.Lang}</p>
     </div>
     <Button small disabled={loading} onClick={() => buildDict(url)}
