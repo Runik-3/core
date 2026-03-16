@@ -126,7 +126,7 @@ body {
 
 input, textarea {
   background-color: var(--input);
-  color: var(--text)
+  color: var(--text);
 }
 /* Override browser default focus */
 textarea:focus-visible,
