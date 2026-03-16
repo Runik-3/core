@@ -94,7 +94,7 @@
     color: var(--text-secondary);
   }
   .tab-btn:hover {
-    background-color: #b5b5b5;
+    background-color: var(--secondary-hover);
   }
   .active {
     background-color: var(--bg);

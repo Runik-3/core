@@ -188,7 +188,7 @@
     white-space: nowrap;
   }
   .selected {
-    background-color: var(--secondary-hover);
+    background-color: var(--active);
     border-radius: 8px;
   }
   .device {

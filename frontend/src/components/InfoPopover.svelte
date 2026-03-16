@@ -24,15 +24,15 @@
     top: 0;
     left: 16px;
     display: none;
-    opacity: 80%;
-    background-color: black;
+    opacity: 90%;
+    background-color: var(--popover-bg);
     color: var(--text-contrast);
     padding: 12px;
     width: 294px;
     font-size: 0.9rem;
     line-height: 1.2rem;
     border-radius: 8px;
-    border: 1px solid var(--bg-secondary);
+    border: 1px solid var(--outline);
   }
   .show {
     display: block;

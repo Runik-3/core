@@ -56,20 +56,53 @@
 :root {
   --bg: white;
   --bg-secondary: rgb(211, 211, 211); /* #d3d3d3 device panel background, borders */
-  --bg-secondary-hover: rgba(211, 211, 211, 0.5); /* #d3d3d380 list selection */
+  --outline: lightgrey;
+  --outline-active: rgb(93, 93, 93); /* Active or heavy outlines */
+  --input: var(--white);
+  --active: var(--secondary-hover);
   --text: rgb(32, 32, 32); /* #202020 text */
   --text-contrast: white;
   --text-secondary: rgb(93, 93, 93); /* #5d5d5d secondary text and icon */
   --primary: rgb(32, 32, 32); /* #202020 buttons */
   --primary-hover: rgb(44, 44, 44); /* 2c2c2c */
+  --popover-bg:rgb(32, 32, 32);
   --secondary: white; /* secondary buttons*/
   --secondary-hover: rgba(32, 32, 32, .1); /* #2020201a secondary buttons*/
+  --disabled: var(--text-secondary);
+  --disabled-secondary: var(--bg-secondary);
   --accent: rgb(31, 121, 126); /* #1f797e info msgs, brand accent */
   --error: rgb(199, 103, 103); /* #c76767 error msgs, buttons */
   --error-hover: rgb(179, 92, 92); /* #b35c5c */
   --warn: rgb(230, 193, 100); /* #e6c164 warn msgs */
   --success: rgb(106, 178, 126); /* #6ab27e success msgs, buttons */
 }
+
+@media(prefers-color-scheme: dark) {
+  :root{
+    --bg: #1e2021;
+    --bg-secondary: rgb(9, 9, 9);
+    --outline: rgb(113, 113, 113);
+    --outline-active: rgb(154, 154, 154);
+    --input: var(--bg-secondary);
+    --active: var(--disabled-secondary);
+    --text: #f6f6f6;
+    --text-contrast: #202020;
+    --text-secondary: rgb(176, 176, 176);
+    --primary: #f6f6f6; /* #202020 */
+    --primary-hover: rgba(221, 221, 221);
+    --popover-bg: #f6f6f6;
+    --secondary: #f6f6f6; /* secondary buttons*/
+    --secondary-hover: rgb(46, 46, 46); 
+    --disabled: var(--text-secondary); 
+    --disabled-secondary: rgb(68, 68, 68);
+    --accent: rgb(46, 179, 186); /* info msgs, brand accent */
+    --error: rgb(235, 104, 104); /*  error msgs, buttons */
+    --error-hover: rgb(233, 124, 124);
+    --warn: rgb(230, 193, 100); /* #e6c164 warn msgs */
+    --success: rgb(106, 178, 126); /* #6ab27e success msgs, buttons */
+  }
+}
+
 
 html,
 * {
@@ -90,8 +123,13 @@ body {
   height: 100%;
   color: var(--text)
 }
+
+input, textarea {
+  background-color: var(--input);
+  color: var(--text)
+}
 /* Override browser default focus */
 textarea:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--text-secondary);
+  outline: 2px solid var(--outline-active);
 }

@@ -62,10 +62,7 @@
     border-radius: 8px;
   }
   .dropdown-button:hover {
-    background: var(--bg-secondary-hover);
-  }
-  .dropdown-button:active {
-    background: var(--bg-secondary);
+    background: var(--secondary-hover);
   }
   #menu-items-container {
     z-index: 99;
@@ -74,7 +71,7 @@
     right: 0;
     background-color: var(--bg);
     border-radius: 0.5rem;
-    border: 1px var(--bg-secondary) solid;
+    border: 1px var(--outline) solid;
     text-align: left;
     padding: 0.5rem 0;
   }
@@ -96,7 +93,7 @@
     align-items: center;
   }
   li button:hover {
-    background: var(--bg-secondary-hover);
+    background: var(--active);
   }
   .icon-container {
     justify-self: center;

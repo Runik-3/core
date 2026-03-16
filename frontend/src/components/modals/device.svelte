@@ -21,11 +21,12 @@
 <style>
   h3 {
     margin-top: 1rem;
+    color: var(--text-secondary);
   }
   #device-dict-list {
     box-sizing: border-box;
     margin-top: 16px;
-    border: 1px var(--bg-secondary) solid;
+    border: 1px var(--outline) solid;
     border-radius: 8px;
     padding: 8px 16px;
     min-height: 12rem;

@@ -65,15 +65,15 @@
     width: 100%;
   }
   button:disabled {
-    border-color: var(--text-secondary);
-    background-color: var(--text-secondary);
+    border-color: var(--disabled);
+    background-color: var(--disabled);
     color: var(--bg-secondary);
     cursor: default;
   }
   .secondary:disabled {
-    border-color: var(--text-secondary);
-    background-color: var(--bg-secondary);
-    color: var(--text);
+    border-color: var(--disabled);
+    background-color: var(--disabled-secondary);
+    color: var(--text-secondary);
     cursor: default;
   }
 </style>
