@@ -21,6 +21,7 @@
   import DictView from "./DictEditor.svelte";
   import Button from "./Button.svelte";
   import Loader from "./Loader.svelte";
+  import { deviceModal } from "../lib/modals";
 
   export let hide = false;
 
@@ -77,7 +78,7 @@
     checked = new Set([...checked, name]);
   };
 
-  $: viewingDict = (async () => await loadDict(selected.Name))()
+  $: viewingDict = (async () => await loadDict(selected.Name))();
 
   /**
    * Reloads the currently selected dictionary.
@@ -158,7 +159,7 @@
 
   /**
    * Connect a device, handles errors.
-   * @param callback - func that runs upon succesfull device connect
+   * @param callback - func that runs upon successful device connect
    */
   const connectDevice = async (callback: () => void) => {
     if (!$device.name) {
@@ -182,19 +183,7 @@
 
       // If succesfully connected, run callback
       callback();
-
-      // TODO: Share common modal sets instead of copy-pasting
-      modalStore.set({
-        title: `Device: ${$device.name}`,
-        modalType: "device",
-        cancelFn: () => modalStore.set(null),
-        dangerFn: () => {
-          device.disconnect();
-          modalStore.set(null);
-        },
-        cancelLabel: "Close",
-        dangerLabel: "Disconnect",
-      });
+      deviceModal();
     }
   };
 </script>
@@ -259,7 +248,7 @@
             dictData={dict.dictData}
             reloadDict={reloadSelectedDict}
           />
-        <!-- If we're catching errors here it's likely because selected is not defined yet -->
+          <!-- If we're catching errors here it's likely because selected is not defined yet -->
         {:catch}
           <div id="loader-container">
             <Loader />
