@@ -33,12 +33,12 @@
       title: `Device: ${$device.name}`,
       modalType: "device",
       cancelFn: () => modalStore.set(null),
-      confirmFn: () => {
+      dangerFn: () => {
         device.disconnect()
         modalStore.set(null);
       },
       cancelLabel: "Close",
-      confirmLabel: "Disconnect",
+      dangerLabel: "Disconnect",
     });
   };
 </script>

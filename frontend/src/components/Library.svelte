@@ -56,8 +56,8 @@
       modalStore.set({
         title: "Unsaved changes",
         description: "You have unsaved changes to this dictionary.",
-        confirmLabel: "Discard changes",
-        confirmFn: () => {
+        dangerLabel: "Discard changes",
+        dangerFn: () => {
           anyDefsChanged = false;
           dictModified = false;
           selected = dict;
@@ -188,12 +188,12 @@
         title: `Device: ${$device.name}`,
         modalType: "device",
         cancelFn: () => modalStore.set(null),
-        confirmFn: () => {
+        dangerFn: () => {
           device.disconnect();
           modalStore.set(null);
         },
         cancelLabel: "Close",
-        confirmLabel: "Disconnect",
+        dangerLabel: "Disconnect",
       });
     }
   };

@@ -5,11 +5,13 @@ type ModalType = "convertSelect" | "renameDict" | "device" | "details" | "basic"
 export interface ModalProps {
   title: string
   description?: string
-  confirmFn?: () => void
   modalType?: ModalType
+  confirmFn?: () => void
   cancelFn?: () => void
+  dangerFn?: () => void
   confirmLabel?: string
   cancelLabel?: string
+  dangerLabel?: string 
   // Specific to user input modals
   formData?: string | null
 }

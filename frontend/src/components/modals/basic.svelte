@@ -2,11 +2,24 @@
   import { modalStore } from "../..//stores/modal";
   import Button from "../Button.svelte";
 
-  const { title, description, confirmFn, confirmLabel, cancelLabel, cancelFn } =
-    $modalStore;
+  const {
+    title,
+    description,
+    confirmFn,
+    confirmLabel,
+    cancelLabel,
+    cancelFn,
+    dangerLabel,
+    dangerFn,
+  } = $modalStore;
 
   const confirm = () => {
     confirmFn();
+    modalStore.set(null);
+  };
+
+  const danger = () => {
+    dangerFn();
     modalStore.set(null);
   };
 </script>
@@ -31,6 +44,12 @@
         <div id="btn-divider"></div>
         <Button onClick={confirm} maxWidth small
           >{confirmLabel || "Confirm"}</Button
+        >
+      {/if}
+      {#if dangerFn}
+        <div id="btn-divider"></div>
+        <Button onClick={danger} maxWidth small type="error"
+          >{dangerLabel || "Delete"}</Button
         >
       {/if}
     </div>

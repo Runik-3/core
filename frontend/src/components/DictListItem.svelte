@@ -42,12 +42,12 @@
       title: `Device: ${$device.name}`,
       modalType: "device",
       cancelFn: () => modalStore.set(null),
-      confirmFn: () => {
+      dangerFn: () => {
         device.disconnect();
         modalStore.set(null);
       },
       cancelLabel: "Close",
-      confirmLabel: "Disconnect",
+      dangerLabel: "Disconnect",
     });
   };
 
@@ -76,13 +76,14 @@
     modalStore.set({
       title: "Confirm delete",
       description: `Would you like to permanently delete the ${dict.Display} dictionary?`,
-      confirmFn: () => confirmDelete(dict),
       cancelFn: () => {
         modalStore.set(null);
         if (isDeviceList) {
           loadDeviceModal();
         }
       },
+      dangerFn: () => confirmDelete(dict),
+      dangerLabel: "Delete",
       modalType: "basic",
     });
   };

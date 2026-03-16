@@ -1,7 +1,7 @@
 <script lang="ts">
   type ButtonType = "primary" | "secondary" | "error";
 
-  export let onClick: (...args: any[]) => void;
+  export let onClick: (e: MouseEvent) => void;
   export let type: ButtonType = "primary";
   export let disabled = false;
   export let small = false;
