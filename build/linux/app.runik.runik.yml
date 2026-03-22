@@ -31,7 +31,7 @@ modules:
   - name: wails
     buildsystem: simple
     build-commands:
-      - go install github.com/wailsapp/wails/v2/cmd/wails@v2.10.2
+      - go install github.com/wailsapp/wails/v2/cmd/wails@v2.11.0
     cleanup:
       - "*"
   - name: runik
