@@ -7,11 +7,11 @@
   import type { Config } from "../types/config";
   import { notifications, Severity } from "../stores/notification";
   import { onMount } from "svelte";
-  Error;
 
   export let hide = false;
   let config: Config | undefined = undefined;
-
+  let themeInputValue = "";
+  // TODO: We should move this up a level, probably create config store
   onMount(async () => {
     const res: Response<Config> = await GetConfig();
     if (res.Error) {
@@ -22,6 +22,7 @@
       });
     }
     config = res.Data;
+    themeInputValue = config.theme;
   });
 
   const handleSelectFile = async () => {
@@ -38,10 +39,10 @@
     return res.Data;
   };
 
-  const setKindlegenValue = async (value?: string) => {
+  const setConfig = async (conf: Partial<Config>) => {
     // TODO: loading state while config saves
     // This func has no return value
-    config["kindlegenPath"] = value;
+    config = { ...config, ...conf };
     const setRes: Response<string> = await SetConfig(config);
     if (setRes.Error) {
       notifications.addNotification({
@@ -65,22 +66,75 @@
   };
 
   /** Accept value arg  */
-  const handleSetKindlegenPathFromFileSelect = async (value?: string) => {
+  const handleSetKindlegenPathFromFileSelect = async () => {
     const newPath = await handleSelectFile();
     if (newPath) {
-      const newConfig = await setKindlegenValue(newPath);
+      const newConfig = await setConfig({ kindlegenPath: newPath });
       config = newConfig;
     }
   };
 
   const handleResetKindlegenPath = async () => {
-    await setKindlegenValue("");
+    await setConfig({ kindlegenPath: "" });
   };
+
+  $: {
+    if (themeInputValue === "light") {
+      document.body.classList.add("light");
+      document.body.classList.remove("dark");
+    }
+    if (themeInputValue === "dark") {
+      document.body.classList.add("dark");
+      document.body.classList.remove("light");
+    }
+    if (themeInputValue === "system") {
+      document.body.classList.remove("dark");
+      document.body.classList.remove("light");
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.body.classList.add("dark");
+      }
+      if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+        document.body.classList.add("light");
+      }
+    }
+    if (themeInputValue) {
+      setConfig({ theme: themeInputValue });
+    }
+  }
 </script>
 
 <ContentLayout {hide}>
   <h2>Configure Runik</h2>
-  <!-- When we have more than one setting, make this a standalone component -->
+  <!-- When we have more settings, we should make standalone components -->
+  <div class="setting-entry">
+    <fieldset>
+      <legend>Theme</legend>
+      <input
+        name="theme"
+        value="system"
+        type="radio"
+        id="theme-system"
+        bind:group={themeInputValue}
+      />
+      <label for="theme-system">System</label>
+      <input
+        name="theme"
+        value="light"
+        type="radio"
+        id="theme-light"
+        bind:group={themeInputValue}
+      />
+      <label for="theme-light">Light</label>
+      <input
+        name="theme"
+        value="dark"
+        type="radio"
+        id="theme-dark"
+        bind:group={themeInputValue}
+      />
+      <label for="theme-dark">Dark</label>
+    </fieldset>
+  </div>
   <div class="setting-entry">
     <span>Path to Kindlegen</span>
     <InfoPopover
@@ -97,14 +151,16 @@
             e.currentTarget.value &&
             e.currentTarget.value != config.kindlegenPath
           ) {
-            await setKindlegenValue(e.currentTarget.value);
+            await setConfig({ kindlegenPath: e.currentTarget.value });
           }
         }}
         value={config?.kindlegenPath}
       />
+      <div id="btn-divider"></div>
       <Button small onClick={handleSetKindlegenPathFromFileSelect}
         >Browse...</Button
       >
+      <div id="btn-divider"></div>
       <Button small type={"error"} onClick={handleResetKindlegenPath}
         >Reset</Button
       >
@@ -115,6 +171,12 @@
 <style>
   h2 {
     margin-bottom: 32px;
+  }
+  .setting-entry {
+    margin: 2rem 0;
+  }
+  .setting-entry div {
+    margin-top: 1rem;
   }
   .setting-entry div {
     margin-top: 1rem;
@@ -130,5 +192,25 @@
     border-radius: 8px;
     border: 1px solid var(--outline);
     font-size: 0.9rem;
+  }
+  #kindle-gen {
+    min-width: 300px;
+  }
+  fieldset {
+    display: flex;
+    align-items: center;
+    border: 1px var(--outline) solid;
+    border-radius: 8px;
+    max-width: min-content;
+  }
+  fieldset label {
+    padding-left: 4px;
+  }
+  fieldset label:not(:last-of-type) {
+    margin-right: 2rem;
+  }
+  /* TODO: Remove instances of this spacer in favour of a button prop*/
+  #btn-divider {
+    width: 4px;
   }
 </style>

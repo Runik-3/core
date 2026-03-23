@@ -78,7 +78,10 @@
     checked = new Set([...checked, name]);
   };
 
-  $: viewingDict = (async () => await loadDict(selected.Name))();
+  let viewingDict = null;
+  $: if (selected) {
+    viewingDict = loadDict(selected.Name);
+  }
 
   /**
    * Reloads the currently selected dictionary.
@@ -241,13 +244,16 @@
             <Loader />
           </div>
         {:then dict}
-          <DictView
-            bind:anyDefsChanged
-            bind:dictModified
-            title={dict.title}
-            dictData={dict.dictData}
-            reloadDict={reloadSelectedDict}
-          />
+        <!-- dict can be null here if selected has loaded -->
+          {#if dict}
+            <DictView
+              bind:anyDefsChanged
+              bind:dictModified
+              title={dict.title}
+              dictData={dict.dictData}
+              reloadDict={reloadSelectedDict}
+            />
+          {/if}
           <!-- If we're catching errors here it's likely because selected is not defined yet -->
         {:catch}
           <div id="loader-container">

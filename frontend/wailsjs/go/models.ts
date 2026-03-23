@@ -2,6 +2,7 @@ export namespace core {
 	
 	export class Config {
 	    kindlegenPath: string;
+	    theme: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Config(source);
@@ -10,6 +11,7 @@ export namespace core {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.kindlegenPath = source["kindlegenPath"];
+	        this.theme = source["theme"];
 	    }
 	}
 	export class File {
