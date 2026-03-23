@@ -13,6 +13,7 @@ var defaultConfig []byte
 
 type Config struct {
 	KindlegenPath string `json:"kindlegenPath"`
+	Theme string `json:"theme"`
 }
 
 func GetOrCreateConfig(appDir string) (Config, error) {
