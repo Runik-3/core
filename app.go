@@ -88,6 +88,10 @@ func (a *App) CheckForUpdate() bool {
 	return c.UpdateAvailable(version)
 }
 
+func (a *App) GetVersion() c.Response[string] {
+	return c.Response[string]{Data: version, Error: "" }
+}
+
 func (a *App) SelectDevice() c.Response[dev.Device] {
 	deviceDir := a.selectDirectory(runtime.OpenDialogOptions{})
 

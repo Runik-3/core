@@ -38,6 +38,10 @@ export function GetLocalDictionaries() {
   return window['go']['main']['App']['GetLocalDictionaries']();
 }
 
+export function GetVersion() {
+  return window['go']['main']['App']['GetVersion']();
+}
+
 export function GetWikiDetails(arg1) {
   return window['go']['main']['App']['GetWikiDetails'](arg1);
 }

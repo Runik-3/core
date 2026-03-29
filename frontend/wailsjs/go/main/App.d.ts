@@ -22,6 +22,8 @@ export function GetDeviceDictionaries():Promise<core.Response___github_com_runik
 
 export function GetLocalDictionaries():Promise<core.Response___github_com_runik_3_core_core_File_>;
 
+export function GetVersion():Promise<core.Response_string_>;
+
 export function GetWikiDetails(arg1:string):Promise<core.Response_github_com_runik_3_builder_wikiBot_WikiDetails_>;
 
 export function InstallDictionaries(arg1:Array<string>):Promise<core.Response_string_>;

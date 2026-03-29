@@ -2,7 +2,7 @@
   import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
   import InfoPopover from "./InfoPopover.svelte";
-  import { GetConfig, SelectFile, SetConfig } from "../../wailsjs/go/main/App";
+  import { GetConfig, SelectFile, SetConfig, GetVersion } from "../../wailsjs/go/main/App";
   import type { Response } from "../types/response";
   import type { Config } from "../types/config";
   import { notifications, Severity } from "../stores/notification";
@@ -10,6 +10,8 @@
 
   export let hide = false;
   let config: Config | undefined = undefined;
+  let version: string | undefined = undefined;
+
   let themeInputValue = "";
   // TODO: We should move this up a level, probably create config store
   onMount(async () => {
@@ -23,6 +25,9 @@
     }
     config = res.Data;
     themeInputValue = config.theme;
+
+    const versionRes: Response<string> = await GetVersion();
+    version = versionRes.Data
   });
 
   const handleSelectFile = async () => {
@@ -166,6 +171,9 @@
       >
     </div>
   </div>
+  <div id="version">
+    {version || ""}
+  </div>
 </ContentLayout>
 
 <style>
@@ -212,5 +220,13 @@
   /* TODO: Remove instances of this spacer in favour of a button prop*/
   #btn-divider {
     width: 4px;
+  }
+  #version {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
   }
 </style>
