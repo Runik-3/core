@@ -7,6 +7,7 @@
   import type { Config } from "../types/config";
   import { notifications, Severity } from "../stores/notification";
   import { onMount } from "svelte";
+  import { debounce } from "../lib/debounce";
 
   export let hide = false;
   let config: Config | undefined = undefined;
@@ -44,9 +45,8 @@
     return res.Data;
   };
 
-  const setConfig = async (conf: Partial<Config>) => {
+  const setConfig = debounce(async (conf: Partial<Config>) => {
     // TODO: loading state while config saves
-    // This func has no return value
     config = { ...config, ...conf };
     const setRes: Response<string> = await SetConfig(config);
     if (setRes.Error) {
@@ -55,7 +55,14 @@
         severity: Severity.info,
         timeout: 5000,
       });
+      return
     }
+
+    notifications.addNotification({
+      message: "Configuration updated",
+      severity: Severity.info,
+      timeout: 2000,
+    });
 
     // Fetch updated new config
     const getRes: Response<Config> = await GetConfig();
@@ -68,7 +75,7 @@
     }
 
     return getRes.Data;
-  };
+  });
 
   /** Accept value arg  */
   const handleSetKindlegenPathFromFileSelect = async () => {
@@ -153,7 +160,6 @@
         id="kindle-gen"
         on:blur={async (e) => {
           if (
-            e.currentTarget.value &&
             e.currentTarget.value != config.kindlegenPath
           ) {
             await setConfig({ kindlegenPath: e.currentTarget.value });

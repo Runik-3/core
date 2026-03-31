@@ -1,12 +1,23 @@
-export function debounce(callback: (...args: unknown[]) => void, wait: number = 500) {
-  let timeoutId = null
+export function debounce<T>(
+  callback: (...args: unknown[]) => Promise<T>,
+): (...args: unknown[]) => Promise<T>;
+
+export function debounce<T>(
+  callback: (...args: unknown[]) => Promise<T>,
+  wait: number
+): (...args: unknown[]) => Promise<T>;
+
+export function debounce<T>(
+  callback: (...args: unknown[]) => T,
+  wait: number = 500,
+) {
+  let timeoutId = null;
   return (...args: unknown[]) => {
     if (timeoutId) {
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
     }
     timeoutId = setTimeout(() => {
-      callback(...args)
-    }, wait)
-  }
+      return callback(...args);
+    }, wait);
+  };
 }
-
