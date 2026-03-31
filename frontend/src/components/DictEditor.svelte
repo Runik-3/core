@@ -2,6 +2,7 @@
   import type { Response } from "../types/response";
   import { WriteLocalDictionary } from "../../wailsjs/go/main/App";
   import Button from "./Button.svelte";
+  import { debounce } from "../lib/debounce";
   import DictDefinition from "./DictEditorDefinition.svelte";
   import { notifications, Severity } from "../stores/notification";
   import type { Dict, EditableDefinition, Entry } from "../types/dict";
@@ -109,22 +110,18 @@
     }
   };
 
-  let timeoutID = null;
-  // debounce search
-  const handleSearch = (
-    e: Event & {
-      currentTarget: EventTarget & HTMLInputElement;
-      target: HTMLInputElement;
-    },
-  ) => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-    }
-    timeoutID = setTimeout(() => {
+  //let timeoutID = null;
+  const handleSearch = debounce(
+    (
+      e: Event & {
+        currentTarget: EventTarget & HTMLInputElement;
+        target: HTMLInputElement;
+      },
+    ) => {
       search = e.target.value;
       currPage = 1;
-    }, 400);
-  };
+    },
+  );
 
   // Handle search filtering
   let filteredDefs = lexicon;
