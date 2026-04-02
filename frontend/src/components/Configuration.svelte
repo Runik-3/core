@@ -119,8 +119,8 @@
   <h2>Configure Runik</h2>
   <!-- When we have more settings, we should make standalone components -->
   <div class="setting-entry">
+    <div class="fieldset-label">Theme</div>
     <fieldset>
-      <legend>Theme</legend>
       <input
         name="theme"
         value="system"
@@ -200,28 +200,44 @@
     align-items: center;
   }
   /* Unify these styles into a component */
-  input {
+  #kindle-gen {
+    min-width: 300px;
     height: 28px;
     padding: 1px 8px;
     border-radius: 8px;
     border: 1px solid var(--outline);
     font-size: 0.9rem;
   }
-  #kindle-gen {
-    min-width: 300px;
-  }
   fieldset {
     display: flex;
     align-items: center;
-    border: 1px var(--outline) solid;
+    border: none;
     border-radius: 8px;
     max-width: min-content;
+    padding: 0;
+    background-color: var(--bg-secondary);
+  }
+  .fieldset-label {
+    margin-bottom: 1rem;
   }
   fieldset label {
-    padding-left: 4px;
+    background-color: transparent;
+    padding: 8px;
+    width: 5rem;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
   }
-  fieldset label:not(:last-of-type) {
-    margin-right: 2rem;
+  fieldset input[type="radio"]:checked+label {
+    background-color: var(--active);
+    border: 1px solid var(--outline-active);
+    color: var(--text);
+  }
+  fieldset input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
   }
   /* TODO: Remove instances of this spacer in favour of a button prop*/
   #btn-divider {
