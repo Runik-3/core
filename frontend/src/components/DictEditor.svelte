@@ -15,7 +15,9 @@
   export let dictModified: boolean; // Defs added - bound a level higher
   export let reloadDict: () => void;
 
+
   let search = "";
+  let definitionContainer: HTMLElement | null = null
 
   let lexicon: EditableDefinition[] = dictData.Lexicon.map((def: Entry) => ({
     initWord: def.Word,
@@ -119,6 +121,7 @@
     ) => {
       search = e.target.value;
       currPage = 1;
+      definitionContainer.scrollTo({top: 0})
     },
   );
 
@@ -200,7 +203,7 @@
       >
     </div>
   </div>
-  <div id="dict-data">
+  <div bind:this={definitionContainer} id="dict-data">
     {#if Object.keys(filteredDefs).length}
       <ul>
         {#each page as def (def.initWord)}
