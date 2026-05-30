@@ -110,7 +110,6 @@
     }
   };
 
-  //let timeoutID = null;
   const handleSearch = debounce(
     (
       e: Event & {
@@ -204,7 +203,7 @@
   <div id="dict-data">
     {#if Object.keys(filteredDefs).length}
       <ul>
-        {#each page as def (def.Word)}
+        {#each page as def (def.initWord)}
           <DictDefinition {def} bind:anyDefsChanged {deleteEntry} />
         {/each}
       </ul>
