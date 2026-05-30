@@ -2,7 +2,12 @@
   import Button from "./Button.svelte";
   import ContentLayout from "./ContentLayout.svelte";
   import InfoPopover from "./InfoPopover.svelte";
-  import { GetConfig, SelectFile, SetConfig, GetVersion } from "../../wailsjs/go/main/App";
+  import {
+    GetConfig,
+    SelectFile,
+    SetConfig,
+    GetVersion,
+  } from "../../wailsjs/go/main/App";
   import type { Response } from "../types/response";
   import type { Config } from "../types/config";
   import { notifications, Severity } from "../stores/notification";
@@ -28,7 +33,7 @@
     themeInputValue = config.theme;
 
     const versionRes: Response<string> = await GetVersion();
-    version = versionRes.Data
+    version = versionRes.Data;
   });
 
   const handleSelectFile = async () => {
@@ -55,7 +60,7 @@
         severity: Severity.info,
         timeout: 5000,
       });
-      return
+      return;
     }
 
     notifications.addNotification({
@@ -109,7 +114,7 @@
         document.body.classList.add("light");
       }
     }
-    if (themeInputValue) {
+    if (themeInputValue && config.theme !== themeInputValue) {
       setConfig({ theme: themeInputValue });
     }
   }
@@ -159,9 +164,7 @@
         type="text"
         id="kindle-gen"
         on:blur={async (e) => {
-          if (
-            e.currentTarget.value != config.kindlegenPath
-          ) {
+          if (e.currentTarget.value != config.kindlegenPath) {
             await setConfig({ kindlegenPath: e.currentTarget.value });
           }
         }}
@@ -230,7 +233,7 @@
     color: var(--text-secondary);
     cursor: pointer;
   }
-  fieldset input[type="radio"]:checked+label {
+  fieldset input[type="radio"]:checked + label {
     background-color: var(--active);
     border: 1px solid var(--outline-active);
     color: var(--text);
