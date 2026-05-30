@@ -61,7 +61,7 @@
     grid-template-columns: 8px auto 32px;
     border-radius: 8px;
     margin-top: 4px;
-    width: 420px;
+    width: 416px;
     background-color: var(--bg);
     border-width: 1px;
     border-style: solid;
@@ -102,5 +102,8 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+  }
+  .external-link-btn {
+    margin-left: 0.5rem;
   }
 </style>

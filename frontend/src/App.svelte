@@ -11,15 +11,17 @@
   import { CheckForUpdate } from "../wailsjs/go/main/App";
   import Configuration from "./components/Configuration.svelte";
 
+  const runikDownloadLink =  "https://runik.app/download"
+
   // on application start
   onMount(async () => {
     // check for updates
     const updateAvailable = await CheckForUpdate();
     if (updateAvailable) {
       notifications.addNotification({
-        message: `A new update is available. Visit runik.app to download the latest version.`,
+        message: `An update is available! Download the latest version of Runik.`,
         severity: Severity.info,
-        externalLink: "https://runik.app",
+        externalLink: runikDownloadLink,
       });
     }
   });
