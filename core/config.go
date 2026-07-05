@@ -6,6 +6,8 @@ import (
 	"errors"
 	"os"
 	"path"
+	"path/filepath"
+	"runtime"
 )
 
 //go:embed defaultConfig.json
@@ -13,15 +15,42 @@ var defaultConfig []byte
 
 type Config struct {
 	KindlegenPath string `json:"kindlegenPath"`
-	Theme string `json:"theme"`
+	Theme         string `json:"theme"`
+}
+
+// Checks for and returns the kindlegen path if it exists. This function checks
+// the default install location for Kindle Previewer on windows and macos -- 
+// kindle previewer does not have a linux verion.
+func getKindlegenBinaryPath() string {
+	sysOs := runtime.GOOS
+
+	// C:\Users\[your_username]\AppData\Local\Amazon\Kindle Previewer 3\lib\fc\bin\kindlegen
+	if sysOs == "windows" {
+		appdata, err := os.UserConfigDir()
+		if err != nil {
+			return ""
+		}
+
+		maybeKindlegenPath:= filepath.Join(appdata, "Local", "Amazon", "Kindle Previewer 3", "lib", "fc", "bin", "kindlegen")
+		if FileExists(maybeKindlegenPath) {
+			return maybeKindlegenPath
+		}
+	}
+
+	// /Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen
+	if sysOs == "darwin" {
+		maybeKindlegenPath:= filepath.Join("/", "Applications", "Kindle Previewer 3.app", "Contents", "lib", "fc", "bin", "kindlegen")
+		if FileExists(maybeKindlegenPath) {
+			return maybeKindlegenPath
+		}
+	}
+	return ""
 }
 
 func GetOrCreateConfig(appDir string) (Config, error) {
 	configPath := path.Join(appDir, "config.json")
 
-	_, err := os.Stat(configPath)
-	// Config file does not exist
-	if err != nil {
+	if !FileExists(configPath) {
 		err := os.WriteFile(configPath, defaultConfig, os.ModePerm)
 		if err != nil {
 			return Config{}, errors.New("There was an issue creating a new configuration file.")
@@ -34,6 +63,10 @@ func GetOrCreateConfig(appDir string) (Config, error) {
 	err = json.Unmarshal(configData, &config)
 	if err != nil {
 		return Config{}, err
+	}
+
+	if config.KindlegenPath == "" {
+		config.KindlegenPath = getKindlegenBinaryPath()
 	}
 
 	return config, nil

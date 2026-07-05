@@ -21,7 +21,7 @@ Binaries for Linux, macOS, and Windows can be found on the [releases page](https
 To properly convert runik dictionaries for Kindles, you'll need to install **Kindle Previewer**, which bundles the `kindlegen` program required for dictionary compilation.
 
 1. Download and install [Kindle Previewer](https://kdp.amazon.com/en_US/help/topic/G202131170).
-2. In Runik, navigate to the **Settings** tab and enter the full path to the kindlegen executable.
+2. In Runik, navigate to the **Settings** tab and enter the full path to the kindlegen executable. This field may already be populated since Runik attempts to automatically detect the location of `kindlegen`.
 
 The default kindlegen installation locations are:
 

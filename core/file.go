@@ -7,6 +7,7 @@ import (
 	"time"
 
 	j "encoding/json"
+
 	d "github.com/runik-3/builder/dict"
 )
 
@@ -78,4 +79,12 @@ func GetFilesFromPath(path string) ([]File, error) {
 	}
 
 	return files, nil
+}
+
+func FileExists(path string) bool {
+	_, err := os.Stat(path)	
+	if err == nil {
+		return true
+	}
+	return false
 }

@@ -91,10 +91,6 @@
     }
   };
 
-  const handleResetKindlegenPath = async () => {
-    await setConfig({ kindlegenPath: "" });
-  };
-
   $: {
     if (themeInputValue === "light") {
       document.body.classList.add("light");
@@ -155,9 +151,11 @@
   <div class="setting-entry">
     <span>Path to Kindlegen</span>
     <InfoPopover
-      >The path to the kindlegen program on your computer. Kindlegen is a
+      >The path to the kindlegen program on your system. Kindlegen is a
       utility that comes bundled with Kindle Previewer and is necessary for
-      generating kindle dictionaries.</InfoPopover
+      generating kindle dictionaries. Runik attempts to automatically detect
+      kindlegen on your system.
+    </InfoPopover
     >
     <div class="flex">
       <input
@@ -168,15 +166,11 @@
             await setConfig({ kindlegenPath: e.currentTarget.value });
           }
         }}
-        value={config?.kindlegenPath}
+        value={config?.kindlegenPath || ""}
       />
       <div id="btn-divider"></div>
       <Button small onClick={handleSetKindlegenPathFromFileSelect}
         >Browse...</Button
-      >
-      <div id="btn-divider"></div>
-      <Button small type={"error"} onClick={handleResetKindlegenPath}
-        >Reset</Button
       >
     </div>
   </div>
